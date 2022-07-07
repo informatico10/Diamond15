@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+	<record model="ir.ui.view" id="view_stock_report_onhand_tree">
+		<field name="name">stock.report.onhand.tree</field>
+		<field name="model">stock.report.onhand</field>
+		<field name="arch" type="xml">
+			<tree create="0" edit="0" delete="0">
+				<field name="complete_name"/>
+				<field name="name_product"/>
+				<field name="default_code"/>
+				<field name="product_id" optional="hide"/>
+				<field name="cantidad"/>
+				<button name="show_moves" string="Detalle" type="object" icon="fa-plus-circle"/>
+				<field name="stock_actual"/>
+				<field name="parent_path" optional="hide"/>
+				<field name="cantidad_unidad" optional="hide"/>
+			</tree>
+		</field>
+	</record>
+
+
+	<record id="view_stock_report_onhand_filter" model="ir.ui.view">
+		<field name="name">stock.report.onhand.filter</field>
+		<field name="model">stock.report.onhand</field>
+		<field name="arch" type="xml">
+			<search>
+				<field name="name_product"/>
+				<field name="default_code"/>
+				<field name="complete_name"/>
+				<group expand="0" string="Group By">
+					<filter string="Almacen" name="almacen" domain="[]" context="{'group_by': 'complete_name'}"/>
+				</group>
+			</search>
+		</field>
+	</record>
+	
+		<record id="action_stock_report_onhand" model="ir.actions.act_window">
+			<field name="name">BackOrder</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">stock.report.onhand</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+
+
+	<menuitem id="menu_stock_report_onhand"
+			action="action_stock_report_onhand"
+			parent="stock.menu_warehouse_report"
+			sequence="99"/>
+
+	<menuitem id="menu_stock_report_onhand_sale"
+			action="action_stock_report_onhand"
+			parent="sale.menu_sale_report"
+			sequence="6"/>
+
+
+
+	<record model="ir.ui.view" id="view_stock_move_report_onhand_tree">
+		<field name="name">stock.move.report.onhand.tree</field>
+		<field name="model">stock.move</field>
+		<field name="arch" type="xml">
+			<tree create="0" edit="0" delete="0">
+				<field name="product_id"/>
+				<field name="product_uom_qty"/>
+				<field name="picking_id"/>
+				<field name="location_id"/>
+				<field name="location_dest_id"/>
+				<field name="create_date"/>
+				<field name="date"/>
+				<field name="state"/>
+				<button name="show_picking" string="Mostrar Transferencia" type="object" icon="fa-plus-circle"/>
+			</tree>
+		</field>
+	</record>
+	
+</odoo>
