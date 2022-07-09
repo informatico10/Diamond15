@@ -13,7 +13,7 @@
             <field name="name">account.move.form.account_debit_note.fixc</field>
             <field name="inherit_id" ref="account_debit_note.view_move_form_debit" />
             <field name="arch" type="xml">
-                <button name="327" position="replace">
+                <button name="%(action_view_account_move_debit)d" position="replace">
                 </button>
             </field>
         </record>
