@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<record id="view_bank_statement_reg_form" model="ir.ui.view">
+			<field name="name">bank.statement.reg.form.</field>
+			<field name="model">account.bank.statement</field>
+			<field name="inherit_id" ref="account_fields_it.view_bank_statement_form_inherit"/>
+			<field name="arch" type="xml">
+				<xpath expr="//notebook/page[@name='render_data']" position="inside">
+					<button
+						name="create_journal_entry_surrender" type="object" string="Crear asiento de Entrega"
+						attrs="{'invisible':[('journal_check_surrender', '=', False)]}"/>
+					<button
+						name="reg_account_move_lines_it" type="object" string="Regularizar Cuentas Corrientes"
+						attrs="{'invisible':['|',('state', '!=', 'confirm'),('journal_check_surrender', '=', False)]}"/>
+				</xpath>
+			</field>
+		</record>
+	</data>
+</odoo>
