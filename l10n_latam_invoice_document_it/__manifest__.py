@@ -11,7 +11,7 @@
 	'auto_install': False,
 	'demo': [],
 	'data':	[
-		'data/l10n_latam_document_type_data.xml'
+		#'data/l10n_latam_document_type_data.xml'
 	],
 	'installable': True
 }
