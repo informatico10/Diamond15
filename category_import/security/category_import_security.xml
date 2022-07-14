@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<odoo>
-
-  <record id="group_import_category_view" model="res.groups">
-        <field name="name">Importar Categorias De Producto</field>
-        <field name="category_id" ref="base.module_category_hidden"/>
-    </record>
-    
-</odoo>
