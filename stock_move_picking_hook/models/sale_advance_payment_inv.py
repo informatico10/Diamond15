@@ -38,9 +38,8 @@ class account_move(models.Model):
 		t = super(account_move,self)._check_balanced()
 		return t
 
-	@api.onchange('purchase_vendor_bill_id', 'purchase_id','picking_ids')
-	def _onchange_purchase_auto_complete(self):
-		t = super(account_move,self)._onchange_purchase_auto_complete()
+	
+	def new_modify(self):
 		if self.picking_ids:
 			new_invoice = self
 			productos= {}
@@ -52,17 +51,24 @@ class account_move(models.Model):
 						else:
 							productos[line_picking.product_id.id] = line_picking.quantity_done
 
+				idsnew = []
 				for line_invoice in new_invoice.line_ids:
 					if line_invoice.product_id.id and line_invoice.product_id.type != 'service':
-						if line_invoice.product_id.id in productos and line_invoice.quantity > productos[line_invoice.product_id.id]:
+						if line_invoice.product_id.id in productos and line_invoice.quantity >= productos[line_invoice.product_id.id]:
 							line_invoice.quantity = productos[line_invoice.product_id.id]
+							idsnew.append(line_invoice.id)
 						elif line_invoice.product_id.id in productos:
-							pass
+							productos[line_invoice.product_id.id] =  productos[line_invoice.product_id.id]-line_invoice.quantity
+							idsnew.append(line_invoice.id)
 						else:
 							line_invoice.unlink()
-				new_invoice._onchange_invoice_line_ids()
-		return t
+					
+					line_invoice._onchange_mark_recompute_taxes()
 
+			
+				for i in self.picking_ids:
+					i.invoice_id = self.id
+	
 
 class purchaseadvancepaymentinv(models.TransientModel):
 	_name = 'purchase.advance.payment.inv'
@@ -78,7 +84,7 @@ class purchaseadvancepaymentinv(models.TransientModel):
 
 	def create_invoices(self):
 		purchase = self.env['purchase.order'].browse(self._context.get('active_id', False))
-		t = purchase.with_context({'picking_ids':self.picking_ids.ids,'wizard_complete':True,'create_bill':True}).action_view_invoice() 		
+		t = purchase.with_context({'picking_ids':self.picking_ids.ids,'wizard_complete':True,'create_bill':True}).action_view_invoice(invoices = self.env['account.move'].browse(self.env.context['invoices']))
 		return t
 
 class purchase_order(models.Model):
@@ -89,36 +95,41 @@ class purchase_order(models.Model):
 		if len(self.invoice_ids)==0:
 			raise UserError("No tiene Facturas de Proveedor Registradas")
 		return {
-		        'name': 'Facturas de Proveedor',
-	            'view_mode': 'tree,form',
-	            'res_model': 'account.move',
-	            'view_id': False,
-	            'type': 'ir.actions.act_window',
-	            'domain':[('id','in',self.invoice_ids.ids)],
-	            'context': {
-	                'active_id': self.id,
-	            }
+				'name': 'Facturas de Proveedor',
+				'view_mode': 'tree,form',
+				'res_model': 'account.move',
+				'view_id': False,
+				'type': 'ir.actions.act_window',
+				'domain':[('id','in',self.invoice_ids.ids)],
+				'context': {
+					'active_id': self.id,
+				}
 		}
 
 
-	def action_view_invoice(self):
+	def action_view_invoice(self, invoices=False):
 		if 'wizard_complete' in self.env.context:
 			pass
 		else:
 			return {
-			        'name': 'Pedido de Compra',
-		            'view_mode': 'form',
-		            'res_model': 'purchase.advance.payment.inv',
-		            'view_id': False,
-		            'type': 'ir.actions.act_window',
-		            'target': 'new',
-		            'context': {
-		                'active_id': self.id,
-		            }
+					'name': 'Pedido de Compra',
+					'view_mode': 'form',
+					'res_model': 'purchase.advance.payment.inv',
+					'view_id': False,
+					'type': 'ir.actions.act_window',
+					'target': 'new',
+					'context': {
+						'active_id': self.id,
+						'invoices': invoices.ids,
+					}
 			}
-		t = super(purchase_order,self).action_view_invoice()
-		t['context']['default_picking_ids'] = self.env.context['picking_ids']
+		t = super(purchase_order,self).action_view_invoice(invoices)
+		if invoices:
+			for i in invoices:
+				i.picking_ids = self.env.context['picking_ids']
+				i.new_modify()
 		return t
+
 
 
 class SaleAdvancePaymentInv(models.TransientModel):

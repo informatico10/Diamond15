@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 {
 	'name': 'Stock Move Picking Hook',
-	'category': 'sale',
+	'category': 'Kardex',
 	'author': 'ITGRUPO',
 	'depends': ['sale'],
 	'version': '1.0',
