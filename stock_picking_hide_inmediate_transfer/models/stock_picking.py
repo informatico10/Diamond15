@@ -7,29 +7,29 @@ from odoo import tools
 from ast import literal_eval
 
 
-#class StockPicking(models.Model):
-    #_inherit = 'stock.picking'
-    #@api.model
-    #def create(self,vals):
-        #res = super(StockPicking,self).create(vals)
-        #res.no_inmediate_transfer()
-        #return res
-    #def write(self,vals):
-        #res = super(StockPicking,self).write(vals)
-        #if 'permiso_especial' in self.env.context:
-            #pass
-        #else:
-            #for i in self:
-                #i.no_inmediate_transfer()
-        #return res
+class StockPicking(models.Model):
+    _inherit = 'stock.picking'
+    @api.model
+    def create(self,vals):
+        res = super(StockPicking,self).create(vals)
+        res.no_inmediate_transfer()
+        return res
+    def write(self,vals):
+        res = super(StockPicking,self).write(vals)
+        if 'permiso_especial' in self.env.context:
+            pass
+        else:
+            for i in self:
+                i.no_inmediate_transfer()
+        return res
     
     
-    #def no_inmediate_transfer(self):        
-        #for i in self:
-            #if i.immediate_transfer == True:
-                #i.with_context({'permiso_especial':1}).immediate_transfer = False
-            #else:
-                #pass
+    def no_inmediate_transfer(self):        
+        for i in self:
+            if i.immediate_transfer == True:
+                i.with_context({'permiso_especial':1}).immediate_transfer = False
+            else:
+                pass
             
 class PickingType(models.Model):
     _inherit = "stock.picking.type"    

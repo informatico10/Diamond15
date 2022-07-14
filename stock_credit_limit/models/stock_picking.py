@@ -17,12 +17,12 @@ class stock_picking(models.Model):
                 partner_padre = order.partner_id.parent_id
             else:
                 partner_padre = order.partner_id
-            if partner_padre.credit_limit != 0:
+            if partner_padre.credit_limit != 0:            
                 import datetime
                 from datetime import timedelta
                 order.state_credit_limit = "Ok"
                 order.date_credit_verify = (datetime.datetime.now() - timedelta(hours=5)).date()
-                if order.picking_type_code == 'outgoing':
+                if order.location_id.usage == 'internal' and order.location_dest_id.usage == 'customer':
                     facturas = self.env['account.move'].sudo().search([('partner_id','=',partner_padre.id),('company_id','=',order.company_id.id), ('state','=','posted'),('move_type','in',['out_invoice','out_refund'])])
                     vencidos = []
                     credito_mas_venta = 0
@@ -59,27 +59,33 @@ class stock_picking(models.Model):
                                     else:
                                         raise UserError("no hay tasa de cambio en Dolar a la fecha para la factura " + str(f.name))
                                     
-                    
+
                     precio_venta = 0
-                    lineas_no_repetir = []
+                    venta_actual = []                    
                     for lineas in order.move_ids_without_package:
-                            if lineas.sale_line_id:
-                                if lineas.sale_line_id.id in lineas_no_repetir:
-                                    pass
+                        if lineas.sale_line_id:                            
+                            if lineas.sale_line_id.order_id in venta_actual:
+                                pass
+                            else:
+                                venta_actual.append(lineas.sale_line_id.order_id)
+                    if len(venta_actual)>0:
+                        for vnta in venta_actual:                            
+                            for lineas_venta in vnta.order_line:
+                                cantidad_facturada = 0
+                                if lineas_venta.invoice_lines:                                        
+                                    for lineas_factura in lineas_venta.invoice_lines:
+                                        if lineas_factura.move_id.state == 'posted':
+                                            cantidad_facturada += lineas_factura.quantity
+                                            pass
+                                        else:
+                                            pass
+                                    precio_unitario_linea_venta = lineas_venta.price_total / lineas_venta.product_uom_qty
+                                    precio_no_facturadas = precio_unitario_linea_venta * (lineas_venta.product_uom_qty - cantidad_facturada)
+                                    precio_venta += precio_no_facturadas
                                 else:
-                                    lineas_no_repetir.append(lineas.sale_line_id.id)
-                                    for lineas_venta in lineas.sale_line_id:
-                                        cantidad_facturada = 0
-                                        if lineas_venta.invoice_lines:                                        
-                                            for lineas_factura in lineas_venta.invoice_lines:
-                                                if lineas_factura.move_id.state == 'posted':
-                                                    cantidad_facturada += lineas_factura.quantity
-                                                    pass
-                                                else:
-                                                    pass
-                                        precio_unitario_linea_venta = lineas_venta.price_total / lineas_venta.product_uom_qty
-                                        precio_no_facturadas = precio_unitario_linea_venta * (lineas_venta.product_uom_qty - cantidad_facturada)
-                                        precio_venta += precio_no_facturadas
+                                    precio_unitario_linea_venta = lineas_venta.price_total / lineas_venta.product_uom_qty
+                                    precio_no_facturadas = precio_unitario_linea_venta * (lineas_venta.product_uom_qty - cantidad_facturada)
+                                    precio_venta += precio_no_facturadas                                        
                     if precio_venta >0:                        
                         if lineas_venta.order_id.pricelist_id.currency_id.id == partner_padre.moneda.id:
                             credito_mas_venta += precio_venta
