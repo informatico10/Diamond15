@@ -26,12 +26,13 @@ class product_template(models.Model):
             raise UserError("No Tiene Los Permisos de 'Manejo Creacion de Productos'")
            
     def write(self,vals):
-        if 'seller_ids' or 'name' or 'route_ids' or 'sale_ok' or 'purchase_ok' or 'detailed_type' or 'invoice_policy' or 'expense_policy' or 'uom_id' or 'uom_po_id' or 'description' or 'list_price' or 'taxes_id' or 'categ_id' or 'default_code' or 'barcode' or 'l10n_pe_edi_unspsc' or 'company_id' or 'attribute_line_ids' or 'purchase_requisition' or 'supplier_taxes_id' or 'purchase_method' or 'description_purchase' or 'description_sale' or 'sale_line_warn' or 'property_stock_production' or 'property_stock_inventory' or 'responsible_id' or 'weight' or 'volume' or 'produce_delay' or 'sale_delay' or 'packaging_ids' or 'description_pickingin' or 'description_picking' or 'description_pickingout' or 'property_account_income_id' or 'property_account_expense_id' or 'asset_category_id' or 'property_account_creditor_price_difference' or 'service_to_purchase' or 'is_landed_cost' in vals:
+        if 'seller_ids' in vals or 'name' in vals  or 'route_ids' in vals  or 'sale_ok' in vals  or 'purchase_ok' in vals  or 'detailed_type' in vals  or 'invoice_policy' in vals  or 'expense_policy' in vals  or 'uom_id' in vals  or 'uom_po_id' in vals  or 'description' in vals  or 'list_price' in vals  or 'taxes_id' in vals  or 'categ_id' in vals  or 'default_code' in vals or 'barcode' in vals or 'l10n_pe_edi_unspsc' in vals or 'company_id' in vals or 'attribute_line_ids' in vals or 'purchase_requisition' in vals or 'supplier_taxes_id' in vals or 'purchase_method' in vals or 'description_purchase' in vals or 'description_sale' in vals or 'sale_line_warn' in vals or 'property_stock_production' in vals or 'property_stock_inventory' in vals or 'responsible_id' in vals or 'weight' in vals or 'volume' in vals or 'produce_delay' in vals or 'sale_delay' in vals or 'packaging_ids' in vals or 'description_pickingin' in vals or 'description_picking' in vals or 'description_pickingout' in vals or 'property_account_income_id' in vals or 'property_account_expense_id' in vals or 'asset_category_id' in vals or 'property_account_creditor_price_difference' in vals or 'service_to_purchase' in vals or 'is_landed_cost' in vals:
+        #if 'seller_ids' or 'name' or 'route_ids' or 'sale_ok' or 'purchase_ok' or 'detailed_type' or 'invoice_policy' or 'expense_policy' or 'uom_id' or 'uom_po_id' or 'description' or 'list_price' or 'taxes_id' or 'categ_id' or 'default_code' or 'barcode' or 'l10n_pe_edi_unspsc' or 'company_id' or 'attribute_line_ids' or 'purchase_requisition' or 'supplier_taxes_id' or 'purchase_method' or 'description_purchase' or 'description_sale' or 'sale_line_warn' or 'property_stock_production' or 'property_stock_inventory' or 'responsible_id' or 'weight' or 'volume' or 'produce_delay' or 'sale_delay' or 'packaging_ids' or 'description_pickingin' or 'description_picking' or 'description_pickingout' or 'property_account_income_id' or 'property_account_expense_id' or 'asset_category_id' or 'property_account_creditor_price_difference' or 'service_to_purchase' or 'is_landed_cost' in vals:
             if self.env.user.has_group("product_template_restriction.group_product_template_restriction"):
                 t = super(product_template,self).write(vals)
                 return t
             else:
-                raise UserError("No Tiene Los Permisos de 'Manejo Creacion de Productos p'" + str(vals))
+                raise UserError("No Tiene Los Permisos de 'Manejo Creacion de Productos'")
         else:
             t = super(product_template,self).write(vals)
             return t
@@ -56,12 +57,12 @@ class product_product(models.Model):
             raise UserError("No Tiene Los Permisos de 'Manejo Creacion de Productos'")
            
     def write(self,vals):
-        if 'seller_ids' or 'name' or 'route_ids' or 'sale_ok' or 'purchase_ok' or 'detailed_type' or 'invoice_policy' or 'expense_policy' or 'uom_id' or 'uom_po_id' or 'description' or 'list_price' or 'taxes_id' or 'categ_id' or 'default_code' or 'barcode' or 'l10n_pe_edi_unspsc' or 'company_id' or 'attribute_line_ids' or 'purchase_requisition' or 'supplier_taxes_id' or 'purchase_method' or 'description_purchase' or 'description_sale' or 'sale_line_warn' or 'property_stock_production' or 'property_stock_inventory' or 'responsible_id' or 'weight' or 'volume' or 'produce_delay' or 'sale_delay' or 'packaging_ids' or 'description_pickingin' or 'description_picking' or 'description_pickingout' or 'property_account_income_id' or 'property_account_expense_id' or 'asset_category_id' or 'property_account_creditor_price_difference' or 'service_to_purchase' or 'is_landed_cost' in vals:
+        if 'seller_ids' in vals or 'name' in vals  or 'route_ids' in vals  or 'sale_ok' in vals  or 'purchase_ok' in vals  or 'detailed_type' in vals  or 'invoice_policy' in vals  or 'expense_policy' in vals  or 'uom_id' in vals  or 'uom_po_id' in vals  or 'description' in vals  or 'list_price' in vals  or 'taxes_id' in vals  or 'categ_id' in vals  or 'default_code' in vals or 'barcode' in vals or 'l10n_pe_edi_unspsc' in vals or 'company_id' in vals or 'attribute_line_ids' in vals or 'purchase_requisition' in vals or 'supplier_taxes_id' in vals or 'purchase_method' in vals or 'description_purchase' in vals or 'description_sale' in vals or 'sale_line_warn' in vals or 'property_stock_production' in vals or 'property_stock_inventory' in vals or 'responsible_id' in vals or 'weight' in vals or 'volume' in vals or 'produce_delay' in vals or 'sale_delay' in vals or 'packaging_ids' in vals or 'description_pickingin' in vals or 'description_picking' in vals or 'description_pickingout' in vals or 'property_account_income_id' in vals or 'property_account_expense_id' in vals or 'asset_category_id' in vals or 'property_account_creditor_price_difference' in vals or 'service_to_purchase' in vals or 'is_landed_cost' in vals:
             if self.env.user.has_group("product_template_restriction.group_product_template_restriction"):
                 t = super(product_product,self).write(vals)
                 return t
             else:
-                raise UserError("No Tiene Los Permisos de 'Manejo Creacion de Productos v'" + str(vals))
+                raise UserError("No Tiene Los Permisos de 'Manejo Creacion de Productos'")
         else:
             t = super(product_product,self).write(vals)
             return t
@@ -118,63 +119,3 @@ class purchase_order(models.Model):
                 except AccessError:  # no write access rights -> just ignore
                     break
 
-
-
-
-
-
-#def button_validate(self):
-        ## Clean-up the context key at validation to avoid forcing the creation of immediate
-        ## transfers.
-        #ctx = dict(self.env.context)
-        #ctx.pop('default_immediate_transfer', None)
-        #self = self.with_context(ctx)
-
-        ## Sanity checks.
-        #pickings_without_moves = self.browse()
-        #pickings_without_quantities = self.browse()
-        #pickings_without_lots = self.browse()
-        #products_without_lots = self.env['product.product']
-        #for picking in self:
-            #if not picking.move_lines and not picking.move_line_ids:
-                #pickings_without_moves |= picking
-
-            #picking.message_subscribe([self.env.user.partner_id.id])
-            #picking_type = picking.picking_type_id
-            #precision_digits = self.env['decimal.precision'].precision_get('Product Unit of Measure')
-            #no_quantities_done = all(float_is_zero(move_line.qty_done, precision_digits=precision_digits) for move_line in picking.move_line_ids.filtered(lambda m: m.state not in ('done', 'cancel')))
-            #no_reserved_quantities = all(float_is_zero(move_line.product_qty, precision_rounding=move_line.product_uom_id.rounding) for move_line in picking.move_line_ids)
-            #if no_reserved_quantities and no_quantities_done:
-                #pickings_without_quantities |= picking
-
-            #if picking_type.use_create_lots or picking_type.use_existing_lots:
-                #lines_to_check = picking.move_line_ids
-                #if not no_quantities_done:
-                    #lines_to_check = lines_to_check.filtered(lambda line: float_compare(line.qty_done, 0, precision_rounding=line.product_uom_id.rounding))
-                #for line in lines_to_check:
-                    #product = line.product_id
-                    #if product and product.tracking != 'none':
-                        #if not line.lot_name and not line.lot_id:
-                            #pickings_without_lots |= picking
-                            #products_without_lots |= product
-
-        #if not self._should_show_transfers():
-            #if pickings_without_moves:
-                #raise UserError(_('Please add some items to move.'))
-            #if pickings_without_quantities:
-                #raise UserError(self._get_without_quantities_error_message())
-            #if pickings_without_lots:
-                #raise UserError(_('You need to supply a Lot/Serial number for products %s.') % ', '.join(products_without_lots.mapped('display_name')))
-        #else:
-            #message = ""
-            #if pickings_without_moves:
-                #message += _('Transfers %s: Please add some items to move.') % ', '.join(pickings_without_moves.mapped('name'))
-            #if pickings_without_quantities:
-                #message += _('\n\nTransfers %s: You cannot validate these transfers if no quantities are reserved nor done. To force these transfers, switch in edit more and encode the done quantities.') % ', '.join(pickings_without_quantities.mapped('name'))
-            #if pickings_without_lots:
-                #message += _('\n\nTransfers %s: You need to supply a Lot/Serial number for products %s.') % (', '.join(pickings_without_lots.mapped('name')), ', '.join(products_without_lots.mapped('display_name')))
-            #if message:
-                #raise UserError(message.lstrip())
-            
-            
- 

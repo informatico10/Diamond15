@@ -559,7 +559,7 @@ class ProductImport(models.TransientModel):
 		else:
 			categ = values.get('categ_id').strip()
 			padre_id = False
-			for i in categ.split('|'):				
+			for i in categ.split('|'):
 				categ_id = product_categ_obj.search([('name','=',str(i).strip()),('parent_id','=',padre_id)])
 				padre_id = categ_id.id
 				if categ_id.id == False:										

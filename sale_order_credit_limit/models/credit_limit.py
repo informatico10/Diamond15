@@ -159,7 +159,7 @@ class sale_order(models.Model):
 
 
 
-    def action_confirm_to_approve(self):        
+    def action_confirm(self):        
         for order in self:        
             if order.partner_id.credit_limit != 0:
                 if order.usuario_aprobacion.id != False:
@@ -244,7 +244,7 @@ class sale_order(models.Model):
                             else:
                                 raise UserError("no hay tasa de cambio a la fecha para la Actual Venta " + str(order.name))                    
                         
-        t = super(sale_order,self).action_confirm_to_approve()
+        t = super(sale_order,self).action_confirm()
         return t
 
 

@@ -9,7 +9,7 @@
         """
         Limite Credito
         """,
-    'depends' : ['sale','account','base','sale_order_resinas_cm_it'],
+    'depends' : ['sale','account','base'],
     #,'fxo_sale_order_approve'
     'data': [
         'views/credit_limit.xml',
