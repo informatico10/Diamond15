@@ -48,6 +48,7 @@
                                 </td>
                                 <td class="text-right">
                                     <span t-esc="total_total" t-options='{"widget": "monetary", "display_currency": currency}'/>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
