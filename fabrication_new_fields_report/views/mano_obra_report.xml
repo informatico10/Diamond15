@@ -6,6 +6,12 @@
             <t t-set="total_total" t-value="0.0"/>
         </xpath>
         <xpath expr="//div[@class='row']" position="before">
+            <t t-set="total_componentes" t-value="0.0"/>
+            <t t-if="line['scraps']">
+                <t t-foreach="line['scraps']" t-as="componente">
+                    <t t-set="total_componentes" t-value="total_componentes + componente.stock_valuation_layer_ids.value"/>
+                </t>
+            </t>
             <t t-if="line['man_de_obra']">
                 <h3 class="o_mrp_header o_mrp_table_header">Costo Mano De Obra</h3>
                     <table class="table table-sm o_mrp_report_table">
@@ -45,7 +51,7 @@
                                 <td class="text-right">
                                     <span t-esc="tot_mano_obra" t-options='{"widget": "monetary", "display_currency": currency}'/>
                                 </td>
-                                <t t-set="total_total" t-value="tot_mano_obra + tot_scrap_cost"/>
+                                <t t-set="total_total" t-value="tot_mano_obra + total_componentes"/>
                             </tr>
                             <tr>
                                 <td colspan="4" class="text-right">
