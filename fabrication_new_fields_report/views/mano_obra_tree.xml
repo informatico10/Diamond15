@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <!-- cost structure report 
+        <record id="action_cost_struct_mrp_production_mano_obre" model="ir.actions.report">
+            <field name="name">Analisis De Costo</field>
+            <field name="model">mrp.production</field>
+            <field name="report_type">qweb-html</field>
+            <field name="report_name">fabrication_new_fields_report.index</field>
+            <field name="report_file">fabrication_new_fields_report.index</field>
+            <field name="print_report_name">'Analisis De Costo - %s ' % object.name</field>
+            <field name="binding_model_id" ref="mrp.model_mrp_production"/>
+            <field name="binding_type">report</field>
+        </record>
+    <record id="mrp_production_form_add_mano_obra" model="ir.ui.view">
+            <field name="name">mrp.production</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp_account_enterprise.mrp_production_form_inherit_view6" />
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='mrp_account_enterprise.action_cost_struct_mrp_production']" position="replace">
+                    <button name="%(fabrication_new_fields_report.action_cost_struct_mrp_production_mano_obre)d" type="action"
+                        class="oe_stat_button" icon="fa-dollar" string="Analisis De Costo" attrs="{'invisible': [('state', '!=', 'done')]}">
+                    </button>
+               </xpath>
+            </field>
+    </record>    
+    -->
+
+    <record id="mrp_production_mano_obra_form_view" model="ir.ui.view">
+            <field name="name">mrp.production.mano.obra.form.view</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_form_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='miscellaneous']" position="before">
+                    <page string="Mano De Obra" name="mano_obra">
+                            <field name="workforce_ids"  attrs="{'readonly': ['|', ('state', '=', 'cancel'), '&amp;', ('state', '=', 'done'), ('is_locked', '=', True)]}" options="{'delete': [('state', '=', 'draft')]}">
+                                <tree editable="bottom">
+                                    <field name="name" string="Mano De Obra"/>
+                                    <field name="horas" string="Horas"/>
+                                    <field name="costo_unitario" string="Costo Unitario"/>
+                                    <field name="costo_total" string="Costo Total"/>
+                                </tree>
+                            </field>
+                    </page>
+               </xpath>
+            </field>
+    </record>
+
+</odoo>
