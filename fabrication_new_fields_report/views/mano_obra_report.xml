@@ -12,6 +12,7 @@
                     <table class="table table-sm o_mrp_report_table">
                         <thead>
                             <tr class="o_mrp_report_header">
+                                <th class="o_mrp_report_line_header"><span>Mano De Obra</span></th>
                                 <th class="o_mrp_report_line_header"><span>Empleado</span></th>
                                 <th class="text-right o_mrp_report_line_header"><span>Horas</span></th>
                                 <th class="text-right o_mrp_report_line_header"><span>Costo Unitario</span></th>
@@ -21,6 +22,9 @@
                         <tbody>
                             <tr t-foreach="line['man_de_obra']" t-as="mano_obra"
                             class="text-success">
+                                <td>
+                                    <span class="o_mrp_reports_web_action" t-att-res-id="mano_obra.name " res-model="workforce.name" view-type="form" t-esc="mano_obra.name.name"/>
+                                </td>
                                 <td>
                                     <span class="o_mrp_reports_web_action" t-att-res-id="mano_obra.empleado_id " res-model="workforce.cost" view-type="form" t-esc="mano_obra.empleado_id.name"/>
                                 </td>

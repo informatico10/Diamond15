@@ -7,15 +7,23 @@ from odoo import api, fields, models
 from odoo.tools import float_round
 from odoo import fields, models , api , _
 
+class workforce_name(models.Model):
+    _name = 'workforce.name'
+    _description = "mano de obra nombre"
+    name = fields.Char(string = "Mano De Obra")
+
+
+
 
 class workforce_cost(models.Model):
     _name = 'workforce.cost'
     _description = "mano de obra"
-    name = fields.Char(string = "Mano De Obra")
+    name = fields.Many2one("workforce.name", string = "Mano De Obra")
     empleado_id = fields.Many2one("hr.employee", string="Empleado")
     horas = fields.Float(string = "Horas")
     costo_unitario = fields.Float(string = "Costo Unitario")
     costo_total = fields.Float(string = "Costo Total", compute="get_costo_total")
+    production_id = fields.Many2one('mrp.production', string="Orden De Produccion")
 
     def get_costo_total(self):
         for i in self:
@@ -24,7 +32,7 @@ class workforce_cost(models.Model):
 
 class mrp_production(models.Model):
     _inherit = 'mrp.production'
-    workforce_ids = fields.Many2many('workforce.cost',string="Mano De Obra")
+    workforce_ids = fields.One2many('workforce.cost', 'production_id', string='Mano De Obra')
     
 
 
@@ -156,5 +164,5 @@ class MrpCostStructure(models.AbstractModel):
                 'qty_by_byproduct_w_costshare': qty_by_byproduct_w_costshare,
                 'total_cost_by_product': total_cost_by_product
             })
-        return res
+        return res_partner
 
