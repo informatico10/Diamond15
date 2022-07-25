@@ -59,11 +59,30 @@
                     </table>
             </t>
         </xpath>
-        <xpath expr="//strong[@t-esc='line['total_cost'] + opcost']" position="replace">
-            <strong t-esc="line['total_cost'] + opcost + tot_mano_obra" t-options='{"widget": "monetary", "display_currency": currency}'/>
-        </xpath>
-        <xpath expr="//span[@t-esc='(line['total_cost'] + opcost) / line['mo_qty']']" position="replace">
-            <span t-esc="((line['total_cost'] + opcost + tot_mano_obra) / line['mo_qty'])" t-options='{"widget": "monetary", "display_currency": currency}'/>
+
+        <xpath expr="//div[@class='row']" position="replace">
+            <div class="row">
+                        <div class="col-6 offset-6">
+                            <table class="table table-sm o_mrp_report_table">
+                                <tr t-if="line['mo_qty'] + len(line['qty_by_byproduct_w_costshare']) &gt; 1">
+                                    <td class="text-right">
+                                        <strong>Costo total de producción</strong>
+                                    </td>
+                                    <td class="text-right">
+                                        <strong t-esc="line['total_cost'] + opcost + tot_mano_obra" t-options='{"widget": "monetary", "display_currency": currency}'/>
+                                    </td>
+                                </tr>
+                                <tr t-if="not line['qty_by_byproduct_w_costshare']">
+                                    <td class="text-right">
+                                        <strong>Costo total por unidad (en <t t-esc="line['product'].uom_id.name"/>)</strong>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="(line['total_cost'] + opcost + tot_mano_obra) / line['mo_qty']" t-options='{"widget": "monetary", "display_currency": currency}'/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
         </xpath>
     </template>
 </odoo>
