@@ -12,7 +12,7 @@ class workforce_cost(models.Model):
     _inherit = 'workforce.cost'
     _description = "mano de obra"
     name = fields.Char(string = "Mano De Obra")
-    empleado_id = fields.Maany2one("hr.employee", string="Empleado")
+    empleado_id = fields.Many2one("hr.employee", string="Empleado")
     horas = fields.Float(string = "Horas")
     costo_unitario = fields.Float(string = "Costo Unitario")
     costo_total = fields.Float(string = "Costo Total", compute="get_costo_total")
