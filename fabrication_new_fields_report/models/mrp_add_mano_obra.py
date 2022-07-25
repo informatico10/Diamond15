@@ -151,6 +151,7 @@ class MrpCostStructure(models.AbstractModel):
                 'byproduct_moves': byproduct_moves,
                 'component_cost_by_product': component_cost_by_product,
                 'operation_cost_by_product': operation_cost_by_product,
+                'man_de_obra': mano_d_obra,
                 'qty_by_byproduct': qty_by_byproduct,
                 'qty_by_byproduct_w_costshare': qty_by_byproduct_w_costshare,
                 'total_cost_by_product': total_cost_by_product
