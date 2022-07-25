@@ -5,8 +5,55 @@
             <t t-set="tot_mano_obra" t-value="0.0"/>
             <t t-set="total_total" t-value="0.0"/>
         </xpath>
-        <xpath expr="//t[@t-if='line['scraps']']" position="after">
-            <t t-set="tot_mano_obra_prueba" t-value="0.0"/>
+        <xpath expr="//div[@class='row']" position="before">
+            <t t-set="tot_scrap_cost" t-value="0.0"/>
+            <t t-if="line['man_de_obra']">
+                <h3 class="o_mrp_header o_mrp_table_header">Costo Mano De Obra</h3>
+                    <table class="table table-sm o_mrp_report_table">
+                        <thead>
+                            <tr class="o_mrp_report_header">
+                                <th class="o_mrp_report_line_header"><span>Empleado</span></th>
+                                <th class="text-right o_mrp_report_line_header"><span>Horas</span></th>
+                                <th class="text-right o_mrp_report_line_header"><span>Costo Unitario</span></th>
+                                <th class="text-right o_mrp_report_line_header"><span>Costo Total</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="line['man_de_obra']" t-as="mano_obra"
+                            class="text-success">
+                                <td>
+                                    <span class="o_mrp_reports_web_action" t-att-res-id="mano_obra.empleado_id " res-model="workforce.cost" view-type="form" t-esc="mano_obra.empleado_id.name"/>
+                                </td>
+                                <td class="text-right">
+                                    <span><t t-esc="mano_obra.horas"/>  Horas</span>
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="mano_obra.costo_unitario" t-options='{"widget": "monetary", "display_currency": currency}'/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="mano_obra.costo_total" t-options='{"widget": "monetary", "display_currency": currency}'/>
+                                </td>
+                                <t t-set="tot_mano_obra" t-value="tot_mano_obra + mano_obra.costo_total"/>
+                            </tr>
+                            <tr>
+                                <td colspan="3" class="text-right">
+                                    <strong>Costo Total Mano De Obra</strong>
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="tot_mano_obra" t-options='{"widget": "monetary", "display_currency": currency}'/>
+                                </td>
+                                <t t-set="total_total" t-value="tot_mano_obra + tot_scrap_cost"/>
+                                <td colspan="3" class="text-right">
+                                    <strong>Costo Total Componentes Y Mano Obra</strong>
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="total_total" t-options='{"widget": "monetary", "display_currency": currency}'/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+            </t>
         </xpath>
     </template>
+
 </odoo>
