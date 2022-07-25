@@ -164,5 +164,5 @@ class MrpCostStructure(models.AbstractModel):
                 'qty_by_byproduct_w_costshare': qty_by_byproduct_w_costshare,
                 'total_cost_by_product': total_cost_by_product
             })
-        return res_partner
+        return res
 
