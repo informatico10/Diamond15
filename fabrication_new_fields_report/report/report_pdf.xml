@@ -128,51 +128,6 @@
                                </t>
                           </tbody>
                        </table>
-
-
-                        </br>
-                        <h3 t-if="o.workforce_ids">
-                        <span>
-                            Mano De Obra
-                        </span>
-                    </h3>
-                       <table class="table mt-4 table-sm" style="background-color: white !important">
-                          <thead class="thead-light" style="background-color: white !important">
-                                <tr style="background-color: white !important">
-                                    <th class="text-center p-1" style="border-right: 1px solid black; border-bottom: 1px solid black !important;border-top: 1px solid black !important; border-left: 1px solid black !important;border-top: 1px solid black !important">Mano De Obra </th>
-                                    <th class="text-center p-1" style="border-right: 1px solid black; border-bottom: 1px solid black !important;border-top: 1px solid black !important;">Empleado</th>
-                                    <th class="text-center p-1" style="border-right: 1px solid black; border-bottom: 1px solid black !important;border-top: 1px solid black !important;">Horas</th>
-                                    <th class="text-center p-1" style="border-right: 1px solid black; border-bottom: 1px solid black !important;border-top: 1px solid black !important;">Costo Unitario</th>
-                                    <th class="text-center p-1" style="border-right: 1px solid black; border-bottom: 1px solid black !important;border-top: 1px solid black !important;">Costo Total</th>
-                                </tr>
-                          </thead>
-
-                          <tbody style="background-color: white !important">
-                              <t t-foreach="doc.workforce_ids" t-as="line_obra" t-as_index="i">
-                                        <tr style="background-color: white !important">
-                                            <td class="text-center" style="border-left: 1px solid black !important; border-top: 1px solid black !important; border-right: 1px solid black; border-bottom: 1px solid black !important; width: 25px">
-                                                <span t-esc="line_obra.name.name"/>
-                                            </td>
-                                            <td class="text-center" style="border-bottom: 1px solid black !important;border-right: 1px solid black; ; width: 30px">
-                                                <t t-if="line.location_id">
-                                                    <span t-field="line_obra.empleado_id.name"/>
-                                                </t>
-                                            </td>
-                                            <td class="text-center " style="border-bottom: 1px solid black !important;border-right: 1px solid black; ; width: 150px">
-                                               <span t-field="line_obra.horas"/>
-                                            </td>
-                                            <td class="pl-2" style="border-bottom: 1px solid black !important;border-right: 1px solid black; width: 350px">
-                                                <span t-field="line_obra.costo_unitario"/>
-                                            </td>
-                                            <td class="text-right" style="border-bottom: 1px solid black !important;border-right: 1px solid black">
-                                               <span t-field="line_obra.costo_total"/>
-                                            </td>
-                                        </tr>
-                               </t>
-                          </tbody>
-                       </table>
-
-                    </div>
                 </div>
               </t>
           </t>
