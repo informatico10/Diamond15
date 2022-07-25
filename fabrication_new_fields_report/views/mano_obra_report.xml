@@ -6,7 +6,6 @@
             <t t-set="total_total" t-value="0.0"/>
         </xpath>
         <xpath expr="//div[@class='row']" position="before">
-            <t t-set="tot_scrap_cost" t-value="0.0"/>
             <t t-if="line['man_de_obra']">
                 <h3 class="o_mrp_header o_mrp_table_header">Costo Mano De Obra</h3>
                     <table class="table table-sm o_mrp_report_table">
