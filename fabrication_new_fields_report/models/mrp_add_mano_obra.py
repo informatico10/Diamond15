@@ -112,9 +112,6 @@ class MrpCostStructure(models.AbstractModel):
             fetch = self.env.cr.fetchall()
             
             for product_id, mo_id, qty, cost, currency_rate, sm in fetch:
-                if len(mo_id.workforce_ids)>0:
-
-
                 cost *= currency_rate
                 sm_x = StockMove.browse(sm)
                 cost_unit = cost / qty if qty != 0 else 0
