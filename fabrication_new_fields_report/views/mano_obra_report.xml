@@ -47,6 +47,8 @@
                                     <span t-esc="tot_mano_obra" t-options='{"widget": "monetary", "display_currency": currency}'/>
                                 </td>
                                 <t t-set="total_total" t-value="tot_mano_obra + tot_scrap_cost"/>
+                            </tr>
+                            <tr>
                                 <td colspan="3" class="text-right">
                                     <strong>Costo Total Componentes Y Mano Obra</strong>
                                 </td>

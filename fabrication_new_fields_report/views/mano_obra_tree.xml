@@ -35,6 +35,7 @@
                             <field name="workforce_ids"  attrs="{'readonly': ['|', ('state', '=', 'cancel'), '&amp;', ('state', '=', 'done'), ('is_locked', '=', True)]}" options="{'delete': [('state', '=', 'draft')]}">
                                 <tree editable="bottom">
                                     <field name="name" string="Mano De Obra"/>
+                                    <field name="empleado_id" string="Empleado"/>
                                     <field name="horas" string="Horas"/>
                                     <field name="costo_unitario" string="Costo Unitario"/>
                                     <field name="costo_total" string="Costo Total"/>
