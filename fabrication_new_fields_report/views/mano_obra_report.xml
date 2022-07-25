@@ -40,7 +40,7 @@
                                 <t t-set="tot_mano_obra" t-value="tot_mano_obra + mano_obra.costo_total"/>
                             </tr>
                             <tr>
-                                <td colspan="3" class="text-right">
+                                <td colspan="4" class="text-right">
                                     <strong>Costo Total Mano De Obra</strong>
                                 </td>
                                 <td class="text-right">
@@ -49,7 +49,7 @@
                                 <t t-set="total_total" t-value="tot_mano_obra + tot_scrap_cost"/>
                             </tr>
                             <tr>
-                                <td colspan="3" class="text-right">
+                                <td colspan="4" class="text-right">
                                     <strong>Costo Total Componentes Y Mano Obra</strong>
                                 </td>
                                 <td class="text-right">
