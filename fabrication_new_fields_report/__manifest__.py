@@ -15,6 +15,7 @@
         'security/ir.model.access.csv',
         'views/mano_obra_tree.xml',
         'views/mano_obra_report.xml',
+        'report/report_pdf.xml',
         ],
     'installable': True
 }
