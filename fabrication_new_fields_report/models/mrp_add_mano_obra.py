@@ -24,7 +24,7 @@ class workforce_cost(models.Model):
 
 class mrp_production(models.Model):
     _inherit = 'mrp.production'
-    workforce_ids = fieldsMany2many('workforce.cost',string="Mano De Obra")
+    workforce_ids = fields.Many2many('workforce.cost',string="Mano De Obra")
     
 
 
