@@ -9,7 +9,7 @@ from odoo import fields, models , api , _
 
 
 class workforce_cost(models.Model):
-    _inherit = 'workforce.cost'
+    _name = 'workforce.cost'
     _description = "mano de obra"
     name = fields.Char(string = "Mano De Obra")
     empleado_id = fields.Many2one("hr.employee", string="Empleado")
