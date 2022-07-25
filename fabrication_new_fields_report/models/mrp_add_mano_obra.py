@@ -30,7 +30,7 @@ class mrp_production(models.Model):
 
 
 class MrpCostStructure(models.AbstractModel):
-    _name = 'report.mrp_account_enterprise.mrp_cost_structure'
+    _inherit = 'report.mrp_account_enterprise.mrp_cost_structure'
     _description = 'MRP Cost Structure Report'
 
     def get_lines(self, productions):
