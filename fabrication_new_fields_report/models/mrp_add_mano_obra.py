@@ -54,7 +54,7 @@ class mrp_production(models.Model):
             total = 0
             stock_moves = self.env['stock.move.line'].sudo().search([('move_id.production_id', '=', i.id)])
             if len(stock_moves)>0:
-                diccionario = self.env['report.mrp_account_enterprise.mrp_cost_structure'].get_lines(i.id)
+                diccionario = self.env['report.mrp_account_enterprise.mrp_cost_structure'].get_lines(i)
                 if diccionario:
                     if 'total_cost' in diccionario:
                         total += diccionario['total_cost']
