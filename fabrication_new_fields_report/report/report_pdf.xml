@@ -62,9 +62,9 @@
                           <div class="text-left" style="font-size:18px !important">
                               <h2 style="color:#7f411d; font-size:30px;" class="m-0 p-0"><span class="font-weight-bold">Orden de Producción #</span><span t-field="doc.name"/> </h2>
                           </div>
-                          <div class="text-right">
-                              <span class="text-right">
-                                <div t-field="o.name" t-options="{'widget': 'barcode', 'width': 600, 'height': 100, 'img_style': 'width:350px;height:60px'}"/>
+                          <div class="text-left">
+                              <span class="text-left">
+                                <div t-field="doc.name" t-options="{'widget': 'barcode', 'width': 600, 'height': 100, 'img_style': 'width:350px;height:60px'}"/>
                             </span>
                           </div>
                       <table class="table mt-4 table-sm " style="background-color: white !important">
@@ -82,8 +82,8 @@
                           </tbody>
                       </table>
                     
-                    <h3 t-if="o.move_raw_ids">
-                        <span t-if="o.state == 'done'">
+                    <h3 t-if="doc.move_raw_ids">
+                        <span t-if="doc.state == 'done'">
                             Productos Consumidos
                         </span>
                         <span t-else="">
@@ -99,6 +99,8 @@
                                     <th class="text-center p-1" style="border-right: 1px solid black; border-bottom: 1px solid black !important;border-top: 1px solid black !important;">Cantidad Consumida</th>
                                     <th class="text-center p-1" style="border-right: 1px solid black; border-bottom: 1px solid black !important;border-top: 1px solid black !important;">Unidad De Medida.</th>
                                     <th class="text-center p-1" style="border-right: 1px solid black; border-bottom: 1px solid black !important;border-top: 1px solid black !important;">Desde </th>
+                                    <th class="text-center p-1" style="border-right: 1px solid black; border-bottom: 1px solid black !important;border-top: 1px solid black !important;">Precio Unitario </th>
+                                    <th class="text-center p-1" style="border-right: 1px solid black; border-bottom: 1px solid black !important;border-top: 1px solid black !important;">Precio Total </th>
                                 </tr>
                           </thead>
 
@@ -124,12 +126,18 @@
                                                     <span t-field="line.location_id.name"/>
                                                 </t>
                                             </td>
+                                            <td class="text-center " style="border-bottom: 1px solid black !important;border-right: 1px solid black; ; width: 150px">
+                                               <span t-field="line.costo_produccion_unitario_calculado"/>
+                                            </td>
+                                            <td class="text-center " style="border-bottom: 1px solid black !important;border-right: 1px solid black; ; width: 150px">
+                                               <span t-field="line.costo_produccion_total_calculado"/>
+                                            </td>
                                         </tr>
                                </t>
                           </tbody>
                        </table>
                        <br/>
-                        <h3 t-if="o.workforce_ids">
+                        <h3 t-if="doc.workforce_ids">
                         <span>
                             Mano De Obra
                         </span>

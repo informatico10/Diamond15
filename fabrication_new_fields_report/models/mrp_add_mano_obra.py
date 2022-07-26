@@ -13,6 +13,20 @@ class workforce_name(models.Model):
     name = fields.Char(string = "Mano De Obra")
 
 
+class stock_move(models.Model):
+    _inherit = 'stock.move'
+    
+    costo_produccion_unitario_calculado = fields.Float(string = "Costo Produccion Calculado", compute="get_costo_calculado")
+    costo_produccion_total_calculado = fields.Float(string = "Costo Produccion Total Calculado", compute="get_costo_calculado")
+    def get_costo_calculado(self):
+        for i in self:
+            i.costo_produccion_unitario_calculado = 0
+            i.costo_produccion_total_calculado = 0
+            relacion = i.env['stock.valuation.layer'].sudo().search([('stock_move_id', '=', i.id)])
+            if len(relacion)>0:
+                i.costo_produccion_unitario_calculado = abs(relacion.unit_cost)
+                i.costo_produccion_total_calculado = abs(relacion.value)
+
 
 
 class workforce_cost(models.Model):
