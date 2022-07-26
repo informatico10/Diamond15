@@ -6,7 +6,7 @@ from collections import defaultdict
 from odoo import api, fields, models
 from odoo.tools import float_round
 from odoo import fields, models , api , _
-
+from odoo.exceptions import RedirectWarning, UserError, ValidationError, AccessError
 class workforce_name(models.Model):
     _name = 'workforce.name'
     _description = "mano de obra nombre"
