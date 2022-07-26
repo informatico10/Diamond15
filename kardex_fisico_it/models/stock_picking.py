@@ -44,7 +44,7 @@ class stock_move(models.Model):
 	invoice_id = fields.Many2one('account.move','Factura',domain=[('move_type', 'in', ['out_invoice','in_invoice','out_refund','in_refund'])])
 
 	kardex_date = fields.Datetime(string='Fecha kardex', readonly=False,copy=False,track_visibility='always')
-	no_mostrar = fields.Boolean('No mostrar en kardex')	
+	no_mostrar = fields.Boolean('No mostrar en kardex', copy=False)	
 
 	def change_mostrar_b(self):
 		return {

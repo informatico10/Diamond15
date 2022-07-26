@@ -42,7 +42,7 @@ class MrpProduction(models.Model):
 	_inherit = 'mrp.production'
 
 	kardex_date = fields.Datetime(string="Fecha Kardex")
-	no_mostrar = fields.Boolean('No Mostrar en Kardex')
+	no_mostrar = fields.Boolean('No Mostrar en Kardex', copy=False)
 	operation_type_sunat_consume = fields.Many2one('type.operation.kardex', string="Tipo de Operacion Sunat Consumo")
 	operation_type_sunat_fp = fields.Many2one('type.operation.kardex', string="Tipo de Operacion Sunat Producto Terminado")
 
