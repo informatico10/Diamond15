@@ -55,6 +55,7 @@ class mrp_production(models.Model):
             stock_moves = self.env['stock.move.line'].sudo().search([('move_id.production_id', '=', i.id)])
             if len(stock_moves)>0:
                 diccionario = self.env['report.mrp_account_enterprise.mrp_cost_structure'].get_lines(i)
+                raise UserError(str(diccionario))
                 if diccionario:
                     if 'total_cost' in diccionario:
                         total += diccionario['total_cost']
@@ -67,6 +68,17 @@ class mrp_production(models.Model):
                 for moves in stock_moves:
                     moves.move_id.sudo().price_unit_it = total
         return t
+
+
+    @api.model
+    def _get_report_values(self, docids, data=None):
+        productions = self.env['mrp.production']\
+            .browse(docids)\
+            .filtered(lambda p: p.state != 'cancel')
+        res = None
+        if all(production.state == 'done' for production in productions):
+            res = self.get_lines(productions)
+        return {'lines': res}
 
 
 class MrpCostStructure(models.AbstractModel):
