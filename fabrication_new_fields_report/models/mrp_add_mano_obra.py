@@ -55,18 +55,18 @@ class mrp_production(models.Model):
             stock_moves = self.env['stock.move.line'].sudo().search([('move_id.production_id', '=', i.id)])
             if len(stock_moves)>0:
                 diccionario = self.env['report.mrp_account_enterprise.mrp_cost_structure'].get_lines(i)
-                raise UserError(str(diccionario))
                 if diccionario:
-                    if 'total_cost' in diccionario:
-                        total += diccionario['total_cost']
-                    if 'operations' in diccionario:
-                        for m in diccionario['operations']:
-                            total += m[3] * m[4]
+                    for dicts in diccionario:
+                        if 'total_cost' in dicts:
+                            total += dicts['total_cost']
+                        if 'operations' in dicts:
+                            for m in dicts['operations']:
+                                total += m[3] * m[4]
                 if len(i.workforce_ids)>0:
                     for w in i.workforce_ids:
                         total += w.costo_total
                 for moves in stock_moves:
-                    moves.move_id.sudo().price_unit_it = total
+                    moves.move_id.sudo().price_unit_it = total / i.product_qty
         return t
 
 
