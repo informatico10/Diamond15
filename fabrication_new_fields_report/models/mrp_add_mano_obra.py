@@ -65,20 +65,20 @@ class mrp_production(models.Model):
                 if len(i.workforce_ids)>0:
                     for w in i.workforce_ids:
                         total += w.costo_total
+
+                mo_qty = 0
+                uom = i.product_id.uom_id
+                qty = i.product_qty
+                if i.product_uom_id.id == uom.id:
+                    mo_qty += qty
+                else:
+                    mo_qty += i.product_uom_id._compute_quantity(qty, uom)
                 for moves in stock_moves:
-                    moves.move_id.sudo().price_unit_it = total / i.product_qty
+                    moves.move_id.sudo().price_unit_it = total / mo_qty
         return t
 
 
-    @api.model
-    def _get_report_values(self, docids, data=None):
-        productions = self.env['mrp.production']\
-            .browse(docids)\
-            .filtered(lambda p: p.state != 'cancel')
-        res = None
-        if all(production.state == 'done' for production in productions):
-            res = self.get_lines(productions)
-        return {'lines': res}
+
 
 
 class MrpCostStructure(models.AbstractModel):
