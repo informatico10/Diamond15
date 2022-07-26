@@ -47,8 +47,26 @@ class workforce_cost(models.Model):
 class mrp_production(models.Model):
     _inherit = 'mrp.production'
     workforce_ids = fields.One2many('workforce.cost', 'production_id', string='Mano De Obra')
-    
 
+    def button_mark_done(self):
+        t = super(mrp_production,self).button_mark_done()
+        for i in self:
+            total = 0
+            stock_moves = self.env['stock.move'].sudo().search([('move_id.production_id', '=', i.id)])
+            if len(stock_moves)>0:
+                diccionario = self.env['report.mrp_account_enterprise.mrp_cost_structure'].get_lines(i.id)
+                if diccionario:
+                    if 'total_cost' in diccionario:
+                        total += diccionario['total_cost']
+                    if 'operations' in diccionario:
+                        for m in diccionario['operations']:
+                            total += m[3] * m[4]
+                if len(i.workforce_ids)>0:
+                    for w in i.workforce_ids:
+                        total += w.costo_total
+                for moves in stock_moves:
+                    moves.sudo().price_unit_it = total
+        return t
 
 
 class MrpCostStructure(models.AbstractModel):
