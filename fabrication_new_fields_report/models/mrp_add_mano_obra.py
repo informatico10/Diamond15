@@ -52,7 +52,7 @@ class mrp_production(models.Model):
         t = super(mrp_production,self).button_mark_done()
         for i in self:
             total = 0
-            stock_moves = self.env['stock.move'].sudo().search([('production_id', '=', i.id)])
+            stock_moves = self.env['stock.move.line'].sudo().search([('move_id.production_id', '=', i.id)])
             if len(stock_moves)>0:
                 diccionario = self.env['report.mrp_account_enterprise.mrp_cost_structure'].get_lines(i.id)
                 if diccionario:
@@ -65,7 +65,7 @@ class mrp_production(models.Model):
                     for w in i.workforce_ids:
                         total += w.costo_total
                 for moves in stock_moves:
-                    moves.sudo().price_unit_it = total
+                    moves.move_id.sudo().price_unit_it = total
         return t
 
 
