@@ -66,15 +66,15 @@ class mrp_production(models.Model):
                     for w in i.workforce_ids:
                         total += w.costo_total
 
-                mo_qty = 0
-                uom = i.product_id.uom_id
-                qty = i.product_qty
-                if i.product_uom_id.id == uom.id:
-                    mo_qty += qty
-                else:
-                    mo_qty += i.product_uom_id._compute_quantity(qty, uom)
+                #mo_qty = 0
+                #uom = i.product_id.uom_id
+                #qty = i.product_qty
+                #if i.product_uom_id.id == uom.id:
+                    #mo_qty += qty
+                #else:
+                    #mo_qty += i.product_uom_id._compute_quantity(qty, uom)
                 for moves in stock_moves:
-                    moves.move_id.sudo().price_unit_it = total / mo_qty
+                    moves.move_id.sudo().price_unit_it = total / i.product_qty
         return t
 
 
