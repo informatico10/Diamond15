@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="lot_duplicate_view_form" model="ir.ui.view">
+        <field name="name">lot.duplicate.view.form</field>
+        <field name="model">lot.duplicate</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <field name="action_import" invisible="True" />
+                <div attrs="{'invisible':[('action_import','=',False)]}">
+                    <h3>
+                        Lote/Serie No importados
+                    </h3>
+                    <button string="Descargar Plantilla" name="download_template" type="object" class="oe_highlight"/>
+                    <br />
+                    <br />
+                    <group>
+                        <!-- <field name="name_template_file" invisible="True" />
+                        <field name="template_file" filename="name_template_file" widget="binary" readonly="1" force_save="1" /> -->
+                        <div class="col">
+                            <label for="file_import" class="oe_edit_only"/>
+                            <div class="o_row">
+                                <field name="file_import" filename="name_file_import" />
+                                <field name="name_file_import" invisible="1" />
+                            </div>
+                        </div>
+                        <div class="col">
+                            <button name="import_lot_product" type="object" class="oe_stat_button" icon="fa-inbox" />
+                        </div>
+                    </group>
+                </div>
+                <div attrs="{'invisible':[('action_import','=',True)]}">
+                    <h3>
+                        Lote/Serie No importados
+                    </h3>
+                    <field name="mensaje" readonly="True" />
+                    <br />
+                    <field name="cant_import" readonly="True" />
+                    <field name="lot_duplicate_picking_id">
+                        <tree readonly="1">
+                            <field name="product_id" attrs="{'column_invisible':[('parent.action_import', '=', False)]}" />
+                            <field name="name_lot" decoration-bf="1"/>
+                            <field name="picking_id" readonly="1" optional="show"/>
+                            <field name="stock_move_id" readonly="1" optional="show"/>
+                            <field name="lot_id" readonly="1" optional="show" />
+                        </tree>
+                        <form>
+                            <group>
+                                <group>
+                                    <field name="name_lot" decoration-bf="1"/>
+                                </group>
+                                <group>
+                                    <field name="picking_id" readonly="1" />
+                                    <field name="stock_move_id" readonly="1" />
+                                    <field name="lot_id" readonly="1"/>
+                                </group>
+                            </group>
+                        </form>
+                    </field>
+                </div>
+                <center>
+                    <footer>
+                        <!-- <button string="" name="" type="object" class="oe_highlight"/> -->
+                        <button string="Okey" class="oe_link" special="cancel"/>
+                    </footer>
+                </center>
+            </form>
+        </field>
+    </record>
+
+</odoo>

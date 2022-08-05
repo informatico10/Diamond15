@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_stock_move_operations_inherit_stock_import_lote_rq_it" model="ir.ui.view">
+        <field name="name">stock.move.view.form.inherit</field>
+        <field name="model">stock.move</field>
+        <field name="inherit_id" ref="stock.view_stock_move_operations"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group" position="inside">
+                <field name="operation_type" invisible="False" />
+                <group name="import_use_lot" string="Importador">
+                    <field name="template_file" filename="name_template_file" readonly="True" />
+                    <field name="name_template_file" invisible="True" />
+                    <div class="col">
+                        <label for="file_import" class="oe_edit_only"/>
+                        <div class="o_row">
+                            <field name="file_import" filename="name_file_import" />
+                            <field name="name_file_import" invisible="1" />
+                        </div>
+                    </div>
+                    <div class="col">
+                        <button string="Importar" name="import_lot_only_product" type="object" class="oe_highlight" />
+                    </div>
+                </group>
+                <group name="import_use_lot" string="Agregar Serie Lote" attrs="{'invisible':[('operation_type','=','incoming')]}">
+                    <field name="template_file" filename="name_template_file" readonly="True" />
+                    <field name="name_template_file" invisible="True" />
+                    <div class="col">
+                        <label for="file_import" class="oe_edit_only"/>
+                        <div class="o_row">
+                            <field name="file_import" filename="name_file_import" string="Series a Eligir" />
+                            <field name="name_file_import" invisible="1" />
+                        </div>
+                    </div>
+                    <div class="col">
+                        <button string="Agregar" name="import_lot_only_product" type="object" class="oe_highlight"/>
+                    </div>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_import_lot_serie" model="ir.actions.server">
+		<field name="name">Importador</field>
+		<field name="model_id" ref="stock.model_stock_picking"/>
+		<field name="binding_model_id" ref="stock.model_stock_picking"/>
+		<field name="state">code</field>
+		<field name="code">action = records.action_import_lot()</field>
+	</record>
+
+</odoo>

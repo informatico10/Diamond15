@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="purchase_order_form_inherit_duas_rq_it" model="ir.ui.view">
+        <field name="name">purchase.order.view.form.inherit</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page name="duas" string="Duas">
+                    <group>
+                        <group>
+                            <field name="dua" />
+                        </group>
+                        <group>
+                            <field name="agency_aduana_id" />
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_picking_form_inherit_duas_rq_it" model="ir.ui.view">
+        <field name="name">stock.picking.view.form.inherit</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page name="duas" string="Duas">
+                    <field name="check_duas" invisible="True" />
+                    <group attrs="{'invisible': [('check_duas', '=', False)]}">
+                        <group>
+                            <field name="dua" readonly="True" />
+                        </group>
+                        <group>
+                            <field name="agency_aduana_id" readonly="True" />
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
