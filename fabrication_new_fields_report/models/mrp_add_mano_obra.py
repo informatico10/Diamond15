@@ -73,8 +73,53 @@ class mrp_production(models.Model):
                     #mo_qty += qty
                 #else:
                     #mo_qty += i.product_uom_id._compute_quantity(qty, uom)
+                moves_moves = []
                 for moves in stock_moves:
                     moves.move_id.sudo().price_unit_it = total / i.product_qty
+                    if moves.move_id in moves_moves:
+                        pass
+                    else:
+                        moves_moves.append(moves.move_id)
+                for m in moves_moves:                
+                    line_val = self.env['stock.valuation.layer'].search([('product_id','=',m.product_id.id),('stock_move_id','=',m.id)])
+                    if len(line_val)>0:
+                        line_val.unit_cost = m.price_unit_it
+                        line_val.value = m.price_unit_it * line_val.quantity
+                    else:
+                        data = {
+                            'product_id':m.product_id.id,
+                            'unit_cost':m.price_unit_it,
+                            'quantity':m.product_uom_qty,
+                            'value':m.price_unit_it*m.product_uom_qty,
+                            'company_id':i.company_id.id,
+                            'stock_move_id':m.id,
+                        }
+                        line_val = self.env['stock.valuation.layer'].create(data)
+
+                    costo_actual = 0
+                    cantidad_actual = 0
+                    for ij in self.env['stock.valuation.layer'].search([('product_id','=',m.product_id.id)]):
+                        costo_actual += ij.value
+                        cantidad_actual += ij.quantity	
+                    self.env.cr.execute("""
+                        select id from ir_property 
+                        where name = 'standard_price' and company_id = """ + str(self.env.company.id)+ """ and res_id = 'product.product,"""+str(m.product_id.id)+"""' 
+                        """) 
+                    ver = self.env.cr.fetchall()
+                    if len(ver)==0:
+                        self.env['ir.property'].create({
+                            'name':'standard_price',
+                            'company_id':i.company_id.id,
+                            'res_id':'product.product,'+str(m.product_id.id),
+                            'value_float':costo_actual / cantidad_actual if cantidad_actual!=0 else 0,
+                            'type':'float',
+                            'fields_id': (self.env['ir.model.fields'].sudo().search([('name','=','standard_price'),('model_id','=',self.env['ir.model'].sudo().search([('model','=','product.product')]).id)])).id,
+                            })
+                    else:
+                        self.env.cr.execute("""
+                        update ir_property set value_float = """ + str(costo_actual / cantidad_actual if cantidad_actual!=0 else 0) + """
+                        where name = 'standard_price' and company_id = """ + str(self.env.company.id)+ """ and res_id = 'product.product,"""+str(m.product_id.id)+"""' 
+                        """) 
         return t
 
 
