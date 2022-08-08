@@ -7,9 +7,40 @@
 			<field name="inherit_id" ref="mrp.mrp_production_form_view"/>
 			<field name="arch" type="xml">
 				<xpath expr="//header" position="inside">
-					<button name="do_csvtoexcel" string="prueba" type="object" class="oe_highlight"/>
+					<button name="do_csvtoexcel" string="Descargar xlsx" type="object" class="oe_highlight"/>
 				</xpath>
 			</field>
 		</record>
-    </data>
+
+		<record id="wizard_get_quants_form" model="ir.ui.view">
+			<field name="name">wizard.get.quants.form</field>
+			<field name="model">wizard.get.quants</field>
+			<field name="arch" type="xml">
+				<form string="Reporte De Saldos">                    
+					<sheet>                        
+						<group>
+							<group>
+								<field name="name" string="Compañia" readonly="1"/>
+							</group>                            
+						</group>
+					</sheet>
+					<footer>
+						<button name="do_csvtoexcel" string="Generar Reporte"
+							   class="oe_highlight" type="object" />
+						<button special="cancel" string="Cancelar" />
+					</footer>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_get_wizard_quant" model="ir.actions.act_window">
+			<field name="name">Reporte De Saldos</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">wizard.get.quants</field>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="fabrication_excell_report.wizard_get_quants_form" />
+		</record>
+		<menuitem action="action_get_wizard_quant" id="menuitem_get_wizard_quant"
+			  parent="stock.menu_warehouse_report"/>
+	</data>
 </odoo>

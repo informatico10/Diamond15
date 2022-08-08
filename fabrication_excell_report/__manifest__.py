@@ -13,6 +13,7 @@
     'demo': [],
     'data': [
         'report/report_pdf.xml',
+        'report/ir.model.access.csv',
         ],
     'installable': True
 }

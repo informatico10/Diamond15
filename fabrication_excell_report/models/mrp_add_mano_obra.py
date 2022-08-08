@@ -228,7 +228,7 @@ class mrp_production(models.Model):
 		output.seek(0)
 
 		attach_id = self.env['ir.attachment'].create({
-					'name': "prueba.xlsx",
+					'name': "ORDEN DE PRODUCCIÓN.xlsx",
 					'type': 'binary',
 					'datas': base64.encodestring(output.read()),
 					'eliminar_automatico': True
@@ -240,13 +240,13 @@ class mrp_production(models.Model):
 			'type': 'ir.actions.client',
 			'tag': 'notification_llikha',
 			'params': {
-				'title':'prueba',
+				'title':'ORDEN DE PRODUCCIÓN',
 				'type': 'success',
 				'sticky': True,
-				'message': 'Se proceso',
+				'message': 'DESCARGAR ORDEN DE PRODUCCIÓN',
 				'next': {'type': 'ir.actions.act_window_close'},
 				'buttons':[{
-					'label':'Descargar prueba',
+					'label':'Descargar',
 					'model':'ir.attachment',
 					'method':'get_download_ls',
 					'id':attach_id.id,
