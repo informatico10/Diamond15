@@ -28,7 +28,7 @@ class mrp_production(models.Model):
 		worksheet = workbook.add_worksheet("FORMATO DE ORDEN DE PRODUCCIÓN")
 		x= 9
 		tam_col = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-		boldbord = worksheet.add_format({'bold': True})
+		boldbord = workbook.add_format({'bold': True})
 		boldbord.set_align('center')
 		boldbord.set_align('vcenter')
 		boldbord.set_text_wrap()
