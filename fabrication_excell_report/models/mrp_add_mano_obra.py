@@ -32,7 +32,7 @@ class mrp_production(models.Model):
 		boldbord.set_align('center')
 		boldbord.set_align('vcenter')
 		boldbord.set_text_wrap()
-		boldbord.font = Font(name='Calibri',size=11,bold=True)
+		boldbord.set_font_name('Calibri')
 		boldbord.set_font_size(11)
 
 
