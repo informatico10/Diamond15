@@ -30,25 +30,18 @@ class wizard_get_quants(models.Model):
 		x= 9
 
 		worksheet.set_column('A:A', 12.80)
-		worksheet.set_column('B:B', 12.80)
-		worksheet.set_column('C:C', 12.80)
-		worksheet.set_column('D:D', 12.80)
+		worksheet.set_column('B:B', 18.33)
+		worksheet.set_column('C:C', 50)
+		worksheet.set_column('D:D', 25)
 		worksheet.set_column('E:E', 12.80)
-		worksheet.set_column('F:F', 12.80)
+		worksheet.set_column('F:F', 25)
 		worksheet.set_column('G:G', 12.80)
 		worksheet.set_column('H:H', 12.80)
 		worksheet.set_column('I:I', 12.80)
-		worksheet.set_column('J:J', 12.80)
-		worksheet.set_column('K:K', 12.80)
-		worksheet.set_column('L:L', 12.80)
-		worksheet.set_column('M:M', 12.80)
-		worksheet.set_column('N:N', 12.80)
-		worksheet.set_column('O:O', 12.80)
-		worksheet.set_column('P:P', 12.80)
-		worksheet.set_column('Q:Q', 12.80)
-		worksheet.set_column('R:R', 12.80)
-		worksheet.set_column('S:S', 12.80)
-		worksheet.set_column('T:Z', 12.80)
+		worksheet.set_column('J:J', 25)
+		worksheet.set_column('K:K', 25)
+		
+		
 
 		boldbord = workbook.add_format({'bold': True})
 		boldbord.set_align('center')
@@ -92,7 +85,7 @@ class wizard_get_quants(models.Model):
 		
 		cell_n = workbook.add_format({'bold': False})
 		cell_n.set_align('center')
-		cell_n.set_border(2)
+		cell_n.set_border(1)
 		cell_n.set_font_name('Calibri')
 		cell_n.set_font_size(11)
 		import datetime
