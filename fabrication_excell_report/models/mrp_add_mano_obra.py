@@ -73,7 +73,7 @@ class mrp_production(models.Model):
 		cell.set_border(2)
 		cell.set_font_name('Calibri')
 		cell.set_font_size(12)
-		cell.set_bg_color('#D1DFF5')
+		cell.set_bg_color('#F1F4FB')
 
 		cell_r = workbook.add_format({'bold': True})
 		cell_r.set_align('center')
@@ -156,11 +156,11 @@ class mrp_production(models.Model):
 			])
 		if len(scrapss)>0:
 			for li_scra in scrapss:
-				worksheet.write(columna,0, str(li_scra.product_id.default_code if li_scra.product_id.default_code else ''),cell)
-				worksheet.merge_range(columna,1,columna,6, str(li_scra.product_id.name if li_scra.product_id.name else ''), cell)
-				worksheet.write(columna,7, str(li_scra.scrap_qty if li_scra.scrap_qty else 0),cell)
-				worksheet.write(columna,8, str(li_scra.product_uom_id.name if li_scra.product_uom_id.name else ''),cell)
-				worksheet.merge_range(columna,9,columna,12, "", cell)
+				worksheet.write(columna,0, str(li_scra.product_id.default_code if li_scra.product_id.default_code else ''),cell_n)
+				worksheet.merge_range(columna,1,columna,6, str(li_scra.product_id.name if li_scra.product_id.name else ''), cell_n)
+				worksheet.write(columna,7, str(li_scra.scrap_qty if li_scra.scrap_qty else 0),cell_n)
+				worksheet.write(columna,8, str(li_scra.product_uom_id.name if li_scra.product_uom_id.name else ''),cell_n)
+				worksheet.merge_range(columna,9,columna,12, "", cell_n)
 				columna = columna+1
 
 
@@ -180,10 +180,18 @@ class mrp_production(models.Model):
 			worksheet.merge_range(columna,9,columna,12, "", cell_n)
 			columna = columna+1
 
-		import datetime		
+		columna = columna+2
+		worksheet.merge_range(columna,0,columna,1, "OBSERVACION", cell_n)
+		worksheet.merge_range(columna,2,columna,12, "______________________________________________________________________________________________", cell_n)
+		columna = columna+1
+		worksheet.merge_range(columna,2,columna,12, "______________________________________________________________________________________________", cell_n)
 
-
-		import datetime
+		columna = columna+2
+		worksheet.merge_range(columna,0,columna,1, "______________", cell_n)
+		worksheet.merge_range(columna,2,columna,3, "______________", cell_n)
+		columna = columna+1
+		worksheet.merge_range(columna,0,columna,1, "AUX. PRODUCCION : ENTREGADO", cell_n)
+		worksheet.merge_range(columna,2,columna,3, "AUX. DE ALMACEN : RECIBIDO", cell_n)
 
 		workbook.close()
 		output.seek(0)
