@@ -187,11 +187,11 @@ class mrp_production(models.Model):
 		worksheet.merge_range(columna,2,columna,12, "______________________________________________________________________________________________")
 
 		columna = columna+2
-		worksheet.merge_range(columna,0,columna,1, "______________")
-		worksheet.merge_range(columna,2,columna,3, "______________")
+		worksheet.merge_range(columna,0,columna,1, "_________________________")
+		worksheet.merge_range(columna,2,columna,3, "_________________________")
 		columna = columna+1
-		worksheet.merge_range(columna,0,columna,1, "AUX. PRODUCCION : ENTREGADO")
-		worksheet.merge_range(columna,2,columna,3, "AUX. DE ALMACEN : RECIBIDO")
+		worksheet.merge_range(columna,0,columna+1,1, "AUX. PRODUCCION : ENTREGADO")
+		worksheet.merge_range(columna,2,columna+1,3, "AUX. DE ALMACEN : RECIBIDO")
 
 		workbook.close()
 		output.seek(0)
