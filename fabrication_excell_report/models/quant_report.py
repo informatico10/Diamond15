@@ -40,6 +40,7 @@ class wizard_get_quants(models.Model):
 		worksheet.set_column('I:I', 12.80)
 		worksheet.set_column('J:J', 25)
 		worksheet.set_column('K:K', 25)
+		worksheet.set_column('L:L', 12.80)
 		
 		cell_titulo = workbook.add_format({'bold': True})
 		cell_titulo.set_align('center')
@@ -70,7 +71,7 @@ class wizard_get_quants(models.Model):
 
 		import datetime
 		from datetime import timedelta
-		worksheet.merge_range(1,2,2,10, "VALORES AL CIERRE: "+str((datetime.datetime.now()-timedelta(hours=5)).date()), cell_titulo)
+		worksheet.merge_range(1,0,2,11, "VALORES AL CIERRE: "+str((datetime.datetime.now()-timedelta(hours=5)).date()), cell_titulo)
 
 		worksheet.set_row(4, 28.20)
 		worksheet.set_row(5, 28.20)
@@ -84,6 +85,8 @@ class wizard_get_quants(models.Model):
 		worksheet.merge_range('I5:I6', "VALOR UNIT $", cell_r)
 		worksheet.merge_range('J5:J6', "SALDO CANTIDAD", cell_r)
 		worksheet.merge_range('K5:K6', "MOVIMIENTO CONTRA CANTIDAD", cell_r)
+		worksheet.merge_range('L5:L6', "LOTE/NROº SERIE", cell_r)
+
 		columna = 6
 		contador = 1
 		import datetime
@@ -111,6 +114,7 @@ class wizard_get_quants(models.Model):
 
 			worksheet.write(columna,9, i.quantity if i.quantity else 0,cell_numero)
 			worksheet.write(columna,10, '',cell_n)
+			worksheet.write(columna,11, str(i.lot_id.name if i.lot_id.name else ''),cell_n)
 			contador = contador+1
 			columna = columna+1
 		workbook.close()
