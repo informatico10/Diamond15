@@ -66,11 +66,11 @@ class wizard_get_quants(models.Model):
 		cell_numero.set_border(1)
 		cell_numero.set_font_name('Calibri')
 		cell_numero.set_font_size(11)
-		cell_numero.set_num_format('0.000')
+		cell_numero.set_num_format('#,##0')
 
 		import datetime
 		from datetime import timedelta
-		worksheet.merge_range(1,2,2,10, "VALORES AL CIERRE"+str((datetime.datetime.now()-timedelta(hours=5)).date()), cell_titulo)
+		worksheet.merge_range(1,2,2,10, "VALORES AL CIERRE: "+str((datetime.datetime.now()-timedelta(hours=5)).date()), cell_titulo)
 
 		worksheet.set_row(4, 28.20)
 		worksheet.set_row(5, 28.20)
