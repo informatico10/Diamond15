@@ -114,7 +114,7 @@ class mrp_production(models.Model):
 		worksheet.write(8,1, "",cell_n)
 
 		worksheet.set_row(3, 28.20)
-		worksheet.set_row(4, 15)
+		worksheet.set_row(4, 28.20)
 		worksheet.merge_range(5,3,5,4, "FECHA SOL", boldbord)		
 		worksheet.merge_range(5,5,5,6, str(self.date_planned_start if self.date_planned_start else ''),boldbord)
 		worksheet.merge_range(6,3,6,4, "FECHA PROD", boldbord)
