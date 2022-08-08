@@ -25,7 +25,7 @@ class wizard_get_quants(models.Model):
 		output = io.BytesIO()
 
 		#direccion = self.env['main.parameter'].search([])[0].dir_create_file
-		workbook = Workbook(output, {'constant_memory': True})
+		workbook = Workbook(output, {'constant_memory': False})
 		worksheet = workbook.add_worksheet("SALDO VALORES DE CIERRE")
 		x= 9
 
@@ -41,31 +41,11 @@ class wizard_get_quants(models.Model):
 		worksheet.set_column('J:J', 25)
 		worksheet.set_column('K:K', 25)
 		
-		
-
-		boldbord = workbook.add_format({'bold': True})
-		boldbord.set_align('center')
-		boldbord.set_align('vcenter')
-		boldbord.set_text_wrap()
-		boldbord.set_font_name('Calibri')
-		boldbord.set_font_size(11)
-
-
 		cell_titulo = workbook.add_format({'bold': True})
 		cell_titulo.set_align('center')
 		cell_titulo.set_border(2)
 		cell_titulo.set_font_name('Calibri')
 		cell_titulo.set_font_size(15)
-
-
-
-
-
-		cell = workbook.add_format({'bold': True})
-		cell.set_align('center')
-		cell.set_border(2)
-		cell.set_font_name('Calibri')
-		cell.set_font_size(12)
 
 		cell_r = workbook.add_format({'bold': True})
 		cell_r.set_align('center')
@@ -75,25 +55,26 @@ class wizard_get_quants(models.Model):
 
 
 
-		
-		cell_negro = workbook.add_format({'bold': True})
-		cell_negro.set_align('center')
-		cell_negro.set_border(2)
-		cell_negro.set_font_name('Calibri')
-		cell_negro.set_font_size(12)		
-		cell_negro.set_bg_color('#030303')
-		
 		cell_n = workbook.add_format({'bold': False})
 		cell_n.set_align('center')
 		cell_n.set_border(1)
 		cell_n.set_font_name('Calibri')
 		cell_n.set_font_size(11)
+
+		cell_numero = workbook.add_format({'bold': False})
+		cell_numero.set_align('center')
+		cell_numero.set_border(1)
+		cell_numero.set_font_name('Calibri')
+		cell_numero.set_font_size(11)
+		cell_numero.set_num_format('0.000')
+
 		import datetime
 		from datetime import timedelta
 		worksheet.merge_range(1,2,2,10, "VALORES AL CIERRE"+str((datetime.datetime.now()-timedelta(hours=5)).date()), cell_titulo)
 
 		worksheet.set_row(4, 28.20)
 		worksheet.set_row(5, 28.20)
+
 		worksheet.merge_range('A5:C6', "ARTICULO", cell_r)
 		worksheet.merge_range('D5:D6', "SALDO S/.", cell_r)
 		worksheet.merge_range('E5:E6', "% SOLES", cell_r)
@@ -117,18 +98,18 @@ class wizard_get_quants(models.Model):
 			worksheet.write(columna,0, str(contador),cell_n)
 			worksheet.write(columna,1, str(i.product_id.default_code if i.product_id.default_code else ''),cell_n)
 			worksheet.write(columna,2, str(i.product_id.name if i.product_id.name else ''),cell_n)
-			worksheet.write(columna,3, str(i.quantity * i.product_id.standard_price),cell_n)
+			worksheet.write(columna,3, str(i.quantity * i.product_id.standard_price),cell_numero)
 			worksheet.write(columna,4, str( ''),cell_n)
 			if tasa_cambio != 0:
-				worksheet.write(columna,5, str( (i.quantity * i.product_id.standard_price)/tasa_cambio),cell_n)
-				worksheet.write(columna,8, str(i.product_id.standard_price/tasa_cambio),cell_n)
+				worksheet.write(columna,5, str( (i.quantity * i.product_id.standard_price)/tasa_cambio),cell_numero)
+				worksheet.write(columna,8, str(i.product_id.standard_price/tasa_cambio),cell_numero)
 			else:
-				worksheet.write(columna,5, str(0),cell_n)
-				worksheet.write(columna,8, str(0),cell_n)
+				worksheet.write(columna,5, str(0),cell_numero)
+				worksheet.write(columna,8, str(0),cell_numero)
 			worksheet.write(columna,6, str(''),cell_n)
-			worksheet.write(columna,7, str(i.product_id.standard_price if i.product_id.standard_price else 0),cell_n)
+			worksheet.write(columna,7, str(i.product_id.standard_price if i.product_id.standard_price else 0),cell_numero)
 
-			worksheet.write(columna,9, str(i.quantity if i.quantity else 0),cell_n)
+			worksheet.write(columna,9, str(i.quantity if i.quantity else 0),cell_numero)
 			worksheet.write(columna,10, '',cell_n)
 			contador = contador+1
 			columna = columna+1
