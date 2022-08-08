@@ -27,7 +27,28 @@ class mrp_production(models.Model):
 		workbook = Workbook(output, {'constant_memory': True})
 		worksheet = workbook.add_worksheet("FORMATO DE ORDEN DE PRODUCCIÓN")
 		x= 9
-		tam_col = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+
+		worksheet.set_column('A:A', 12.80)
+		worksheet.set_column('B:B', 12.80)
+		worksheet.set_column('C:C', 12.80)
+		worksheet.set_column('D:D', 12.80)
+		worksheet.set_column('E:E', 12.80)
+		worksheet.set_column('F:F', 12.80)
+		worksheet.set_column('G:G', 12.80)
+		worksheet.set_column('H:H', 12.80)
+		worksheet.set_column('I:I', 12.80)
+		worksheet.set_column('J:J', 12.80)
+		worksheet.set_column('K:K', 12.80)
+		worksheet.set_column('L:L', 12.80)
+		worksheet.set_column('M:M', 12.80)
+		worksheet.set_column('N:N', 12.80)
+		worksheet.set_column('O:O', 12.80)
+		worksheet.set_column('P:P', 12.80)
+		worksheet.set_column('Q:Q', 12.80)
+		worksheet.set_column('R:R', 12.80)
+		worksheet.set_column('S:S', 12.80)
+		worksheet.set_column('T:Z', 12.80)
+
 		boldbord = workbook.add_format({'bold': True})
 		boldbord.set_align('center')
 		boldbord.set_align('vcenter')
@@ -38,36 +59,106 @@ class mrp_production(models.Model):
 
 		cell = workbook.add_format({'bold': True})
 		cell.set_align('center')
+		cell.set_border(5)
 		cell.set_font_name('Calibri')
-		cell.set_font_size(18)		
-		cell.set_bg_color('#A2C7EF')
+		cell.set_font_size(18)
+		cell.set_bg_color('#D1DFF5')
 
 		cell_r = workbook.add_format({'bold': True})
 		cell_r.set_align('center')
+		cell_r.set_border(5)
 		cell_r.set_font_name('Calibri')
 		cell_r.set_font_size(18)		
-		cell_r.set_bg_color('#FFC5D1')
+		cell_r.set_bg_color('#F5D1D8')
 		
-		
-		worksheet.merge_range(1,3,2,11, "PRODUCTO FINAL", cell)
+		cell_n = workbook.add_format({'bold': False})
+		cell_n.set_align('center')
+		cell_n.set_border(5)
+		cell_n.set_font_name('Calibri')
+		cell_n.set_font_size(12)
+
+		worksheet.merge_range(1,2,2,10, "FORMATO DE ORDEN DE PRODUCCIÓN - STOCK", cell)
 
 
-		worksheet.write(4,1, "CONCEPTO",boldbord)
-		worksheet.write(4,9, "N. ORDEN DE PRODUCCIÓN :",boldbord)
-		worksheet.write(4,10, "___________________",boldbord)
-		worksheet.write(5,1, "Camb. Codigo",boldbord)
-		worksheet.write(6,1, "Mezcla",boldbord)
-		worksheet.write(7,1, "Reenvase",boldbord)
-		worksheet.write(8,1, "Dilucion",boldbord)
-		worksheet.write(5,4, "FECHA SOL:",boldbord)
-		worksheet.write(5,5, str(self.date_planned_start),boldbord)
-		worksheet.write(6,4, "FECHA PROD:",boldbord)
-		worksheet.write(6,5, str(self.date_planned_start),boldbord)
+		worksheet.write(4,0, "CONCEPTO",boldbord)
+		worksheet.write(4,8, "N. ORDEN DE PRODUCCIÓN :",boldbord)
+		worksheet.write(4,9, "___________________",boldbord)
+		worksheet.write(5,0, "Camb. Codigo",boldbord)
+		worksheet.write(6,0, "Mezcla",boldbord)
+		worksheet.write(7,0, "Reenvase",boldbord)
+		worksheet.write(8,0, "Dilucion",boldbord)
+		worksheet.write(5,3, "FECHA SOL:",boldbord)
+		worksheet.write(5,4, str(self.date_planned_start),boldbord)
+		worksheet.write(6,3, "FECHA PROD:",boldbord)
+		worksheet.write(6,4, str(self.date_planned_start),boldbord)
 
-		worksheet.merge_range(10,1,10,13, "PRODUCTO FINAL", cell_r)
+		worksheet.merge_range(10,0,10,12, "PRODUCTO FINAL", cell_r)
+		worksheet.write(11,0, "Codigo",cell)
+		worksheet.merge_range(11,1,11,6, "DESCRIPCIÓN", cell)
+		worksheet.write(11,7, "CANT",cell)
+		worksheet.write(11,8, "UND",cell)
+		worksheet.merge_range(11,9,11,12, "OBSERVACIÓN", cell)
 
+
+
+		worksheet.write(12,0, str(self.product_id.default_code),cell_n)
+		worksheet.merge_range(12,1,12,6, str(self.product_id.name), cell_n)
+		worksheet.write(12,7, str(self.product_qty),cell_n)
+		worksheet.write(12,8, str(self.product_uom_id.name),cell_n)
+		worksheet.merge_range(12,9,12,12, "", cell_n)
 			
 			
+		worksheet.merge_range(13,0,13,12, "MATERIA PRIMA", cell_r)
+		worksheet.write(14,0, "Codigo",cell)
+		worksheet.merge_range(14,1,14,6, "DESCRIPCIÓN", cell)
+		worksheet.write(14,7, "CANT",cell)
+		worksheet.write(14,8, "UND",cell)
+		worksheet.merge_range(14,9,14,12, "OBSERVACIÓN", cell)
+		columna = 15
+		for lineas in self.move_raw_ids:
+			worksheet.write(columna,0, str(lineas.product_id.default_code),cell_n)
+			worksheet.merge_range(columna,1,columna,6, str(lineas.product_id.name), cell_n)
+			worksheet.write(columna,7, str(lineas.quantity_done),cell_n)
+			worksheet.write(columna,8, str(lineas.product_uom.name),cell_n)
+			worksheet.merge_range(columna,9,columna,12, "", cell_n)
+			columna = columna+1
+
+
+
+
+		worksheet.merge_range(columna,0,columna,12, "MERMA", cell_r)
+		columna = columna+1
+		worksheet.write(columna,0, "Codigo",cell)
+		worksheet.merge_range(columna,1,columna,6, "DESCRIPCIÓN", cell)
+		worksheet.write(columna,7, "CANT",cell)
+		worksheet.write(columna,8, "UND",cell)
+		worksheet.merge_range(columna,9,columna,12, "OBSERVACIÓN", cell)
+		columna = columna+1
+		#for lineas in self.move_raw_ids:
+			#worksheet.write(columna,0, str(lineas.product_id.default_code),cell)
+			#worksheet.merge_range(columna,1,columna,6, str(lineas.product_id.name), cell)
+			#worksheet.write(columna,7, str(lineas.quantity_done),cell)
+			#worksheet.write(columna,8, str(lineas.product_uom.name),cell)
+			#worksheet.merge_range(columna,9,columna,12, "", cell)
+			#columna = columna+1
+
+
+		worksheet.merge_range(columna,0,columna,12, "DESMEDRO", cell_r)
+		columna = columna+1
+		worksheet.write(columna,0, "Codigo",cell)
+		worksheet.merge_range(columna,1,columna,6, "DESCRIPCIÓN", cell)
+		worksheet.write(columna,7, "CANT",cell)
+		worksheet.write(columna,8, "UND",cell)
+		worksheet.merge_range(columna,9,columna,12, "OBSERVACIÓN", cell)
+		columna = columna+1
+		for sub_prod in self.move_byproduct_ids:
+			worksheet.write(columna,0, str(sub_prod.product_id.default_code),cell_n)
+			worksheet.merge_range(columna,1,columna,6, str(sub_prod.product_id.name), cell_n)
+			worksheet.write(columna,7, str(lineas.product_uom_qty),cell_n)
+			worksheet.write(columna,8, str(lineas.product_uom.name),cell_n)
+			worksheet.merge_range(columna,9,columna,12, "", cell_n)
+			columna = columna+1
+
 		import datetime		
 
 
