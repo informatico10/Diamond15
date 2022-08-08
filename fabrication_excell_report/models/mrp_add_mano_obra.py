@@ -28,10 +28,10 @@ def border(ws,texto):
 	cell = WriteOnlyCell(ws, value=texto)
 	cell.font = Font(name='Courier',size=14,bold=True)
 	cell.border = Border(
-    left=Side(border_style=BORDER_THIN, color='00000000'),
-    right=Side(border_style=BORDER_THIN, color='00000000'),
-    top=Side(border_style=BORDER_THIN, color='00000000'),
-    bottom=Side(border_style=BORDER_THIN, color='00000000'))
+	left=Side(border_style=BORDER_THIN, color='00000000'),
+	right=Side(border_style=BORDER_THIN, color='00000000'),
+	top=Side(border_style=BORDER_THIN, color='00000000'),
+	bottom=Side(border_style=BORDER_THIN, color='00000000'))
 	return cell
 
 class mrp_production(models.Model):
@@ -53,34 +53,34 @@ class mrp_production(models.Model):
 		ws = workbook.create_sheet("Reporte Orden De Producción")
 		x= 9
 		tam_col = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-        boldbord = workbook.add_format({'bold': True})
+		boldbord = workbook.add_format({'bold': True})
 		boldbord.set_align('center')
 		boldbord.set_align('vcenter')
 		boldbord.set_text_wrap()
 		boldbord.font = Font(name='Calibri',size=11,bold=True)
-        boldbord.set_font_size(11)
+		boldbord.set_font_size(11)
 
 
 
 		cell = WriteOnlyCell(ws, value="FORMATO DE ORDEN DE PRODUCCIÓN - STOCK")
 		cell.font = Font(name='Calibri',size=18,bold=True)
-        cell.set_bg_color('#DCE6F1')
+		cell.set_bg_color('#DCE6F1')
 		cell.alignment = Alignment(horizontal='center')
-        
+		
 		ws.merged_cells.ranges.append(get_column_letter(4)+ "1:" + get_column_letter(11) + '1')
 		ws.append(["","","","","","",cell])
 
 		ws.append([""])
-        ws.write(1,4, "CONCEPTO",boldbord)
-        ws.write(1,5, "Camb. Codigo",boldbord)
-        ws.write(1,6, "Mezcla",boldbord)
-        ws.write(1,7, "Reenvase",boldbord)
-        ws.write(1,8, "Dilucion",boldbord)
-        ws.write(4,5, "FECHA SOL:",boldbord)
-        ws.write(5,5, str(self.date_planned_start),boldbord)
-        ws.write(4,6, "FECHA PROD:",boldbord)
-        ws.write(5,6, str(self.date_planned_start),boldbord)
-        
+		ws.write(1,4, "CONCEPTO",boldbord)
+		ws.write(1,5, "Camb. Codigo",boldbord)
+		ws.write(1,6, "Mezcla",boldbord)
+		ws.write(1,7, "Reenvase",boldbord)
+		ws.write(1,8, "Dilucion",boldbord)
+		ws.write(4,5, "FECHA SOL:",boldbord)
+		ws.write(5,5, str(self.date_planned_start),boldbord)
+		ws.write(4,6, "FECHA PROD:",boldbord)
+		ws.write(5,6, str(self.date_planned_start),boldbord)
+		
 		ws.append([""])
 		ws.append([""])
 		ws.append([""])
@@ -95,11 +95,11 @@ class mrp_production(models.Model):
 		output.seek(0)
 
 		attach_id = self.env['ir.attachment'].create({
-                    'name': "FORMATO DE ORDEN DE PRODUCCIÓN.xlsx",
-                    'type': 'binary',
-                    'datas': base64.encodestring(output.read()),
-                    'eliminar_automatico': True
-                })
+					'name': "FORMATO DE ORDEN DE PRODUCCIÓN.xlsx",
+					'type': 'binary',
+					'datas': base64.encodestring(output.read()),
+					'eliminar_automatico': True
+				})
 		output.close()
 
 
