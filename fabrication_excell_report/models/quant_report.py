@@ -101,15 +101,15 @@ class wizard_get_quants(models.Model):
 
 		worksheet.set_row(4, 28.20)
 		worksheet.set_row(5, 28.20)
-		worksheet.merge_range(4,0,5,2, "ARTICULO", cell_r)
-		worksheet.merge_range(4,3,5,3, "SALDO S/.", cell_r)
-		worksheet.merge_range(4,4,5,4, "% SOLES", cell_r)
-		worksheet.merge_range(4,5,5,5, "SALDO US $", cell_r)
-		worksheet.merge_range(4,6,5,6, "% DOLARES", cell_r)
-		worksheet.merge_range(4,7,5,7, "VALOR UNIT S/.", cell_r)
-		worksheet.merge_range(4,8,5,8, "VALOR UNIT $", cell_r)
-		worksheet.merge_range(4,9,5,9, "SALDO CANTIDAD", cell_r)
-		worksheet.merge_range(4,10,5,10, "MOVIMIENTO CONTRA CANTIDAD", cell_r)
+		worksheet.merge_range('A5:C6', "ARTICULO", cell_r)
+		worksheet.merge_range('D5:D6', "SALDO S/.", cell_r)
+		worksheet.merge_range('E5:E6', "% SOLES", cell_r)
+		worksheet.merge_range('F5:F6', "SALDO US $", cell_r)
+		worksheet.merge_range('G5:G6', "% DOLARES", cell_r)
+		worksheet.merge_range('H5:H6', "VALOR UNIT S/.", cell_r)
+		worksheet.merge_range('I5:I6', "VALOR UNIT $", cell_r)
+		worksheet.merge_range('J5:J6', "SALDO CANTIDAD", cell_r)
+		worksheet.merge_range('K5:K6', "MOVIMIENTO CONTRA CANTIDAD", cell_r)
 		columna = 6
 		contador = 1
 		import datetime
@@ -121,22 +121,22 @@ class wizard_get_quants(models.Model):
 			for l in tipo_cambio:
 				tasa_cambio = l.sale_type
 		for i in total_quants:
-			worksheet.write(columna,0, str(contador),boldbord)
-			worksheet.write(columna,1, str(i.product_id.default_code if i.product_id.default_code else ''),boldbord)
-			worksheet.write(columna,2, str(i.product_id.name if i.product_id.name else ''),boldbord)
-			worksheet.write(columna,3, str(i.quantity * i.product_id.standard_price),boldbord)
-			worksheet.write(columna,4, str( ''),boldbord)
+			worksheet.write(columna,0, str(contador),cell_n)
+			worksheet.write(columna,1, str(i.product_id.default_code if i.product_id.default_code else ''),cell_n)
+			worksheet.write(columna,2, str(i.product_id.name if i.product_id.name else ''),cell_n)
+			worksheet.write(columna,3, str(i.quantity * i.product_id.standard_price),cell_n)
+			worksheet.write(columna,4, str( ''),cell_n)
 			if tasa_cambio != 0:
-				worksheet.write(columna,5, str( (i.quantity * i.product_id.standard_price)/tasa_cambio),boldbord)
-				worksheet.write(columna,8, str(i.product_id.standard_price/tasa_cambio),boldbord)
+				worksheet.write(columna,5, str( (i.quantity * i.product_id.standard_price)/tasa_cambio),cell_n)
+				worksheet.write(columna,8, str(i.product_id.standard_price/tasa_cambio),cell_n)
 			else:
-				worksheet.write(columna,5, str(0),boldbord)
-				worksheet.write(columna,8, str(0),boldbord)
-			worksheet.write(columna,6, str(''),boldbord)
-			worksheet.write(columna,7, str(i.product_id.standard_price if i.product_id.standard_price else 0),boldbord)
+				worksheet.write(columna,5, str(0),cell_n)
+				worksheet.write(columna,8, str(0),cell_n)
+			worksheet.write(columna,6, str(''),cell_n)
+			worksheet.write(columna,7, str(i.product_id.standard_price if i.product_id.standard_price else 0),cell_n)
 
-			worksheet.write(columna,9, str(i.quantity if i.quantity else 0),boldbord)
-			worksheet.write(columna,10, '',boldbord)
+			worksheet.write(columna,9, str(i.quantity if i.quantity else 0),cell_n)
+			worksheet.write(columna,10, '',cell_n)
 			contador = contador+1
 			columna = columna+1
 		workbook.close()
