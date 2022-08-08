@@ -66,7 +66,7 @@ class wizard_get_quants(models.Model):
 		cell_numero.set_border(1)
 		cell_numero.set_font_name('Calibri')
 		cell_numero.set_font_size(11)
-		cell_numero.set_num_format('#,##0')
+		cell_numero.set_num_format('0.000')
 
 		import datetime
 		from datetime import timedelta
@@ -98,18 +98,18 @@ class wizard_get_quants(models.Model):
 			worksheet.write(columna,0, str(contador),cell_n)
 			worksheet.write(columna,1, str(i.product_id.default_code if i.product_id.default_code else ''),cell_n)
 			worksheet.write(columna,2, str(i.product_id.name if i.product_id.name else ''),cell_n)
-			worksheet.write(columna,3, str(i.quantity * i.product_id.standard_price),cell_numero)
+			worksheet.write(columna,3, i.quantity * i.product_id.standard_price,cell_numero)
 			worksheet.write(columna,4, str( ''),cell_n)
 			if tasa_cambio != 0:
-				worksheet.write(columna,5, str( (i.quantity * i.product_id.standard_price)/tasa_cambio),cell_numero)
-				worksheet.write(columna,8, str(i.product_id.standard_price/tasa_cambio),cell_numero)
+				worksheet.write(columna,5, (i.quantity * i.product_id.standard_price)/tasa_cambio,cell_numero)
+				worksheet.write(columna,8, i.product_id.standard_price/tasa_cambio,cell_numero)
 			else:
-				worksheet.write(columna,5, str(0),cell_numero)
-				worksheet.write(columna,8, str(0),cell_numero)
+				worksheet.write(columna,5, 0,cell_numero)
+				worksheet.write(columna,8, 0,cell_numero)
 			worksheet.write(columna,6, str(''),cell_n)
-			worksheet.write(columna,7, str(i.product_id.standard_price if i.product_id.standard_price else 0),cell_numero)
+			worksheet.write(columna,7, i.product_id.standard_price if i.product_id.standard_price else 0,cell_numero)
 
-			worksheet.write(columna,9, str(i.quantity if i.quantity else 0),cell_numero)
+			worksheet.write(columna,9, i.quantity if i.quantity else 0,cell_numero)
 			worksheet.write(columna,10, '',cell_n)
 			contador = contador+1
 			columna = columna+1
