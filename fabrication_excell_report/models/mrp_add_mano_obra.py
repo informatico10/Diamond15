@@ -70,21 +70,21 @@ class mrp_production(models.Model):
 
 		cell = workbook.add_format({'bold': True})
 		cell.set_align('center')
-		cell.set_border(3)
+		cell.set_border(4)
 		cell.set_font_name('Calibri')
 		cell.set_font_size(12)
 		cell.set_bg_color('#DBE6F5')
 
 		cell_r = workbook.add_format({'bold': True})
 		cell_r.set_align('center')
-		cell_r.set_border(3)
+		cell_r.set_border(4)
 		cell_r.set_font_name('Calibri')
 		cell_r.set_font_size(12)		
 		cell_r.set_bg_color('#F7E7F3')
 		
 		cell_n = workbook.add_format({'bold': False})
 		cell_n.set_align('center')
-		cell_n.set_border(3)
+		cell_n.set_border(4)
 		cell_n.set_font_name('Calibri')
 		cell_n.set_font_size(11)
 
