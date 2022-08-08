@@ -100,31 +100,38 @@ class mrp_production(models.Model):
 
 		worksheet.merge_range(1,2,2,10, "FORMATO DE ORDEN DE PRODUCCIÓN - STOCK", cell_titulo)
 
-
+		worksheet.set_row(4, 28.20)
+		worksheet.set_row(5, 28.20)
 		worksheet.write(4,0, "CONCEPTO",boldbord)
 		worksheet.write(4,8, "N. ORDEN DE PRODUCCIÓN :",boldbord)
 		worksheet.write(4,9, "___________________",boldbord)
 		worksheet.write(5,0, "Camb. Codigo",boldbord)
+
 		worksheet.write(5,1, "",cell_n)
+
+
+		worksheet.write(5,3, "FECHA SOL", boldbord)
+		worksheet.write(5,3, str(self.date_planned_start if self.date_planned_start else ''), boldbord)		
+
+
 		worksheet.write(6,0, "Mezcla",boldbord)
 		worksheet.write(6,1, "",cell_negro)
+
+		worksheet.write(6,3, "FECHA PROD", boldbord)
+		stock_move = self.env['stock.move.line'].sudo().search([('move_id.production_id', '=', self.id)])
+		if len(stock_move)==1:
+			worksheet.merge_range(6,4, str(stock_move.kardex_date if stock_move.kardex_date else ''),boldbord)
+		else:
+			worksheet.merge_range(6,4, '',boldbord)
+
+
 		worksheet.write(7,0, "Reenvase",boldbord)
 		worksheet.write(7,1, "",cell_n)
 		worksheet.write(8,0, "Dilucion",boldbord)
 		worksheet.write(8,1, "",cell_n)
 
-		worksheet.set_row(4, 28.20)
-		worksheet.set_row(5, 28.20)
-		worksheet.merge_range(5,3,5,4, "", boldbord)
-		worksheet.write(5,3, "FECHA SOL", boldbord)		
-		worksheet.merge_range(5,5,5,6, str(self.date_planned_start if self.date_planned_start else ''),boldbord)
-		worksheet.merge_range(6,3,6,4, "", boldbord)
-		worksheet.write(6,3, "FECHA PROD", boldbord)
-		stock_move = self.env['stock.move.line'].sudo().search([('move_id.production_id', '=', self.id)])
-		if len(stock_move)==1:
-			worksheet.merge_range(6,5,6,6, str(stock_move.kardex_date if stock_move.kardex_date else ''),boldbord)
-		else:
-			worksheet.merge_range(6,5,6,6, '',boldbord)
+		
+		
 
 		worksheet.merge_range(10,0,10,12, "PRODUCTO FINAL", cell_r)
 		worksheet.write(11,0, "Codigo",cell)
