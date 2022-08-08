@@ -24,7 +24,7 @@ class mrp_production(models.Model):
 		output = io.BytesIO()
 
 		#direccion = self.env['main.parameter'].search([])[0].dir_create_file
-		workbook = Workbook(output, {'constant_memory': True})
+		workbook = Workbook(output, {'constant_memory': False})
 		worksheet = workbook.add_worksheet("FORMATO DE ORDEN DE PRODUCCIÓN")
 		x= 9
 
@@ -98,6 +98,13 @@ class mrp_production(models.Model):
 		cell_n.set_font_name('Calibri')
 		cell_n.set_font_size(11)
 
+		cell_numero = workbook.add_format({'bold': False})
+		cell_numero.set_align('center')
+		cell_numero.set_border(2)
+		cell_numero.set_font_name('Calibri')
+		cell_numero.set_font_size(11)
+		cell_numero.set_num_format('0.000')
+
 		worksheet.merge_range(1,2,2,10, "FORMATO DE ORDEN DE PRODUCCIÓN - STOCK", cell_titulo)
 
 		worksheet.set_row(4, 28.20)
@@ -145,7 +152,7 @@ class mrp_production(models.Model):
 
 		worksheet.write(12,0, str(self.product_id.default_code if self.product_id.default_code else ''),cell_n)
 		worksheet.merge_range(12,1,12,6, str(self.product_id.name if self.product_id.name else ''), cell_n)
-		worksheet.write(12,7, str(self.product_qty if self.product_qty else 0),cell_n)
+		worksheet.write(12,7, self.product_qty if self.product_qty else 0,cell_numero)
 		worksheet.write(12,8, str(self.product_uom_id.name if self.product_uom_id.name else ''),cell_n)
 		worksheet.merge_range(12,9,12,12, "", cell_n)
 			
@@ -160,7 +167,7 @@ class mrp_production(models.Model):
 		for lineas in self.move_raw_ids:
 			worksheet.write(columna,0, str(lineas.product_id.default_code if lineas.product_id.default_code else ''),cell_n)
 			worksheet.merge_range(columna,1,columna,6, str(lineas.product_id.name if lineas.product_id.name else ''), cell_n)
-			worksheet.write(columna,7, str(lineas.quantity_done if lineas.quantity_done else 0),cell_n)
+			worksheet.write(columna,7, lineas.quantity_done if lineas.quantity_done else 0,cell_numero)
 			worksheet.write(columna,8, str(lineas.product_uom.name if lineas.product_uom.name else ''),cell_n)
 			worksheet.merge_range(columna,9,columna,12, "", cell_n)
 			columna = columna+1
@@ -189,7 +196,7 @@ class mrp_production(models.Model):
 			for li_scra in scrapss:
 				worksheet.write(columna,0, str(li_scra.product_id.default_code if li_scra.product_id.default_code else ''),cell_n)
 				worksheet.merge_range(columna,1,columna,6, str(li_scra.product_id.name if li_scra.product_id.name else ''), cell_n)
-				worksheet.write(columna,7, str(li_scra.scrap_qty if li_scra.scrap_qty else 0),cell_n)
+				worksheet.write(columna,7, li_scra.scrap_qty if li_scra.scrap_qty else 0,cell_numero)
 				worksheet.write(columna,8, str(li_scra.product_uom_id.name if li_scra.product_uom_id.name else ''),cell_n)
 				worksheet.merge_range(columna,9,columna,12, "", cell_n)
 				columna = columna+1
@@ -206,7 +213,7 @@ class mrp_production(models.Model):
 		for sub_prod in self.move_byproduct_ids:
 			worksheet.write(columna,0, str(sub_prod.product_id.default_code if sub_prod.product_id.default_code else ''),cell_n)
 			worksheet.merge_range(columna,1,columna,6, str(sub_prod.product_id.name if sub_prod.product_id.name else ''), cell_n)
-			worksheet.write(columna,7, str(sub_prod.quantity_done if sub_prod.quantity_done else 0),cell_n)
+			worksheet.write(columna,7, sub_prod.quantity_done if sub_prod.quantity_done else 0,cell_numero)
 			worksheet.write(columna,8, str(sub_prod.product_uom.name if sub_prod.product_uom.name else ''),cell_n)
 			worksheet.merge_range(columna,9,columna,12, "", cell_n)
 			columna = columna+1
