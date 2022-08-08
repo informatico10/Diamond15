@@ -113,11 +113,13 @@ class mrp_production(models.Model):
 		worksheet.write(8,0, "Dilucion",boldbord)
 		worksheet.write(8,1, "",cell_n)
 
-		worksheet.set_row(3, 28.20)
 		worksheet.set_row(4, 28.20)
-		worksheet.merge_range(5,3,5,4, "FECHA SOL", boldbord)		
+		worksheet.set_row(5, 28.20)
+		worksheet.merge_range(5,3,5,4, "", boldbord)
+		worksheet.write(5,3, "FECHA SOL", boldbord)		
 		worksheet.merge_range(5,5,5,6, str(self.date_planned_start if self.date_planned_start else ''),boldbord)
-		worksheet.merge_range(6,3,6,4, "FECHA PROD", boldbord)
+		worksheet.merge_range(6,3,6,4, "", boldbord)
+		worksheet.write(6,3, "FECHA PROD", boldbord)
 		stock_move = self.env['stock.move.line'].sudo().search([('move_id.production_id', '=', self.id)])
 		if len(stock_move)==1:
 			worksheet.merge_range(6,5,6,6, str(stock_move.kardex_date if stock_move.kardex_date else ''),boldbord)
