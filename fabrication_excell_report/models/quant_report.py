@@ -88,7 +88,7 @@ class wizard_get_quants(models.Model):
 		contador = 1
 		import datetime
 		from datetime import timedelta
-		total_quants = self.env['stock.quant'].sudo().search([])
+		total_quants = self.env['stock.quant'].sudo().search([('location_id.usage','=','internal')])
 		tasa_cambio = 0
 		tipo_cambio = self.env['res.currency.rate'].sudo().search([('name','=',(datetime.datetime.now()-timedelta(hours=5)).date()),('currency_id.name','=','USD')], limit=1)
 		if len(tipo_cambio)>0:
