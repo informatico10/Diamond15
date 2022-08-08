@@ -175,8 +175,8 @@ class mrp_production(models.Model):
 		for sub_prod in self.move_byproduct_ids:
 			worksheet.write(columna,0, str(sub_prod.product_id.default_code if sub_prod.product_id.default_code else ''),cell_n)
 			worksheet.merge_range(columna,1,columna,6, str(sub_prod.product_id.name if sub_prod.product_id.name else ''), cell_n)
-			worksheet.write(columna,7, str(lineas.product_uom_qty if lineas.product_uom_qty else 0),cell_n)
-			worksheet.write(columna,8, str(lineas.product_uom.name if lineas.product_uom.name else ''),cell_n)
+			worksheet.write(columna,7, str(sub_prod.quantity_done if sub_prod.quantity_done else 0),cell_n)
+			worksheet.write(columna,8, str(sub_prod.product_uom.name if sub_prod.product_uom.name else ''),cell_n)
 			worksheet.merge_range(columna,9,columna,12, "", cell_n)
 			columna = columna+1
 
