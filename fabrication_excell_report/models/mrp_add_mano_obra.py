@@ -64,7 +64,7 @@ class mrp_production(models.Model):
 
 		import datetime
 
-		workbook.save(output)
+		workbook.close()
 		output.seek(0)
 
 		attach_id = self.env['ir.attachment'].create({
