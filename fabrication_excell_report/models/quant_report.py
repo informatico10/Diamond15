@@ -124,10 +124,10 @@ class wizard_get_quants(models.Model):
 			worksheet.write(columna,0, str(contador),boldbord)
 			worksheet.write(columna,1, str(i.product_id.default_code if i.product_id.default_code else ''),boldbord)
 			worksheet.write(columna,2, str(i.product_id.name if i.product_id.name else ''),boldbord)
-			worksheet.write(columna,3, str(i.quantity * i.standard_price),boldbord)
+			worksheet.write(columna,3, str(i.quantity * i.product_id.standard_price),boldbord)
 			worksheet.write(columna,4, str( ''),boldbord)
 			if tasa_cambio != 0:
-				worksheet.write(columna,5, str( (i.quantity * i.standard_price)/tasa_cambio),boldbord)
+				worksheet.write(columna,5, str( (i.quantity * i.product_id.standard_price)/tasa_cambio),boldbord)
 				worksheet.write(columna,8, str(i.product_id.standard_price/tasa_cambio),boldbord)
 			else:
 				worksheet.write(columna,5, str(0),boldbord)
