@@ -36,14 +36,15 @@ class mrp_production(models.Model):
 		boldbord.set_font_size(11)
 
 
-
-		cell = WriteOnlyCell(worksheet, value="FORMATO DE ORDEN DE PRODUCCIÓN - STOCK")
-		cell.font = Font(name='Calibri',size=18,bold=True)
+		cell = workbook.add_format({'bold': True})
+		cell.set_align('center')
+		cell..set_font_name('Calibri')
+		boldbord.set_font_size(11)		
 		cell.set_bg_color('#DCE6F1')
-		cell.alignment = Alignment(horizontal='center')
+		
 		
 		worksheet.merged_cells.ranges.append(get_column_letter(4)+ "1:" + get_column_letter(11) + '1')
-		worksheet.append(["","","","","","",cell])
+		worksheet.write([4,1, "FORMATO DE ORDEN DE PRODUCCIÓN - STOCK", cell])
 
 		worksheet.append([""])
 		worksheet.write(1,4, "CONCEPTO",boldbord)
