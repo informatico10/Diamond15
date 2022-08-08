@@ -39,14 +39,13 @@ class mrp_production(models.Model):
 		cell = workbook.add_format({'bold': True})
 		cell.set_align('center')
 		cell.set_font_name('Calibri')
-		boldbord.set_font_size(11)		
+		cell.set_font_size(11)		
 		cell.set_bg_color('#DCE6F1')
 		
 		
-		worksheet.merged_cells.ranges.append(get_column_letter(4)+ "1:" + get_column_letter(11) + '1')
-		worksheet.write([4,1, "FORMATO DE ORDEN DE PRODUCCIÓN - STOCK", cell])
+		worksheet.merge_range(1,4,1,11, "PRODUCTO FINAL", cell)
+		
 
-		worksheet.append([""])
 		worksheet.write(1,4, "CONCEPTO",boldbord)
 		worksheet.write(1,5, "Camb. Codigo",boldbord)
 		worksheet.write(1,6, "Mezcla",boldbord)
@@ -56,8 +55,9 @@ class mrp_production(models.Model):
 		worksheet.write(5,5, str(self.date_planned_start),boldbord)
 		worksheet.write(4,6, "FECHA PROD:",boldbord)
 		worksheet.write(5,6, str(self.date_planned_start),boldbord)
-		
-		
+
+
+			
 			
 		import datetime		
 
