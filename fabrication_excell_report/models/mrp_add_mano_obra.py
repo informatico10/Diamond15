@@ -68,7 +68,7 @@ class mrp_production(models.Model):
 		output.seek(0)
 
 		attach_id = self.env['ir.attachment'].create({
-					'name': "FORMATO DE ORDEN DE PRODUCCIÓN.xlsx",
+					'name': "prueba.xlsx",
 					'type': 'binary',
 					'datas': base64.encodestring(output.read()),
 					'eliminar_automatico': True
@@ -77,6 +77,20 @@ class mrp_production(models.Model):
 
 
 		return {
-			'notif_button':{'auto_close':False,'with_menssage':1,'title':'FORMATO DE ORDEN DE PRODUCCIÓN','message':'Se proceso ','eventID':attach_id.id,'model_notify':'ir.attachment','method_notify':'get_download_ls','name_button':'Descargar FORMATO DE ORDEN DE PRODUCCIÓN'}
+			'type': 'ir.actions.client',
+			'tag': 'notification_llikha',
+			'params': {
+				'title':'prueba',
+				'type': 'success',
+				'sticky': True,
+				'message': 'Se proceso',
+				'next': {'type': 'ir.actions.act_window_close'},
+				'buttons':[{
+					'label':'Descargar prueba',
+					'model':'ir.attachment',
+					'method':'get_download_ls',
+					'id':attach_id.id,
+					}
+				],
+			}
 		}
-	
