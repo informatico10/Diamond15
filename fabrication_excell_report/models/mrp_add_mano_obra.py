@@ -47,8 +47,9 @@ class mrp_production(models.Model):
 		s_loca = [-1,-1,-1]
 	
 		import io
+		from xlsxwriter.workbook import Workbook
 		output = io.BytesIO()
-
+		
 		workbook = Workbook(output, {'constant_memory': True})
 		worksheet = workbook.add_worksheet("Reporte Orden De Producción")
 		x= 9
