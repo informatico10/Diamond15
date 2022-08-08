@@ -25,7 +25,7 @@ class mrp_production(models.Model):
 
 		#direccion = self.env['main.parameter'].search([])[0].dir_create_file
 		workbook = Workbook(output, {'constant_memory': True})
-		worksheet = workbook.add_worksheet("FORMATO DE ORDEN DE PRODUCCIÓN"))
+		worksheet = workbook.add_worksheet("FORMATO DE ORDEN DE PRODUCCIÓN")
 		x= 9
 		tam_col = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 		boldbord = worksheet.add_format({'bold': True})
