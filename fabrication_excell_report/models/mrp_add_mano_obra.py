@@ -59,10 +59,10 @@ class mrp_production(models.Model):
 
 		cell_titulo = workbook.add_format({'bold': True})
 		cell_titulo.set_align('center')
-		cell_titulo.set_border(5)
+		cell_titulo.set_border(2)
 		cell_titulo.set_font_name('Calibri')
-		cell_titulo.set_font_size(12)
-		cell_titulo.set_bg_color('#D1DFF5')
+		cell_titulo.set_font_size(15)
+		cell_titulo.set_bg_color('#E4E9F9')
 
 
 
@@ -70,23 +70,23 @@ class mrp_production(models.Model):
 
 		cell = workbook.add_format({'bold': True})
 		cell.set_align('center')
-		cell.set_border(5)
+		cell.set_border(2)
 		cell.set_font_name('Calibri')
 		cell.set_font_size(12)
 		cell.set_bg_color('#D1DFF5')
 
 		cell_r = workbook.add_format({'bold': True})
 		cell_r.set_align('center')
-		cell_r.set_border(5)
+		cell_r.set_border(2)
 		cell_r.set_font_name('Calibri')
-		cell_r.set_font_size(18)		
-		cell_r.set_bg_color('#F5D1D8')
+		cell_r.set_font_size(12)		
+		cell_r.set_bg_color('#F9E4F4')
 		
 		cell_n = workbook.add_format({'bold': False})
 		cell_n.set_align('center')
-		cell_n.set_border(5)
+		cell_n.set_border(2)
 		cell_n.set_font_name('Calibri')
-		cell_n.set_font_size(12)
+		cell_n.set_font_size(11)
 
 		worksheet.merge_range(1,2,2,10, "FORMATO DE ORDEN DE PRODUCCIÓN - STOCK", cell_titulo)
 
