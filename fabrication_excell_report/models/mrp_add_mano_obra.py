@@ -119,9 +119,9 @@ class mrp_production(models.Model):
 		worksheet.merge_range(6,3,6,4, "FECHA PROD", boldbord)
 		stock_move = self.env['stock.move.line'].sudo().search([('move_id.production_id', '=', self.id)])
 		if len(stock_move)==1:
-			worksheet.merge_range(5,5,5,6, str(stock_move.kardex_date if stock_move.kardex_date else ''),boldbord)
+			worksheet.merge_range(6,5,6,6, str(stock_move.kardex_date if stock_move.kardex_date else ''),boldbord)
 		else:
-			worksheet.merge_range(5,5,5,6, '',boldbord)
+			worksheet.merge_range(6,5,6,6, '',boldbord)
 
 		worksheet.merge_range(10,0,10,12, "PRODUCTO FINAL", cell_r)
 		worksheet.write(11,0, "Codigo",cell)
