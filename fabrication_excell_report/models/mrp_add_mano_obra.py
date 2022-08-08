@@ -38,7 +38,7 @@ class mrp_production(models.Model):
 
 		cell = workbook.add_format({'bold': True})
 		cell.set_align('center')
-		cell..set_font_name('Calibri')
+		cell.set_font_name('Calibri')
 		boldbord.set_font_size(11)		
 		cell.set_bg_color('#DCE6F1')
 		
