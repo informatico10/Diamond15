@@ -38,6 +38,7 @@
 			<field name="type">ir.actions.act_window</field>
 			<field name="res_model">wizard.get.quants</field>
 			<field name="view_mode">form</field>
+			<field name="target">new</field>
 			<field name="view_id" ref="fabrication_excell_report.wizard_get_quants_form" />
 		</record>
 		<menuitem action="action_get_wizard_quant" id="menuitem_get_wizard_quant"
