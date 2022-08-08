@@ -111,7 +111,7 @@ class mrp_production(models.Model):
 
 
 		worksheet.write(5,3, "FECHA SOL", boldbord)
-		worksheet.write(5,3, str(self.date_planned_start if self.date_planned_start else ''), boldbord)		
+		worksheet.write(5,4, str(self.date_planned_start if self.date_planned_start else ''), boldbord)		
 
 
 		worksheet.write(6,0, "Mezcla",boldbord)
@@ -122,7 +122,7 @@ class mrp_production(models.Model):
 		if len(stock_move)==1:
 			worksheet.write(6,4, str(stock_move.kardex_date if stock_move.kardex_date else ''),boldbord)
 		else:
-			worksheet.write(6,4, '',boldbord)
+			worksheet.write(6,4, 'Aun No Entregado',boldbord)
 
 
 		worksheet.write(7,0, "Reenvase",boldbord)
