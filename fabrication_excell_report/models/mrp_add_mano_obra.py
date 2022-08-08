@@ -119,10 +119,10 @@ class mrp_production(models.Model):
 
 		worksheet.write(6,3, "FECHA PROD", boldbord)
 		stock_move = self.env['stock.move.line'].sudo().search([('move_id.production_id', '=', self.id)])
-		if len(stock_move)==1:
-			worksheet.write(6,4, str(stock_move.kardex_date if stock_move.kardex_date else ''),boldbord)
+		if len(stock_move)>0:
+			worksheet.write(6,4, str(stock_move[0].kardex_date if stock_move[0].kardex_date else ''),boldbord)
 		else:
-			worksheet.write(6,4, 'Aun No Entregado',boldbord)
+			worksheet.write(6,4, '',boldbord)
 
 
 		worksheet.write(7,0, "Reenvase",boldbord)
