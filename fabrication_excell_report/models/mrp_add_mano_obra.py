@@ -49,11 +49,11 @@ class mrp_production(models.Model):
 		import io
 		output = io.BytesIO()
 
-		workbook = Workbook(write_only=True)
-		ws = workbook.create_sheet("Reporte Orden De Producción")
+		workbook = Workbook(output, {'constant_memory': True})
+		worksheet = workbook.add_worksheet("Reporte Orden De Producción")
 		x= 9
 		tam_col = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-		boldbord = ws.add_format({'bold': True})
+		boldbord = worksheet.add_format({'bold': True})
 		boldbord.set_align('center')
 		boldbord.set_align('vcenter')
 		boldbord.set_text_wrap()
@@ -62,29 +62,26 @@ class mrp_production(models.Model):
 
 
 
-		cell = WriteOnlyCell(ws, value="FORMATO DE ORDEN DE PRODUCCIÓN - STOCK")
+		cell = WriteOnlyCell(worksheet, value="FORMATO DE ORDEN DE PRODUCCIÓN - STOCK")
 		cell.font = Font(name='Calibri',size=18,bold=True)
 		cell.set_bg_color('#DCE6F1')
 		cell.alignment = Alignment(horizontal='center')
 		
-		ws.merged_cells.ranges.append(get_column_letter(4)+ "1:" + get_column_letter(11) + '1')
-		ws.append(["","","","","","",cell])
+		worksheet.merged_cells.ranges.append(get_column_letter(4)+ "1:" + get_column_letter(11) + '1')
+		worksheet.append(["","","","","","",cell])
 
-		ws.append([""])
-		ws.write(1,4, "CONCEPTO",boldbord)
-		ws.write(1,5, "Camb. Codigo",boldbord)
-		ws.write(1,6, "Mezcla",boldbord)
-		ws.write(1,7, "Reenvase",boldbord)
-		ws.write(1,8, "Dilucion",boldbord)
-		ws.write(4,5, "FECHA SOL:",boldbord)
-		ws.write(5,5, str(self.date_planned_start),boldbord)
-		ws.write(4,6, "FECHA PROD:",boldbord)
-		ws.write(5,6, str(self.date_planned_start),boldbord)
+		worksheet.append([""])
+		worksheet.write(1,4, "CONCEPTO",boldbord)
+		worksheet.write(1,5, "Camb. Codigo",boldbord)
+		worksheet.write(1,6, "Mezcla",boldbord)
+		worksheet.write(1,7, "Reenvase",boldbord)
+		worksheet.write(1,8, "Dilucion",boldbord)
+		worksheet.write(4,5, "FECHA SOL:",boldbord)
+		worksheet.write(5,5, str(self.date_planned_start),boldbord)
+		worksheet.write(4,6, "FECHA PROD:",boldbord)
+		worksheet.write(5,6, str(self.date_planned_start),boldbord)
 		
-		ws.append([""])
-		ws.append([""])
-		ws.append([""])
-
+		
 			
 		import datetime		
 
