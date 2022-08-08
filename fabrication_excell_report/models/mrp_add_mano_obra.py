@@ -111,7 +111,8 @@ class mrp_production(models.Model):
 
 
 		worksheet.write(5,3, "FECHA SOL", boldbord)
-		worksheet.write(5,4, str(self.date_planned_start if self.date_planned_start else ''), boldbord)		
+		import datetime
+		worksheet.write(5,4, str(self.date_planned_start.date() if self.date_planned_start.date() else ''), boldbord)		
 
 
 		worksheet.write(6,0, "Mezcla",boldbord)
@@ -120,7 +121,7 @@ class mrp_production(models.Model):
 		worksheet.write(6,3, "FECHA PROD", boldbord)
 		stock_move = self.env['stock.move.line'].sudo().search([('move_id.production_id', '=', self.id)])
 		if len(stock_move)>0:
-			worksheet.write(6,4, str(stock_move[0].kardex_date if stock_move[0].kardex_date else ''),boldbord)
+			worksheet.write(6,4, str(stock_move[0].kardex_date.date() if stock_move[0].kardex_date.date() else ''),boldbord)
 		else:
 			worksheet.write(6,4, '',boldbord)
 
