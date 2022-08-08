@@ -5,53 +5,27 @@ import odoo.addons.decimal_precision as dp
 from openerp.osv import osv
 import base64
 from odoo import models, fields, api
+from odoo.exceptions import UserError
 import codecs
 
-from datetime import datetime, timedelta
-def install(package):
-	subprocess.check_call([sys.executable, "-m", "pip", "install", package])
-
-try:
-	import openpyxl
-except:
-	install('openpyxl==3.0.5')
-
-from openpyxl.styles import Border, Side, PatternFill, Font, GradientFill, Alignment
-from openpyxl.styles.borders import Border, Side, BORDER_THIN
-from openpyxl import Workbook
 values = {}
-from openpyxl.utils import get_column_letter
-from openpyxl.cell import WriteOnlyCell
-values = {}
-
-def border(ws,texto):
-	cell = WriteOnlyCell(ws, value=texto)
-	cell.font = Font(name='Courier',size=14,bold=True)
-	cell.border = Border(
-	left=Side(border_style=BORDER_THIN, color='00000000'),
-	right=Side(border_style=BORDER_THIN, color='00000000'),
-	top=Side(border_style=BORDER_THIN, color='00000000'),
-	bottom=Side(border_style=BORDER_THIN, color='00000000'))
-	return cell
 
 class mrp_production(models.Model):
 	_inherit = "mrp.production"
 
 	def do_csvtoexcel(self):
-
-
-
-
 		cad = ""
+
 		s_prod = [-1,-1,-1]
 		s_loca = [-1,-1,-1]
-	
+		
 		import io
 		from xlsxwriter.workbook import Workbook
 		output = io.BytesIO()
-		
+
+		#direccion = self.env['main.parameter'].search([])[0].dir_create_file
 		workbook = Workbook(output, {'constant_memory': True})
-		worksheet = workbook.add_worksheet("Reporte Orden De Producción")
+		worksheet = workbook.add_worksheet("FORMATO DE ORDEN DE PRODUCCIÓN"))
 		x= 9
 		tam_col = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 		boldbord = worksheet.add_format({'bold': True})
