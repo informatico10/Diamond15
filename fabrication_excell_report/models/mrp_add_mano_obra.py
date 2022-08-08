@@ -81,6 +81,16 @@ class mrp_production(models.Model):
 		cell_r.set_font_name('Calibri')
 		cell_r.set_font_size(12)		
 		cell_r.set_bg_color('#F9E4F4')
+
+
+
+		
+		cell_negro = workbook.add_format({'bold': True})
+		cell_negro.set_align('center')
+		cell_negro.set_border(2)
+		cell_negro.set_font_name('Calibri')
+		cell_negro.set_font_size(12)		
+		cell_negro.set_bg_color('#030303')
 		
 		cell_n = workbook.add_format({'bold': False})
 		cell_n.set_align('center')
@@ -95,13 +105,23 @@ class mrp_production(models.Model):
 		worksheet.write(4,8, "N. ORDEN DE PRODUCCIÓN :",boldbord)
 		worksheet.write(4,9, "___________________",boldbord)
 		worksheet.write(5,0, "Camb. Codigo",boldbord)
+		worksheet.write(5,1, "",cell_n)
 		worksheet.write(6,0, "Mezcla",boldbord)
+		worksheet.write(6,1, "",cell_negro)
 		worksheet.write(7,0, "Reenvase",boldbord)
+		worksheet.write(7,1, "",cell_n)
 		worksheet.write(8,0, "Dilucion",boldbord)
-		worksheet.write(5,3, "FECHA SOL:",boldbord)
-		worksheet.write(5,4, str(self.date_planned_start if self.date_planned_start else ''),boldbord)
-		worksheet.write(6,3, "FECHA PROD:",boldbord)
-		worksheet.write(6,4, str(self.date_planned_start if self.date_planned_start else ''),boldbord)
+		worksheet.write(8,1, "",cell_n)
+
+
+		worksheet.merge_range(5,3,5,4, "FECHA SOL", boldbord)		
+		worksheet.merge_range(5,5,5,6, str(self.date_planned_start if self.date_planned_start else ''),boldbord)
+		worksheet.merge_range(6,3,6,4, "FECHA PROD", boldbord)
+		stock_move = self.env['stock.move.line'].sudo().search([('move_id.production_id', '=', self.id)])
+		if len(stock_move)==1:
+			worksheet.merge_range(5,5,5,6, str(stock_move.kardex_date if stock_move.kardex_date else ''),boldbord)
+		else:
+			worksheet.merge_range(5,5,5,6, '',boldbord)
 
 		worksheet.merge_range(10,0,10,12, "PRODUCTO FINAL", cell_r)
 		worksheet.write(11,0, "Codigo",cell)
