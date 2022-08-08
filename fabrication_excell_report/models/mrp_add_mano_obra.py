@@ -39,23 +39,32 @@ class mrp_production(models.Model):
 		cell = workbook.add_format({'bold': True})
 		cell.set_align('center')
 		cell.set_font_name('Calibri')
-		cell.set_font_size(11)		
-		cell.set_bg_color('#DCE6F1')
-		
-		
-		worksheet.merge_range(1,4,1,11, "PRODUCTO FINAL", cell)
-		
+		cell.set_font_size(18)		
+		cell.set_bg_color('#A2C7EF')
 
-		worksheet.write(1,4, "CONCEPTO",boldbord)
-		worksheet.write(1,5, "Camb. Codigo",boldbord)
-		worksheet.write(1,6, "Mezcla",boldbord)
-		worksheet.write(1,7, "Reenvase",boldbord)
-		worksheet.write(1,8, "Dilucion",boldbord)
-		worksheet.write(4,5, "FECHA SOL:",boldbord)
+		cell_r = workbook.add_format({'bold': True})
+		cell_r.set_align('center')
+		cell_r.set_font_name('Calibri')
+		cell_r.set_font_size(18)		
+		cell_r.set_bg_color('#FFC5D1')
+		
+		
+		worksheet.merge_range(1,3,2,11, "PRODUCTO FINAL", cell)
+
+
+		worksheet.write(4,1, "CONCEPTO",boldbord)
+		worksheet.write(4,9, "N. ORDEN DE PRODUCCIÓN :",boldbord)
+		worksheet.write(4,10, "___________________",boldbord)
+		worksheet.write(5,1, "Camb. Codigo",boldbord)
+		worksheet.write(6,1, "Mezcla",boldbord)
+		worksheet.write(7,1, "Reenvase",boldbord)
+		worksheet.write(8,1, "Dilucion",boldbord)
+		worksheet.write(5,4, "FECHA SOL:",boldbord)
 		worksheet.write(5,5, str(self.date_planned_start),boldbord)
-		worksheet.write(4,6, "FECHA PROD:",boldbord)
-		worksheet.write(5,6, str(self.date_planned_start),boldbord)
+		worksheet.write(6,4, "FECHA PROD:",boldbord)
+		worksheet.write(6,5, str(self.date_planned_start),boldbord)
 
+		worksheet.merge_range(10,1,10,13, "PRODUCTO FINAL", cell_r)
 
 			
 			
