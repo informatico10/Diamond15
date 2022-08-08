@@ -62,7 +62,7 @@ class mrp_production(models.Model):
 		cell_titulo.set_border(2)
 		cell_titulo.set_font_name('Calibri')
 		cell_titulo.set_font_size(15)
-		cell_titulo.set_bg_color('#E4E9F9')
+		cell_titulo.set_bg_color('#F1F4FB')
 
 
 
@@ -181,17 +181,17 @@ class mrp_production(models.Model):
 			columna = columna+1
 
 		columna = columna+2
-		worksheet.merge_range(columna,0,columna,1, "OBSERVACION", cell_n)
-		worksheet.merge_range(columna,2,columna,12, "______________________________________________________________________________________________", cell_n)
+		worksheet.merge_range(columna,0,columna,1, "OBSERVACION")
+		worksheet.merge_range(columna,2,columna,12, "______________________________________________________________________________________________")
 		columna = columna+1
-		worksheet.merge_range(columna,2,columna,12, "______________________________________________________________________________________________", cell_n)
+		worksheet.merge_range(columna,2,columna,12, "______________________________________________________________________________________________")
 
 		columna = columna+2
-		worksheet.merge_range(columna,0,columna,1, "______________", cell_n)
-		worksheet.merge_range(columna,2,columna,3, "______________", cell_n)
+		worksheet.merge_range(columna,0,columna,1, "______________")
+		worksheet.merge_range(columna,2,columna,3, "______________")
 		columna = columna+1
-		worksheet.merge_range(columna,0,columna,1, "AUX. PRODUCCION : ENTREGADO", cell_n)
-		worksheet.merge_range(columna,2,columna,3, "AUX. DE ALMACEN : RECIBIDO", cell_n)
+		worksheet.merge_range(columna,0,columna,1, "AUX. PRODUCCION : ENTREGADO")
+		worksheet.merge_range(columna,2,columna,3, "AUX. DE ALMACEN : RECIBIDO")
 
 		workbook.close()
 		output.seek(0)
