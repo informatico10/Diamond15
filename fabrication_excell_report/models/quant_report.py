@@ -78,7 +78,6 @@ class wizard_get_quants(models.Model):
 		cell_right_soles.set_border(1)
 		cell_right_soles.set_font_name('Calibri')
 		cell_right_soles.set_font_size(11)
-		cell_right_soles.set_num_format('##0.00')
 		cell_right_soles.set_num_format('S/ #,##0;S/ -#,##0')
 
 
