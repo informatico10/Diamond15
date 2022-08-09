@@ -47,12 +47,14 @@ class wizard_get_quants(models.Model):
 		cell_titulo.set_border(2)
 		cell_titulo.set_font_name('Calibri')
 		cell_titulo.set_font_size(14)
+		cell_titulo.set_bg_color('#F1F4FB')
 
 		cell_r = workbook.add_format({'bold': True})
 		cell_r.set_align('center')
 		cell_r.set_border(2)
 		cell_r.set_font_name('Calibri')
-		cell_r.set_font_size(12)		
+		cell_r.set_font_size(12)
+		cell_r.set_bg_color('#F1F4FB')	
 
 
 
@@ -68,6 +70,27 @@ class wizard_get_quants(models.Model):
 		cell_right.set_font_name('Calibri')
 		cell_right.set_font_size(11)
 		cell_right.set_num_format('##0.00')
+
+
+
+		cell_right_soles = workbook.add_format({'bold': True})
+		cell_right_soles.set_align('right')
+		cell_right_soles.set_border(1)
+		cell_right_soles.set_font_name('Calibri')
+		cell_right_soles.set_font_size(11)
+		cell_right_soles.set_num_format('##0.00')
+		cell_right_soles.set_num_format('"S/" #,##0.00')
+
+
+
+		cell_right_dolares = workbook.add_format({'bold': True})
+		cell_right_dolares.set_align('right')
+		cell_right_dolares.set_border(1)
+		cell_right_dolares.set_font_name('Calibri')
+		cell_right_dolares.set_font_size(11)
+		cell_right_dolares.set_num_format('##0.00')
+		cell_right_dolares.set_num_format('$#,##0.00')
+
 
 		cell_right_n = workbook.add_format({'bold': False})
 		cell_right_n.set_align('right')
@@ -156,9 +179,9 @@ class wizard_get_quants(models.Model):
 			contador = contador+1
 			columna = columna+1
 		worksheet.write(columna,2, "Total S/",cell_right)
-		worksheet.write(columna,3, total_soles,cell_right)
+		worksheet.write(columna,3, total_soles,cell_right_soles)
 		worksheet.write(columna,4, "Total $",cell_right)
-		worksheet.write(columna,5, total_dolares,cell_right)
+		worksheet.write(columna,5, total_dolares,cell_right_dolares)
 		workbook.close()
 		output.seek(0)
 
