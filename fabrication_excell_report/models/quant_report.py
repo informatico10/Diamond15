@@ -157,11 +157,11 @@ class wizard_get_quants(models.Model):
 			worksheet.write(columna,4, str( ''),cell_porcentaje)
 			if tasa_cambio != 0:
 				total_dolares += (i.quantity * i.product_id.standard_price)/tasa_cambio
-				worksheet.write(columna,5, (i.quantity * i.product_id.standard_price)/tasa_cambio,cell_numero_dolar)
-				worksheet.write(columna,8, i.product_id.standard_price/tasa_cambio,cell_numero_dolar)
+				worksheet.write(columna,5, (i.quantity * i.product_id.standard_price)/tasa_cambio,cell_numero)
+				worksheet.write(columna,8, i.product_id.standard_price/tasa_cambio,cell_numero)
 			else:
-				worksheet.write(columna,5, 0,cell_numero_dolar)
-				worksheet.write(columna,8, 0,cell_numero_dolar)
+				worksheet.write(columna,5, 0,cell_numero)
+				worksheet.write(columna,8, 0,cell_numero)
 			worksheet.write(columna,6, str(''),cell_porcentaje)
 			worksheet.write(columna,7, i.product_id.standard_price if i.product_id.standard_price else 0,cell_numero)
 
