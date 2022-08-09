@@ -37,7 +37,7 @@ class mrp_production(models.Model):
 		worksheet.set_column('G:G', 12.80)
 		worksheet.set_column('H:H', 12.80)
 		worksheet.set_column('I:I', 12.80)
-		worksheet.set_column('J:J', 12.80)
+		worksheet.set_column('J:J', 14.60)
 		worksheet.set_column('K:K', 12.80)
 		worksheet.set_column('L:L', 12.80)
 		worksheet.set_column('M:M', 12.80)

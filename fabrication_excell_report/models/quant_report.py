@@ -50,7 +50,7 @@ class wizard_get_quants(models.Model):
 
 		cell_r = workbook.add_format({'bold': True})
 		cell_r.set_align('center')
-		cell_r.set_border(2)
+		cell_r.set_border(1)
 		cell_r.set_font_name('Calibri')
 		cell_r.set_font_size(12)		
 
@@ -74,14 +74,14 @@ class wizard_get_quants(models.Model):
 		cell_porcentaje.set_border(1)
 		cell_porcentaje.set_font_name('Calibri')
 		cell_porcentaje.set_font_size(11)
-		cell_porcentaje.set_num_format('[%]#,##0.00')
+		cell_porcentaje.set_num_format('##0.00')
 
 		cell_numero_dolar = workbook.add_format({'bold': False})
 		cell_numero_dolar.set_align('right')
 		cell_numero_dolar.set_border(1)
 		cell_numero_dolar.set_font_name('Calibri')
 		cell_numero_dolar.set_font_size(11)
-		cell_numero_dolar.set_num_format('[$]#,##0.00')
+		cell_numero_dolar.set_num_format('##0.00')
 
 		import datetime
 		from datetime import timedelta
@@ -89,23 +89,28 @@ class wizard_get_quants(models.Model):
 
 		worksheet.set_row(4, 28.20)
 		worksheet.set_row(5, 28.20)
+		worksheet.write(3,0, "Fecha:", cell_n)
+		worksheet.write(3,1, str((datetime.datetime.now()-timedelta(hours=5)).date()), cell_n)
 
-		worksheet.merge_range('A5:C5', "Articulos", cell_r)
-		worksheet.write(5,0, "Secuencia", cell_r)
-		worksheet.write(5,1, "Ref Interna", cell_r)
-		worksheet.write(5,2, "Producto", cell_r)
-		worksheet.merge_range('D5:D6', "Saldos S/", cell_r)
-		worksheet.merge_range('E5:E6', "% Soles", cell_r)
-		worksheet.merge_range('F5:F6', "Saldo USD $", cell_r)
-		worksheet.merge_range('G5:G6', "% Dolares", cell_r)
-		worksheet.merge_range('H5:H6', "Valor Unit S/", cell_r)
-		worksheet.merge_range('I5:I6', "Valor Unit $", cell_r)
-		worksheet.merge_range('J5:J6', "Saldo Cantidad", cell_r)
-		worksheet.merge_range('K5:K6', "Lote/Nro Serie", cell_r)
-		worksheet.merge_range('L5:L6', "Ubicación/Almacen", cell_r)
 
-		columna = 6
+		worksheet.merge_range('A6:C6', "Articulos", cell_r)
+		worksheet.write(6,0, "Secuencia", cell_r)
+		worksheet.write(6,1, "Ref Interna", cell_r)
+		worksheet.write(6,2, "Producto", cell_r)
+		worksheet.merge_range('D6:D7', "Saldos S/", cell_r)
+		worksheet.merge_range('E6:E7', "% Soles", cell_r)
+		worksheet.merge_range('F6:F7', "Saldo USD $", cell_r)
+		worksheet.merge_range('G6:G7', "% Dolares", cell_r)
+		worksheet.merge_range('H6:H7', "Valor Unit S/", cell_r)
+		worksheet.merge_range('I6:I7', "Valor Unit $", cell_r)
+		worksheet.merge_range('J6:J7', "Saldo Cantidad", cell_r)
+		worksheet.merge_range('K6:K7', "Lote/Nro Serie", cell_r)
+		worksheet.merge_range('L6:L7', "Ubicación/Almacen", cell_r)
+
+		columna = 7
 		contador = 1
+		total_soles = 0
+		total_dolares = 0
 		import datetime
 		from datetime import timedelta
 		total_quants = self.env['stock.quant'].sudo().search([('location_id.usage','=','internal'),('company_id','=',self.env.company.id)])
@@ -119,8 +124,10 @@ class wizard_get_quants(models.Model):
 			worksheet.write(columna,1, str(i.product_id.default_code if i.product_id.default_code else ''),cell_n)
 			worksheet.write(columna,2, str(i.product_id.name if i.product_id.name else ''),cell_n)
 			worksheet.write(columna,3, i.quantity * i.product_id.standard_price,cell_numero)
+			total_soles += i.quantity * i.product_id.standard_price
 			worksheet.write(columna,4, str( ''),cell_porcentaje)
 			if tasa_cambio != 0:
+				total_dolares += (i.quantity * i.product_id.standard_price)/tasa_cambio
 				worksheet.write(columna,5, (i.quantity * i.product_id.standard_price)/tasa_cambio,cell_numero_dolar)
 				worksheet.write(columna,8, i.product_id.standard_price/tasa_cambio,cell_numero_dolar)
 			else:
@@ -134,6 +141,10 @@ class wizard_get_quants(models.Model):
 			worksheet.write(columna,11, str(i.location_id.name if i.location_id.name else ''),cell_n)
 			contador = contador+1
 			columna = columna+1
+		worksheet.write(columna,2, "Total S/",cell_n)
+		worksheet.write(columna,3, total_soles,cell_numero)
+		worksheet.write(columna,4, "Total $",cell_numero_dolar)
+		worksheet.write(columna,5, total_dolares,cell_numero_dolar)
 		workbook.close()
 		output.seek(0)
 
