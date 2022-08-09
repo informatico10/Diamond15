@@ -50,7 +50,7 @@ class wizard_get_quants(models.Model):
 
 		cell_r = workbook.add_format({'bold': True})
 		cell_r.set_align('center')
-		cell_r.set_border(1)
+		cell_r.set_border(2)
 		cell_r.set_font_name('Calibri')
 		cell_r.set_font_size(12)		
 
@@ -103,8 +103,8 @@ class wizard_get_quants(models.Model):
 
 		worksheet.set_row(4, 28.20)
 		worksheet.set_row(5, 28.20)
-		worksheet.write(4,0, "Fecha:", cell_n)
-		worksheet.write(4,1, str((datetime.datetime.now()-timedelta(hours=5)).date()), cell_n)
+		worksheet.write(4,0, "Fecha:", cell_r)
+		worksheet.write(4,1, str((datetime.datetime.now()-timedelta(hours=5)).date()), cell_r)
 
 
 		worksheet.merge_range('A6:C6', "Articulos", cell_r)
