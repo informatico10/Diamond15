@@ -44,7 +44,7 @@ class wizard_get_quants(models.Model):
 		
 		cell_titulo = workbook.add_format({'bold': True})
 		cell_titulo.set_align('center')
-		#cell_titulo.set_border(2)
+		cell_titulo.set_border(2)
 		cell_titulo.set_font_name('Calibri')
 		cell_titulo.set_font_size(14)
 
@@ -61,27 +61,34 @@ class wizard_get_quants(models.Model):
 		cell_n.set_border(1)
 		cell_n.set_font_name('Calibri')
 		cell_n.set_font_size(11)
+	
+		cell_right = workbook.add_format({'bold': True})
+		cell_right.set_align('right')
+		cell_right.set_border(1)
+		cell_right.set_font_name('Calibri')
+		cell_right.set_font_size(11)
+		cell_right.set_num_format('##0.00')
 
 		cell_numero = workbook.add_format({'bold': False})
 		cell_numero.set_align('right')
 		cell_numero.set_border(1)
 		cell_numero.set_font_name('Calibri')
 		cell_numero.set_font_size(11)
-		cell_numero.set_num_format('##0.00')
+		cell_numero.set_num_format('S/#,##0.00')
 
 		cell_porcentaje = workbook.add_format({'bold': False})
 		cell_porcentaje.set_align('right')
 		cell_porcentaje.set_border(1)
 		cell_porcentaje.set_font_name('Calibri')
 		cell_porcentaje.set_font_size(11)
-		cell_porcentaje.set_num_format('##0.00')
+		cell_porcentaje.set_num_format('%#,##0.00')
 
 		cell_numero_dolar = workbook.add_format({'bold': False})
 		cell_numero_dolar.set_align('right')
 		cell_numero_dolar.set_border(1)
 		cell_numero_dolar.set_font_name('Calibri')
 		cell_numero_dolar.set_font_size(11)
-		cell_numero_dolar.set_num_format('##0.00')
+		cell_numero_dolar.set_num_format('$#,##0.00')
 
 		import datetime
 		from datetime import timedelta
@@ -89,8 +96,8 @@ class wizard_get_quants(models.Model):
 
 		worksheet.set_row(4, 28.20)
 		worksheet.set_row(5, 28.20)
-		worksheet.write(3,0, "Fecha:", cell_n)
-		worksheet.write(3,1, str((datetime.datetime.now()-timedelta(hours=5)).date()), cell_n)
+		worksheet.write(4,0, "Fecha:", cell_n)
+		worksheet.write(4,1, str((datetime.datetime.now()-timedelta(hours=5)).date()), cell_n)
 
 
 		worksheet.merge_range('A6:C6', "Articulos", cell_r)
@@ -141,10 +148,10 @@ class wizard_get_quants(models.Model):
 			worksheet.write(columna,11, str(i.location_id.name if i.location_id.name else ''),cell_n)
 			contador = contador+1
 			columna = columna+1
-		worksheet.write(columna,2, "Total S/",cell_n)
-		worksheet.write(columna,3, total_soles,cell_numero)
-		worksheet.write(columna,4, "Total $",cell_numero_dolar)
-		worksheet.write(columna,5, total_dolares,cell_numero_dolar)
+		worksheet.write(columna,2, "Total S/",cell_right)
+		worksheet.write(columna,3, total_soles,cell_right)
+		worksheet.write(columna,4, "Total $",cell_right)
+		worksheet.write(columna,5, total_dolares,cell_right)
 		workbook.close()
 		output.seek(0)
 
