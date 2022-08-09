@@ -74,14 +74,14 @@ class wizard_get_quants(models.Model):
 		cell_numero.set_border(1)
 		cell_numero.set_font_name('Calibri')
 		cell_numero.set_font_size(11)
-		cell_numero.set_num_format('S/#,##0.00')
+		cell_numero.set_num_format('"S/" #,##0.00')
 
 		cell_porcentaje = workbook.add_format({'bold': False})
 		cell_porcentaje.set_align('right')
 		cell_porcentaje.set_border(1)
 		cell_porcentaje.set_font_name('Calibri')
 		cell_porcentaje.set_font_size(11)
-		cell_porcentaje.set_num_format('%#,##0.00')
+		cell_porcentaje.set_num_format('"%" #,##0.00')
 
 		cell_numero_dolar = workbook.add_format({'bold': False})
 		cell_numero_dolar.set_align('right')
