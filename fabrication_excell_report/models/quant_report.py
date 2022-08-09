@@ -74,7 +74,7 @@ class wizard_get_quants(models.Model):
 		cell_numero.set_border(1)
 		cell_numero.set_font_name('Calibri')
 		cell_numero.set_font_size(11)
-		cell_numero.set_num_format('"S/" #,##0.00')
+		cell_numero.set_num_format('_("S/" #,##0.00)')
 
 		cell_porcentaje = workbook.add_format({'bold': False})
 		cell_porcentaje.set_align('right')
@@ -88,7 +88,7 @@ class wizard_get_quants(models.Model):
 		cell_numero_dolar.set_border(1)
 		cell_numero_dolar.set_font_name('Calibri')
 		cell_numero_dolar.set_font_size(11)
-		cell_numero_dolar.set_num_format('$#,##0.00')
+		cell_numero_dolar.set_num_format('_$#,##0.00')
 
 		import datetime
 		from datetime import timedelta
@@ -143,15 +143,15 @@ class wizard_get_quants(models.Model):
 			worksheet.write(columna,6, str(''),cell_porcentaje)
 			worksheet.write(columna,7, i.product_id.standard_price if i.product_id.standard_price else 0,cell_numero)
 
-			worksheet.write(columna,9, i.quantity if i.quantity else 0,cell_numero)
+			worksheet.write(columna,9, i.quantity if i.quantity else 0,cell_right)
 			worksheet.write(columna,10, str(i.lot_id.name if i.lot_id.name else ''),cell_n)
 			worksheet.write(columna,11, str(i.location_id.name if i.location_id.name else ''),cell_n)
 			contador = contador+1
 			columna = columna+1
 		worksheet.write(columna,2, "Total S/",cell_right)
-		worksheet.write(columna,3, total_soles,cell_right)
+		worksheet.write(columna,3, total_soles,cell_numero)
 		worksheet.write(columna,4, "Total $",cell_right)
-		worksheet.write(columna,5, total_dolares,cell_right)
+		worksheet.write(columna,5, total_dolares,cell_numero_dolar)
 		workbook.close()
 		output.seek(0)
 
