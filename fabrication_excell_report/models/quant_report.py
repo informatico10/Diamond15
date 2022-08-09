@@ -26,7 +26,7 @@ class wizard_get_quants(models.Model):
 
 		#direccion = self.env['main.parameter'].search([])[0].dir_create_file
 		workbook = Workbook(output, {'constant_memory': False})
-		worksheet = workbook.add_worksheet("SALDO VALORES DE CIERRE")
+		worksheet = workbook.add_worksheet("REPORTE DE SALDOS")
 		x= 9
 
 		worksheet.set_column('A:A', 12.80)
@@ -44,9 +44,9 @@ class wizard_get_quants(models.Model):
 		
 		cell_titulo = workbook.add_format({'bold': True})
 		cell_titulo.set_align('center')
-		cell_titulo.set_border(2)
+		#cell_titulo.set_border(2)
 		cell_titulo.set_font_name('Calibri')
-		cell_titulo.set_font_size(15)
+		cell_titulo.set_font_size(14)
 
 		cell_r = workbook.add_format({'bold': True})
 		cell_r.set_align('center')
@@ -57,40 +57,58 @@ class wizard_get_quants(models.Model):
 
 
 		cell_n = workbook.add_format({'bold': False})
-		cell_n.set_align('center')
+		cell_n.set_align('left')
 		cell_n.set_border(1)
 		cell_n.set_font_name('Calibri')
 		cell_n.set_font_size(11)
 
 		cell_numero = workbook.add_format({'bold': False})
-		cell_numero.set_align('center')
+		cell_numero.set_align('right')
 		cell_numero.set_border(1)
 		cell_numero.set_font_name('Calibri')
 		cell_numero.set_font_size(11)
-		cell_numero.set_num_format('0.000')
+		cell_numero.set_num_format('[S/]#,##0.00')
+
+		cell_porcentaje = workbook.add_format({'bold': False})
+		cell_porcentaje.set_align('right')
+		cell_porcentaje.set_border(1)
+		cell_porcentaje.set_font_name('Calibri')
+		cell_porcentaje.set_font_size(11)
+		cell_porcentaje.set_num_format('[%]#,##0.00')
+
+		cell_numero_dolar = workbook.add_format({'bold': False})
+		cell_numero_dolar.set_align('right')
+		cell_numero_dolar.set_border(1)
+		cell_numero_dolar.set_font_name('Calibri')
+		cell_numero_dolar.set_font_size(11)
+		cell_numero_dolar.set_num_format('[$]#,##0.00')
 
 		import datetime
 		from datetime import timedelta
-		worksheet.merge_range(1,0,2,10, "VALORES AL CIERRE: "+str((datetime.datetime.now()-timedelta(hours=5)).date()), cell_titulo)
+		worksheet.merge_range(1,0,2,10, "REPORTE DE SALDOS", cell_titulo)
 
 		worksheet.set_row(4, 28.20)
 		worksheet.set_row(5, 28.20)
 
-		worksheet.merge_range('A5:C6', "ARTICULO", cell_r)
-		worksheet.merge_range('D5:D6', "SALDO S/.", cell_r)
-		worksheet.merge_range('E5:E6', "% SOLES", cell_r)
-		worksheet.merge_range('F5:F6', "SALDO US $", cell_r)
-		worksheet.merge_range('G5:G6', "% DOLARES", cell_r)
-		worksheet.merge_range('H5:H6', "VALOR UNIT S/.", cell_r)
-		worksheet.merge_range('I5:I6', "VALOR UNIT $", cell_r)
-		worksheet.merge_range('J5:J6', "SALDO CANTIDAD", cell_r)
-		worksheet.merge_range('K5:K6', "LOTE/NROº SERIE", cell_r)
+		worksheet.merge_range('A5:C5', "Articulos", cell_r)
+		worksheet.write(5,0, "Secuencia", cell_r)
+		worksheet.write(5,1, "Ref Interna", cell_r)
+		worksheet.write(5,2, "Producto", cell_r)
+		worksheet.merge_range('D5:D6', "Saldos S/", cell_r)
+		worksheet.merge_range('E5:E6', "% Soles", cell_r)
+		worksheet.merge_range('F5:F6', "Saldo USD $", cell_r)
+		worksheet.merge_range('G5:G6', "% Dolares", cell_r)
+		worksheet.merge_range('H5:H6', "Valor Unit S/", cell_r)
+		worksheet.merge_range('I5:I6', "Valor Unit $", cell_r)
+		worksheet.merge_range('J5:J6', "Saldo Cantidad", cell_r)
+		worksheet.merge_range('K5:K6', "Lote/Nro Serie", cell_r)
+		worksheet.merge_range('L5:L6', "Ubicación/Almacen", cell_r)
 
 		columna = 6
 		contador = 1
 		import datetime
 		from datetime import timedelta
-		total_quants = self.env['stock.quant'].sudo().search([('location_id.usage','=','internal')])
+		total_quants = self.env['stock.quant'].sudo().search([('location_id.usage','=','internal'),('company_id','=',self.env.company.id)])
 		tasa_cambio = 0
 		tipo_cambio = self.env['res.currency.rate'].sudo().search([('name','=',(datetime.datetime.now()-timedelta(hours=5)).date()),('currency_id.name','=','USD')], limit=1)
 		if len(tipo_cambio)>0:
@@ -101,18 +119,19 @@ class wizard_get_quants(models.Model):
 			worksheet.write(columna,1, str(i.product_id.default_code if i.product_id.default_code else ''),cell_n)
 			worksheet.write(columna,2, str(i.product_id.name if i.product_id.name else ''),cell_n)
 			worksheet.write(columna,3, i.quantity * i.product_id.standard_price,cell_numero)
-			worksheet.write(columna,4, str( ''),cell_n)
+			worksheet.write(columna,4, str( ''),cell_porcentaje)
 			if tasa_cambio != 0:
-				worksheet.write(columna,5, (i.quantity * i.product_id.standard_price)/tasa_cambio,cell_numero)
-				worksheet.write(columna,8, i.product_id.standard_price/tasa_cambio,cell_numero)
+				worksheet.write(columna,5, (i.quantity * i.product_id.standard_price)/tasa_cambio,cell_numero_dolar)
+				worksheet.write(columna,8, i.product_id.standard_price/tasa_cambio,cell_numero_dolar)
 			else:
-				worksheet.write(columna,5, 0,cell_numero)
-				worksheet.write(columna,8, 0,cell_numero)
-			worksheet.write(columna,6, str(''),cell_n)
+				worksheet.write(columna,5, 0,cell_numero_dolar)
+				worksheet.write(columna,8, 0,cell_numero_dolar)
+			worksheet.write(columna,6, str(''),cell_porcentaje)
 			worksheet.write(columna,7, i.product_id.standard_price if i.product_id.standard_price else 0,cell_numero)
 
 			worksheet.write(columna,9, i.quantity if i.quantity else 0,cell_numero)
 			worksheet.write(columna,10, str(i.lot_id.name if i.lot_id.name else ''),cell_n)
+			worksheet.write(columna,11, str(i.location_id.name if i.location_id.name else ''),cell_n)
 			contador = contador+1
 			columna = columna+1
 		workbook.close()

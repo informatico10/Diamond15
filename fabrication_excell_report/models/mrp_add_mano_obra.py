@@ -93,13 +93,13 @@ class mrp_production(models.Model):
 		cell_negro.set_bg_color('#030303')
 		
 		cell_n = workbook.add_format({'bold': False})
-		cell_n.set_align('center')
+		cell_n.set_align('left')
 		cell_n.set_border(2)
 		cell_n.set_font_name('Calibri')
 		cell_n.set_font_size(11)
 
 		cell_numero = workbook.add_format({'bold': False})
-		cell_numero.set_align('center')
+		cell_numero.set_align('right')
 		cell_numero.set_border(2)
 		cell_numero.set_font_name('Calibri')
 		cell_numero.set_font_size(11)
@@ -111,7 +111,7 @@ class mrp_production(models.Model):
 		worksheet.set_row(5, 28.20)
 		worksheet.write(4,0, "CONCEPTO",boldbord)
 		worksheet.write(4,8, "N. ORDEN DE PRODUCCIÓN :",boldbord)
-		worksheet.write(4,9, "___________________",boldbord)
+		worksheet.write(4,9, str(self.name if self.name else ''),boldbord)
 		worksheet.write(5,0, "Camb. Codigo",boldbord)
 
 		worksheet.write(5,1, "",cell_n)
@@ -235,7 +235,7 @@ class mrp_production(models.Model):
 		output.seek(0)
 
 		attach_id = self.env['ir.attachment'].create({
-					'name': "ORDEN DE PRODUCCIÓN.xlsx",
+					'name': "ORDEN DE PRODUCCIÓN "+str(self.name)+".xlsx",
 					'type': 'binary',
 					'datas': base64.encodestring(output.read()),
 					'eliminar_automatico': True
