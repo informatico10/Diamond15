@@ -79,7 +79,7 @@ class wizard_get_quants(models.Model):
 		cell_right_soles.set_font_name('Calibri')
 		cell_right_soles.set_font_size(11)
 		cell_right_soles.set_num_format('##0.00')
-		cell_right_soles.set_num_format('_-S/ * #,##0_-;S/ * -#,##0_-;_-S/ * "-"_-;_-@_-')
+		cell_right_soles.set_num_format('_-S * #,##0_-;S * -#,##0_-;_-S * "-"_-;_-@_-')
 		#cell_right_soles.set_num_format('_-S/ * #,##0_-;S/ * -#,##0_-;_-S/ * "-"_-;_-@_-')
 		#cell_right_soles.set_num_format('S/ #,##0;S/ -#,##0')
 
@@ -107,7 +107,7 @@ class wizard_get_quants(models.Model):
 		cell_numero.set_border(1)
 		cell_numero.set_font_name('Calibri')
 		cell_numero.set_font_size(11)
-		cell_numero.set_num_format('_-S/ * #,##0_-;S/ * -#,##0_-;_-S/ * "-"_-;_-@_-')
+		cell_numero.set_num_format('_-S * #,##0_-;S * -#,##0_-;_-S * "-"_-;_-@_-')
 		#cell_numero.set_num_format('_-S/ * #,##0_-;S/ * -#,##0_-')
 		#cell_numero.set_num_format('_-S/ * #,##0_-;S/ * -#,##0_-;_-S/ * "-"_-;_-@_-')
 		#cell_numero.set_num_format('"S/" #,##0.00')
