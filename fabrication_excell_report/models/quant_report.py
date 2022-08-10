@@ -82,7 +82,7 @@ class wizard_get_quants(models.Model):
 		cell_right_dolares.set_border(1)
 		cell_right_dolares.set_font_name('Calibri')
 		cell_right_dolares.set_font_size(11)
-		cell_right_dolares.set_num_format('$ #,##0;$ -#,##0')
+		cell_right_dolares.set_num_format('$ #,##0.00;$ -#,##0.00')
 
 
 		cell_right_n = workbook.add_format({'bold': False})
@@ -111,7 +111,7 @@ class wizard_get_quants(models.Model):
 		cell_numero_dolar.set_border(1)
 		cell_numero_dolar.set_font_name('Calibri')
 		cell_numero_dolar.set_font_size(11)
-		cell_numero_dolar.set_num_format('$ #,##0;$ -#,##0')
+		cell_numero_dolar.set_num_format('$ #,##0.00;$ -#,##0.00')
 
 		import datetime
 		from datetime import timedelta
