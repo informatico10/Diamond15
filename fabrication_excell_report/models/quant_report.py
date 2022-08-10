@@ -175,8 +175,6 @@ class wizard_get_quants(models.Model):
 			worksheet.write(columna,11, str(i.location_id.name if i.location_id.name else ''),cell_n)
 			contador = contador+1
 			columna = columna+1
-		columna = 7
-		for i in total_quants:
 			
 		worksheet.write(columna,2, "Total S/",cell_right)
 		worksheet.write(columna,3, total_soles,cell_right_soles)
