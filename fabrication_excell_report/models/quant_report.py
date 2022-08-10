@@ -104,7 +104,7 @@ class wizard_get_quants(models.Model):
 		cell_porcentaje.set_border(1)
 		cell_porcentaje.set_font_name('Calibri')
 		cell_porcentaje.set_font_size(11)
-		cell_porcentaje.set_num_format('"%" #,##0.00')
+		cell_porcentaje.set_num_format('"%" #,##0;"%" -#,##0')
 
 		cell_numero_dolar = workbook.add_format({'bold': False})
 		cell_numero_dolar.set_align('right')
