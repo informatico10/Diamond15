@@ -150,20 +150,24 @@ class wizard_get_quants(models.Model):
 			for l in tipo_cambio:
 				tasa_cambio = l.sale_type
 		for i in total_quants:
+			total_soles += i.quantity * i.product_id.standard_price
+			total_dolares += ((i.quantity * i.product_id.standard_price)/tasa_cambio) if tasa_cambio != 0 else 0
+		for i in total_quants:
 			worksheet.write(columna,0, str(contador),cell_n)
 			worksheet.write(columna,1, str(i.product_id.default_code if i.product_id.default_code else ''),cell_n)
 			worksheet.write(columna,2, str(i.product_id.name if i.product_id.name else ''),cell_n)
 			worksheet.write(columna,3, i.quantity * i.product_id.standard_price,cell_numero)
-			total_soles += i.quantity * i.product_id.standard_price
-			worksheet.write(columna,4, str( ''),cell_porcentaje)
+			
+			worksheet.write(columna,4, (((i.quantity * i.product_id.standard_price)*100)/total_soles) if total_soles!=0 else 0  ,cell_porcentaje)
 			if tasa_cambio != 0:
-				total_dolares += (i.quantity * i.product_id.standard_price)/tasa_cambio
 				worksheet.write(columna,5, (i.quantity * i.product_id.standard_price)/tasa_cambio,cell_numero_dolar)
 				worksheet.write(columna,8, i.product_id.standard_price/tasa_cambio,cell_numero_dolar)
+				worksheet.write(columna,6, ((((i.quantity * i.product_id.standard_price)/tasa_cambio)*100)/total_dolares) if total_dolares != 0 else 0,cell_porcentaje)
 			else:
 				worksheet.write(columna,5, 0,cell_numero_dolar)
+				worksheet.write(columna,6, 0,cell_porcentaje)
 				worksheet.write(columna,8, 0,cell_numero_dolar)
-			worksheet.write(columna,6, str(''),cell_porcentaje)
+			
 			worksheet.write(columna,7, i.product_id.standard_price if i.product_id.standard_price else 0,cell_numero)
 
 			worksheet.write(columna,9, i.quantity if i.quantity else 0,cell_right_n)
@@ -171,6 +175,9 @@ class wizard_get_quants(models.Model):
 			worksheet.write(columna,11, str(i.location_id.name if i.location_id.name else ''),cell_n)
 			contador = contador+1
 			columna = columna+1
+		columna = 7
+		for i in total_quants:
+			
 		worksheet.write(columna,2, "Total S/",cell_right)
 		worksheet.write(columna,3, total_soles,cell_right_soles)
 		worksheet.write(columna,4, "Total $",cell_right)
