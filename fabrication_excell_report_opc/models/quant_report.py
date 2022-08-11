@@ -155,6 +155,7 @@ class wizard_get_quants(models.Model):
 					left join stock_location sl on sl.id = quant.location_id
 					where sl.usage = 'internal' and quant.company_id = """+str(self.env.company.id)+"""; """)
 			cnslta = self.env.cr.dictfetchall()
+			tasa_cambio = 0
 			tipo_cambio = self.env['res.currency.rate'].sudo().search([('name','=',(datetime.datetime.now()-timedelta(hours=5)).date()),('currency_id.name','=','USD')], limit=1)
 			if len(tipo_cambio)>0:
 				tasa_cambio = tipo_cambio[0].sale_type
@@ -235,6 +236,7 @@ class wizard_get_quants(models.Model):
 					group by product.id,
 					; """)
 			cnslta = self.env.cr.dictfetchall()
+			tasa_cambio = 0
 			tipo_cambio = self.env['res.currency.rate'].sudo().search([('name','=',(datetime.datetime.now()-timedelta(hours=5)).date()),('currency_id.name','=','USD')], limit=1)
 			if len(tipo_cambio)>0:
 				tasa_cambio = tipo_cambio[0].sale_type
