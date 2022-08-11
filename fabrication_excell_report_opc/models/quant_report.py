@@ -123,21 +123,6 @@ class wizard_get_quants(models.Model):
 		worksheet.write(4,0, "Fecha:", cell_r)
 		worksheet.write(4,1, str((datetime.datetime.now()-timedelta(hours=5)).date()), cell_r)
 
-
-		worksheet.merge_range('A6:C6', "Articulos", cell_r)
-		worksheet.write(6,0, "Secuencia", cell_r)
-		worksheet.write(6,1, "Ref Interna", cell_r)
-		worksheet.write(6,2, "Producto", cell_r)
-		worksheet.merge_range('D6:D7', "Saldos S/", cell_r)
-		worksheet.merge_range('E6:E7', "% Soles", cell_r)
-		worksheet.merge_range('F6:F7', "Saldo USD $", cell_r)
-		worksheet.merge_range('G6:G7', "% Dolares", cell_r)
-		worksheet.merge_range('H6:H7', "Valor Unit S/", cell_r)
-		worksheet.merge_range('I6:I7', "Valor Unit $", cell_r)
-		worksheet.merge_range('J6:J7', "Saldo Cantidad", cell_r)
-		worksheet.merge_range('K6:K7', "Lote/Nro Serie", cell_r)
-		worksheet.merge_range('L6:L7', "Ubicación/Almacen", cell_r)
-
 		columna = 7
 		contador = 1
 		total_soles = 0
@@ -156,6 +141,19 @@ class wizard_get_quants(models.Model):
 					where sl.usage = 'internal' and quant.company_id = """+str(self.env.company.id)+"""; """)
 			cnslta = self.env.cr.dictfetchall()
 			tasa_cambio = 0
+			worksheet.merge_range('A6:C6', "Articulos", cell_r)
+			worksheet.write(6,0, "Secuencia", cell_r)
+			worksheet.write(6,1, "Ref Interna", cell_r)
+			worksheet.write(6,2, "Producto", cell_r)
+			worksheet.merge_range('D6:D7', "Saldos S/", cell_r)
+			worksheet.merge_range('E6:E7', "% Soles", cell_r)
+			worksheet.merge_range('F6:F7', "Saldo USD $", cell_r)
+			worksheet.merge_range('G6:G7', "% Dolares", cell_r)
+			worksheet.merge_range('H6:H7', "Valor Unit S/", cell_r)
+			worksheet.merge_range('I6:I7', "Valor Unit $", cell_r)
+			worksheet.merge_range('J6:J7', "Saldo Cantidad", cell_r)
+			worksheet.merge_range('K6:K7', "Lote/Nro Serie", cell_r)
+			worksheet.merge_range('L6:L7', "Ubicación/Almacen", cell_r)
 			tipo_cambio = self.env['res.currency.rate'].sudo().search([('name','=',(datetime.datetime.now()-timedelta(hours=5)).date()),('currency_id.name','=','USD')], limit=1)
 			if len(tipo_cambio)>0:
 				tasa_cambio = tipo_cambio[0].sale_type
@@ -225,18 +223,28 @@ class wizard_get_quants(models.Model):
 
 		else:
 			self.env.cr.execute("""select sum(quant.quantity) as cantidad, product.default_code as default_code, prod_tmpl.name as nombre_producto,
-					sum(prop.value_float) as precio_unitario, spl.name as lote, sl.name as ubicacion, product.id as producto_id
+					sum(prop.value_float) as precio_unitario, product.id as producto_id
 					from stock_quant quant
 					left join product_product product on product.id = quant.product_id
 					left join product_template prod_tmpl on prod_tmpl.id = product.product_tmpl_id
 					left join ir_property prop on prop.res_id = 'product.product,' || product.id
-					left join stock_production_lot spl on spl.id = quant.lot_id
 					left join stock_location sl on sl.id = quant.location_id
 					where sl.usage = 'internal' and quant.company_id = """+str(self.env.company.id)+"""
 					group by product.id,
 					; """)
 			cnslta = self.env.cr.dictfetchall()
 			tasa_cambio = 0
+			worksheet.merge_range('A6:C6', "Articulos", cell_r)
+			worksheet.write(6,0, "Secuencia", cell_r)
+			worksheet.write(6,1, "Ref Interna", cell_r)
+			worksheet.write(6,2, "Producto", cell_r)
+			worksheet.merge_range('D6:D7', "Saldos S/", cell_r)
+			worksheet.merge_range('E6:E7', "% Soles", cell_r)
+			worksheet.merge_range('F6:F7', "Saldo USD $", cell_r)
+			worksheet.merge_range('G6:G7', "% Dolares", cell_r)
+			worksheet.merge_range('H6:H7', "Valor Unit S/", cell_r)
+			worksheet.merge_range('I6:I7', "Valor Unit $", cell_r)
+			worksheet.merge_range('J6:J7', "Saldo Cantidad", cell_r)
 			tipo_cambio = self.env['res.currency.rate'].sudo().search([('name','=',(datetime.datetime.now()-timedelta(hours=5)).date()),('currency_id.name','=','USD')], limit=1)
 			if len(tipo_cambio)>0:
 				tasa_cambio = tipo_cambio[0].sale_type
@@ -263,8 +271,6 @@ class wizard_get_quants(models.Model):
 				worksheet.write(columna,7, x['precio_unitario'] if x['precio_unitario'] else 0,cell_numero)
 
 				worksheet.write(columna,9, x['cantidad'] if x['cantidad'] else 0,cell_right_n)
-				worksheet.write(columna,10, str(x['lote'] if x['lote'] else ''),cell_n)
-				worksheet.write(columna,11, str(x['ubicacion'] if x['ubicacion'] else ''),cell_n)
 				contador = contador+1
 				columna = columna+1
 				
