@@ -223,14 +223,14 @@ class wizard_get_quants(models.Model):
 
 		else:
 			self.env.cr.execute("""select sum(quant.quantity) as cantidad, product.default_code as default_code, prod_tmpl.name as nombre_producto,
-					sum(prop.value_float) as precio_unitario, product.id as producto_id
+					sum(prop.value_float) as precio_unitario, product.id as producto_id, prod_tmpl.id as product_tm_id
 					from stock_quant quant
 					left join product_product product on product.id = quant.product_id
 					left join product_template prod_tmpl on prod_tmpl.id = product.product_tmpl_id
 					left join ir_property prop on prop.res_id = 'product.product,' || product.id
 					left join stock_location sl on sl.id = quant.location_id
 					where sl.usage = 'internal' and quant.company_id = """+str(self.env.company.id)+"""
-					group by product.id; """)
+					group by product.id, prod_tmpl.id; """)
 			cnslta = self.env.cr.dictfetchall()
 			tasa_cambio = 0
 			worksheet.merge_range('A6:C6', "Articulos", cell_r)
