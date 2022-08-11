@@ -230,8 +230,7 @@ class wizard_get_quants(models.Model):
 					left join ir_property prop on prop.res_id = 'product.product,' || product.id
 					left join stock_location sl on sl.id = quant.location_id
 					where sl.usage = 'internal' and quant.company_id = """+str(self.env.company.id)+"""
-					group by product.id,
-					; """)
+					group by product.id; """)
 			cnslta = self.env.cr.dictfetchall()
 			tasa_cambio = 0
 			worksheet.merge_range('A6:C6', "Articulos", cell_r)
