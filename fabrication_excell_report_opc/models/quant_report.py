@@ -160,19 +160,19 @@ class wizard_get_quants(models.Model):
 				tasa_cambio = tipo_cambio[0].sale_type
 			for x in cnslta:
 				#los totales si se hacen desde la consulta son muchas variables q no funcionaran como prod con costo 0 o servicio almacenable
-				total_soles += x['cantidad'] * x['precio_unitario']
+				total_soles += x['cantidad'] if x['cantidad'] else 0 * x['precio_unitario'] if x['precio_unitario'] else 0
 			total_dolares = (total_soles/tasa_cambio) if tasa_cambio != 0 else 0
 			for i in total_quants:
 				worksheet.write(columna,0, str(contador),cell_n)
 				worksheet.write(columna,1, str(x['default_code'] if x['default_code'] else ''),cell_n)
 				worksheet.write(columna,2, str(x['nombre_producto'] if x['nombre_producto'] else ''),cell_n)
-				worksheet.write(columna,3, x['cantidad'] * x['precio_unitario'],cell_numero)
+				worksheet.write(columna,3, x['cantidad'] if x['cantidad'] else 0 * x['precio_unitario'] if x['precio_unitario'] else 0,cell_numero)
 				
-				worksheet.write(columna,4, (((x['cantidad'] * x['precio_unitario'])*100)/total_soles) if total_soles!=0 else 0  ,cell_porcentaje)
+				worksheet.write(columna,4, (((x['cantidad'] if x['cantidad'] else 0 * x['precio_unitario'] if x['precio_unitario'] else 0)*100)/total_soles) if total_soles!=0 else 0  ,cell_porcentaje)
 				if tasa_cambio != 0:
-					worksheet.write(columna,5, (x['cantidaad'] * x['precio_unitario'])/tasa_cambio,cell_numero_dolar)
-					worksheet.write(columna,8, x['precio_unitario']/tasa_cambio,cell_numero_dolar)
-					worksheet.write(columna,6, ((((x['cantidad'] * x['precio_unitario'])/tasa_cambio)*100)/total_dolares) if total_dolares != 0 else 0,cell_porcentaje)
+					worksheet.write(columna,5, (x['cantidaad'] if x['cantidaad'] else 0 * x['precio_unitario'] if x['precio_unitario'] else 0)/tasa_cambio,cell_numero_dolar)
+					worksheet.write(columna,8, x['precio_unitario'] if x['precio_unitario'] else 0/tasa_cambio,cell_numero_dolar)
+					worksheet.write(columna,6, ((((x['cantidad'] if x['cantidad'] else 0 * x['precio_unitario'] if x['precio_unitario'] else 0)/tasa_cambio)*100)/total_dolares) if total_dolares != 0 else 0,cell_porcentaje)
 				else:
 					worksheet.write(columna,5, 0,cell_numero_dolar)
 					worksheet.write(columna,6, 0,cell_porcentaje)
@@ -240,19 +240,19 @@ class wizard_get_quants(models.Model):
 				tasa_cambio = tipo_cambio[0].sale_type
 			for x in cnslta:
 				#los totales si se hacen desde la consulta son muchas variables q no funcionaran como prod con costo 0 o servicio almacenable
-				total_soles += x['cantidad'] * x['precio_unitario']
+				total_soles += x['cantidad'] if x['cantidad'] else 0 * x['precio_unitario'] if x['precio_unitario'] else 0
 			total_dolares = (total_soles/tasa_cambio) if tasa_cambio != 0 else 0
 			for i in total_quants:
 				worksheet.write(columna,0, str(contador),cell_n)
 				worksheet.write(columna,1, str(x['default_code'] if x['default_code'] else ''),cell_n)
 				worksheet.write(columna,2, str(x['nombre_producto'] if x['nombre_producto'] else ''),cell_n)
-				worksheet.write(columna,3, x['cantidad'] * x['precio_unitario'],cell_numero)
+				worksheet.write(columna,3, x['cantidad'] if x['cantidad'] else 0 * x['precio_unitario'] if x['precio_unitario'] else 0,cell_numero)
 				
-				worksheet.write(columna,4, (((x['cantidad'] * x['precio_unitario'])*100)/total_soles) if total_soles!=0 else 0  ,cell_porcentaje)
+				worksheet.write(columna,4, (((x['cantidad'] if x['cantidad'] else 0 * x['precio_unitario'] if x['precio_unitario'] else 0)*100)/total_soles) if total_soles!=0 else 0  ,cell_porcentaje)
 				if tasa_cambio != 0:
-					worksheet.write(columna,5, (x['cantidaad'] * x['precio_unitario'])/tasa_cambio,cell_numero_dolar)
-					worksheet.write(columna,8, x['precio_unitario']/tasa_cambio,cell_numero_dolar)
-					worksheet.write(columna,6, ((((x['cantidad'] * x['precio_unitario'])/tasa_cambio)*100)/total_dolares) if total_dolares != 0 else 0,cell_porcentaje)
+					worksheet.write(columna,5, (x['cantidaad'] if x['cantidaad'] else 0 * x['precio_unitario'] if x['precio_unitario'] else 0)/tasa_cambio,cell_numero_dolar)
+					worksheet.write(columna,8, x['precio_unitario'] if x['precio_unitario'] else 0/tasa_cambio,cell_numero_dolar)
+					worksheet.write(columna,6, ((((x['cantidad'] if x['cantidad'] else 0 * x['precio_unitario'] if x['precio_unitario'] else 0)/tasa_cambio)*100)/total_dolares) if total_dolares != 0 else 0,cell_porcentaje)
 				else:
 					worksheet.write(columna,5, 0,cell_numero_dolar)
 					worksheet.write(columna,6, 0,cell_porcentaje)
