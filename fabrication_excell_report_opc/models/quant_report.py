@@ -169,7 +169,7 @@ class wizard_get_quants(models.Model):
 				
 				worksheet.write(columna,4, (((x['cantidad'] if x['cantidad'] else 0 * x['precio_unitario'] if x['precio_unitario'] else 0)*100)/total_soles) if total_soles!=0 else 0  ,cell_porcentaje)
 				if tasa_cambio != 0:
-					worksheet.write(columna,5, (x['cantidaad'] if x['cantidaad'] else 0 * x['precio_unitario'] if x['precio_unitario'] else 0)/tasa_cambio,cell_numero_dolar)
+					worksheet.write(columna,5, (x['cantidad'] if x['cantidad'] else 0 * x['precio_unitario'] if x['precio_unitario'] else 0)/tasa_cambio,cell_numero_dolar)
 					worksheet.write(columna,8, x['precio_unitario'] if x['precio_unitario'] else 0/tasa_cambio,cell_numero_dolar)
 					worksheet.write(columna,6, ((((x['cantidad'] if x['cantidad'] else 0 * x['precio_unitario'] if x['precio_unitario'] else 0)/tasa_cambio)*100)/total_dolares) if total_dolares != 0 else 0,cell_porcentaje)
 				else:
@@ -259,7 +259,7 @@ class wizard_get_quants(models.Model):
 				
 				worksheet.write(columna,4, (((x['cantidad'] if x['cantidad'] else 0 * x['precio_unitario'] if x['precio_unitario'] else 0)*100)/total_soles) if total_soles!=0 else 0  ,cell_porcentaje)
 				if tasa_cambio != 0:
-					worksheet.write(columna,5, (x['cantidaad'] if x['cantidaad'] else 0 * x['precio_unitario'] if x['precio_unitario'] else 0)/tasa_cambio,cell_numero_dolar)
+					worksheet.write(columna,5, (x['cantidad'] if x['cantidad'] else 0 * x['precio_unitario'] if x['precio_unitario'] else 0)/tasa_cambio,cell_numero_dolar)
 					worksheet.write(columna,8, x['precio_unitario'] if x['precio_unitario'] else 0/tasa_cambio,cell_numero_dolar)
 					worksheet.write(columna,6, ((((x['cantidad'] if x['cantidad'] else 0 * x['precio_unitario'] if x['precio_unitario'] else 0)/tasa_cambio)*100)/total_dolares) if total_dolares != 0 else 0,cell_porcentaje)
 				else:
