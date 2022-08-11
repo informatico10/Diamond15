@@ -129,7 +129,7 @@ class wizard_get_quants(models.Model):
 		total_dolares = 0
 		import datetime
 		from datetime import timedelta
-		if self.check_detail == False:
+		if self.check_detail == True:
 			self.env.cr.execute("""select quant.quantity as cantidad, product.default_code as default_code, prod_tmpl.name as nombre_producto,
 					prop.value_float as precio_unitario, spl.name as lote, sl.name as ubicacion
 					from stock_quant quant
