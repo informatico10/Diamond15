@@ -16,8 +16,8 @@ class SaleOrderFieldNew(models.Model):
             rec.set_new_field = True
             rec.gr = ''
             for pick in rec.picking_ids:
-                if pick.state != 'cancel' and pick.despath_id:
-                    rec.gr += pick.despath_id.name + ', '
+                if pick.state != 'cancel' and pick.despatch_id:
+                    rec.gr += pick.despatch_id.name + ', '
             if len(rec.gr) > 3:
                 rec.gr = rec.gr[:-2]
 

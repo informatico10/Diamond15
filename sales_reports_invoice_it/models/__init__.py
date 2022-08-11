@@ -1,1 +1,1 @@
-from . import account_move, invoices_reports, sale
+from . import product, account_move, invoices_reports, sale

@@ -112,7 +112,7 @@ class report_products_invoice(models.Model):
                     WHEN l10n_latam_document_type.code != '07' AND res_currency.symbol = '$' THEN (account_move_line.price_total)
                 END as total_me,
 
-                account_move.iqbf AS iqbf,
+                product_template.iqbf AS iqbf,
                 CASE
                     WHEN account_move.state = 'posted' THEN 'Conforme' ELSE '--'
                 END AS sunat_status,

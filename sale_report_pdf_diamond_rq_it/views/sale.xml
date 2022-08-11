@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_order_form_inherit_sale_report_pdf_diamond" model="ir.ui.view">
+        <field name="name">sale.order.view.form.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="ids_first_contact" invisible="1" />
+                <field name="id_partner_to_create" invisible="1" />
+                <field name="street_partner" invisible="1" />
+                <field name="city_partner" invisible="1" />
+                <field name="state_partner" invisible="1" />
+                <field name="zip_partner" invisible="1" />
+                <field name="country_partner" invisible="1" />
+                <field name="first_contacto_partner" domain="[('id', 'in', ids_first_contact)]" context="{
+                    'default_street': street_partner,
+                    'default_city': city_partner,
+                    'default_state_id': state_partner,
+                    'default_zip': zip_partner,
+                    'default_country_id': country_partner,
+                    'default_user_id': user_id,
+                    'default_type': 'contact',
+                }" />
+                <field name="referencia_pdf" />
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree/field[@name='product_uom']" position="after">
+                <field name="presentation_id" />
+            </xpath>
+        </field>
+    </record>
+
+    <!-- PRESENTATION -->
+    <record id="sale_line_presentation_view_tree" model="ir.ui.view">
+        <field name="name">sale.line.presentation.view.tree</field>
+        <field name="model">sale.line.presentation</field>
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="name" />
+                <field name="create_uid" />
+                <field name="create_date" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="sale_line_presentation_view_form" model="ir.ui.view">
+        <field name="name">sale.line.presentation.view.form</field>
+        <field name="model">sale.line.presentation</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+                        <field name="name" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="sale_line_presentation_action" model="ir.actions.act_window">
+        <field name="name">Presentación en Linea de Venta</field>
+        <field name="res_model">sale.line.presentation</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+        id="sale_line_presentation_menu"
+        name="Presentación en Linea de Venta"
+        parent="sale.menu_sale_config"
+        action="sale_line_presentation_action"
+        sequence="100"
+    />
+
+</odoo>

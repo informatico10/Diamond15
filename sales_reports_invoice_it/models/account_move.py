@@ -8,7 +8,7 @@ class AccountMoveSalesReports(models.Model):
     sale_id = fields.Many2one('sale.order', string='sale')
     gr = fields.Char('GR')
     oc_partner = fields.Char('Orden de Compra Cliente')
-    iqbf = fields.Boolean('IQBF')
+
     observacion = fields.Text('Observación')
 
     fch_entrega = fields.Date('Fecha Entrega')
