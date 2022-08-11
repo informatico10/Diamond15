@@ -148,7 +148,7 @@ class wizard_get_quants(models.Model):
 			self.env.cr.execute("""select quant.quantity as cantidad, product.default_code as default_code, product.name as nombre_producto,
 					prop.value_float as precio_unitario, spl.name as lote, sl.name as ubicacion
 					from stock_quant quant
-					left join product_product product on product.id = stock_quant.product_id
+					left join product_product product on product.id = quant.product_id
 					left join ir_property prop on prop.res_id = 'product.product,' || product.id
 					left join stock_production_lot spl on spl.id = quant.lot_id
 					left join stock_location sl on sl.id = quant.location_id
@@ -225,7 +225,7 @@ class wizard_get_quants(models.Model):
 			self.env.cr.execute("""select sum(quant.quantity) as cantidad, product.default_code as default_code, product.name as nombre_producto,
 					sum(prop.value_float) as precio_unitario, spl.name as lote, sl.name as ubicacion, product.id as producto_id
 					from stock_quant quant
-					left join product_product product on product.id = stock_quant.product_id
+					left join product_product product on product.id = quant.product_id
 					left join ir_property prop on prop.res_id = 'product.product,' || product.id
 					left join stock_production_lot spl on spl.id = quant.lot_id
 					left join stock_location sl on sl.id = quant.location_id
