@@ -163,7 +163,7 @@ class wizard_get_quants(models.Model):
 				#los totales si se hacen desde la consulta son muchas variables q no funcionaran como prod con costo 0 o servicio almacenable
 				total_soles += x['cantidad'] if x['cantidad'] else 0 * x['precio_unitario'] if x['precio_unitario'] else 0
 			total_dolares = (total_soles/tasa_cambio) if tasa_cambio != 0 else 0
-			for i in total_quants:
+			for x in cnslta:
 				worksheet.write(columna,0, str(contador),cell_n)
 				worksheet.write(columna,1, str(x['default_code'] if x['default_code'] else ''),cell_n)
 				worksheet.write(columna,2, str(x['nombre_producto'] if x['nombre_producto'] else ''),cell_n)
@@ -244,7 +244,7 @@ class wizard_get_quants(models.Model):
 				#los totales si se hacen desde la consulta son muchas variables q no funcionaran como prod con costo 0 o servicio almacenable
 				total_soles += x['cantidad'] if x['cantidad'] else 0 * x['precio_unitario'] if x['precio_unitario'] else 0
 			total_dolares = (total_soles/tasa_cambio) if tasa_cambio != 0 else 0
-			for i in total_quants:
+			for x in cnslta:
 				worksheet.write(columna,0, str(contador),cell_n)
 				worksheet.write(columna,1, str(x['default_code'] if x['default_code'] else ''),cell_n)
 				worksheet.write(columna,2, str(x['nombre_producto'] if x['nombre_producto'] else ''),cell_n)
