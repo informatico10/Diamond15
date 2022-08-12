@@ -1,5 +1,6 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
+from datetime import datetime
 
 
 class SaleLinePresentation(models.Model):
@@ -61,29 +62,56 @@ class SaleOrderReportPdf(models.Model):
 
     note_report = fields.Html(string='Terminos y condiciones', default="""
         <b>* PRECIO: NO INCLUYE IGV</b>
-        <br />
-        <br />
-        <b>CONDICIONES DE PAGO</b>: Factura 45 días.
-        
-        1 Vigencia de la cotización:
-        <br />
-        2 Valor expresado:
-        <br />
-        3 Forma de pago:
-        <br />
-        4 Plazo de entrega:
-        <br />
-        5 Garantía:
-        <br />
-        6 Tipo de cambio:
-
-        PRESENTACIÓN: Big Bag X 600 Kg., en cada paleta se colocarán 2 Big Bag X 600 Kg. c/u, es decir cada paleta cargará
+        <br /><br />
+        <b>CONDICIONES DE PAGO:</b> Factura 45 días.
+        <br /><br />
+        <b>PRESENTACIÓN:</b> Big Bag X 600 Kg., en cada paleta se colocarán 2 Big Bag X 600 Kg. c/u, es decir cada paleta cargará
         1,200 Kg.
-        ENTREGA: A partir del 15 de agosto. Sujeto a confirmación de equipo (contenedor, nave, etc)
-        LUGAR DE ENTREGA: En nuestro almacén de Lurín
-        VALIDEZ: 17/05/2022 al terminar el día (17 horas)
-        NOTA:
-        • La cantidad ofrecida está sujeta a disponibilidad por venta.
+        <br /><br />
+        <b>ENTREGA:</b> A partir del 15 de agosto. Sujeto a confirmación de equipo (contenedor, nave, etc)
+        <br /><br />
+        <b>LUGAR DE ENTREGA:</b> En nuestro almacén de Lurín
+        <br /><br />
+        <b>VALIDEZ:</b> 17/05/2022 al terminar el día (17 horas)
+        <br /><br />
+        <b>NOTA:</b>
+            • La cantidad ofrecida está sujeta a disponibilidad por venta.
+        <br /><br />
         A la espera de sus gratas órdenes, me despido.
+        <br /><br />
+
         Atentamente,
     """)
+
+    @api.model_create_multi
+    def create(self, vals):
+        id_seq = self.env['ir.sequence'].search([('name','=','Venta Secuencia Diamond')], limit=1)
+
+        if not id_seq:
+            id_seq = self.env['ir.sequence'].create({
+                'name': 'Venta Secuencia Diamond',
+                'implementation': 'no_gap',
+                'active': True,
+                'prefix': '',
+                'padding': 4,
+                'number_increment': 1,
+                'number_next_actual': 1
+            })
+
+        first = 'DG '
+        second = ''
+        today_month = str(datetime.today().month)
+        today_year = str(datetime.today().year)
+
+        if len(str(today_month)) == 1:
+            second = '0' + today_month
+        elif len(str(today_month)) == 2:
+            second = today_month
+        today_year = today_year[2:]
+        second += today_year + '-'
+
+        sequence = id_seq._next()
+        name = first + second + sequence
+        res = super(SaleOrderReportPdf,self).create(vals)
+        res.name = name
+        return res
