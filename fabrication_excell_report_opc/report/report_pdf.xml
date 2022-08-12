@@ -21,7 +21,7 @@
 						<group>
 							<group>
 								<field name="name" string="Compañia" readonly="1"/>
-								<field name="check_detail" string="Reporte De Saldos Detallado" readonly="1"/>
+								<field name="check_detail" string="Reporte De Saldos Detallado Con Lote/Serie"/>
 							</group>                            
 						</group>
 					</sheet>
