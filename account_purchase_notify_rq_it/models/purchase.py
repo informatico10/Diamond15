@@ -7,7 +7,7 @@ class PurchaseOrderStockNotification(models.Model):
 
     type_purchase = fields.Selection([
         ('0', 'Compra Nacional'),
-        ('1', 'Compra Internacional')
+        ('1', 'Importación')
     ], string='Tipo Compra')
 
     @api.onchange('partner_id')

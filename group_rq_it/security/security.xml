@@ -1,0 +1,35 @@
+<odoo>
+    <!-- Create Category -->
+    <record id="category_module_news" model="ir.module.category">
+        <field name="name">Modulos No Admins, Edicion</field>
+        <field name="description">Para modulos no Administradores, Añadir la opción de Edición</field>
+        <field name="sequence">50</field>
+    </record>
+
+    <record id="group_sale_edit" model="res.groups">
+        <field name="name">Ventas - Editar</field>
+        <field name="category_id" ref="group_rq_it.category_module_news" />
+    </record>
+
+    <record id="group_purchase_edit" model="res.groups">
+        <field name="name">Compras - Editar</field>
+        <field name="category_id" ref="group_rq_it.category_module_news" />
+    </record>
+
+    <record id="group_stock_edit" model="res.groups">
+        <field name="name">Inventario - Editar</field>
+        <field name="category_id" ref="group_rq_it.category_module_news" />
+    </record>
+
+    <record id="group_account_edit" model="res.groups">
+        <field name="name">Contabilidad - Editar</field>
+        <field name="category_id" ref="group_rq_it.category_module_news" />
+    </record>
+
+    <record id="group_manufacturing_edit" model="res.groups">
+        <field name="name">Fabricación - Editar</field>
+        <field name="category_id" ref="group_rq_it.category_module_news" />
+    </record>
+
+</odoo>
+

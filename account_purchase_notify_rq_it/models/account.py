@@ -34,7 +34,7 @@ class AccountMoveNotifyRqIt(models.Model):
     purchase_order_id = fields.Many2one('purchase.order', string='Compra')
     type_purchase = fields.Selection([
         ('0', 'Compra Nacional'),
-        ('1', 'Compra Internacional')
+        ('1', 'Importación')
     ], string='Tipo Compra', related='purchase_order_id.type_purchase')
     check_fields = fields.Char(compute='_compute_check_fields', string='check_fields')
 
