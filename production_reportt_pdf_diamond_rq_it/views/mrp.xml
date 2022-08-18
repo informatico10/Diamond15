@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="mrp_production_form_view_inherit_report_pdf" model="ir.ui.view">
+        <field name="name">mrp.production.view.form.inherit</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='bom_id']" position="after">
+                <field name="concepto" required="True" />
+                <field name="suministros" required="True" />
+                <field name="team" required="True" />
+            </xpath>
+            <xpath expr="//field[@name='company_id']" position="after">
+                <field name="hr_start" />
+                <field name="hr_end" />
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page name="report" string="Reporte PDF">
+                    <group>
+                        <group>
+                            <field name="observation" />
+                            <field name="workers" />
+                            <field name="merma" />
+                            <field name="desmedro" />
+                        </group>
+                        <group>
+                            <field name="signature_aux_production" widget="image" />
+                            <field name="signature_aux_warehouse" widget="image" />
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+            <xpath expr="//field[@name='move_raw_ids']/tree" position="inside">
+                <field name="observation" optional="show" />
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

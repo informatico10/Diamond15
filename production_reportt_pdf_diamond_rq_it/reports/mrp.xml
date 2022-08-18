@@ -1,0 +1,604 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="mrp_report_pdf_diamond">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <style type="text/css">
+                        <![CDATA[
+                            * {
+                                line-height: 1.5em;
+                            }
+                            table {
+                                width: 100%;
+                                border-top: 1px solid black;
+                                vertical-align: middle;
+                                font-size: 15px;
+                            }
+                            th, td {
+                                border-bottom: 0.5px solid #35547E;
+                                vertical-align: middle;
+                                height: 20px;
+                                font-size: 14px;
+                                margin:0;
+                                padding:3px;
+                            }
+                            .page {
+                                font-family: Verdana;
+                                font-size: 15px;
+                                color:#201F23;
+                                background-image: url(/sale_order_report_by_warehouse_it/static/src/img/fondo.png);
+                                background-repeat: no-repeat;
+                                background-size:300px 200px;
+                                height: 1100px;
+                                background-position: bottom right;
+                            }
+                        ]]>
+                    </style>
+                    <div class="page" style="">
+                        <div class="container" style="width:90%; font-size:15px">
+                            <div class="header">
+                                <div class="row">
+                                    <hr width="115%" color="#DCDCDC" style="height:20px; margin-left:-15px;" />
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)" alt="Logo" style="max-width:300px; max-height:100px; position:absolute; left:4;" />
+                                        <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)" alt="Logo" style="max-width:300px; max-height:100px; position:absolute; left:4;" />
+                                    </div>
+                                    <div class="col-6" style="text-align:center;">
+                                        <!-- <p style="font-size:12px; margin:0px; padding:0px; color:#35547E;"> -->
+                                        <!-- </p> -->
+                                        <hr color="#35547E" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <h1>
+                                    <center>
+                                        FORMATO DE ORDEN DE PRODUCCIÓN - STOCK
+                                    </center>
+                                </h1>
+                            </div>
+                            <div class="row">
+                                <div class="col-2">
+                                    <b>CONCEPTO</b>
+                                    <br />
+                                    <span>Camb. Código</span>
+                                    <br />
+                                    <span>Mezcla</span>
+                                    <br />
+                                    <span>Reenvase</span>
+                                    <br />
+                                    <span>Dilución</span>
+                                </div>
+                                <div class="col-1">
+                                    <br />
+
+                                    <t t-if="doc.concepto == '0'">
+                                        <div class="border bg-dark text-dark" >a</div>
+                                    </t>
+                                    <t t-else="">
+                                        <div class="border text-white">a</div>
+                                    </t>
+
+                                    <t t-if="doc.concepto == '1'">
+                                        <div class="border bg-dark text-dark">a</div>
+                                    </t>
+                                    <t t-else="">
+                                        <div class="border text-white">a</div>
+                                    </t>
+
+                                    <t t-if="doc.concepto == '2'">
+                                        <div class="border bg-dark text-dark">a</div>
+                                    </t>
+                                    <t t-else="">
+                                        <div class="border text-white">a</div>
+                                    </t>
+
+                                    <t t-if="doc.concepto == '3'">
+                                        <div class="border bg-dark text-dark">a</div>
+                                    </t>
+                                    <t t-else="">
+                                        <div class="border text-white">a</div>
+                                    </t>
+
+                                </div>
+                                <div class="col-6">
+                                    <br />
+                                    <br />
+                                    <b>FECHA SOL: </b>
+                                    <t t-if="doc.hr_start">
+                                        <t t-if="doc.hr_start.strftime('%A') == 'Monday'">
+                                            Lunes,
+                                        </t>
+                                        <t t-elif="doc.hr_start.strftime('%A') == 'Tuesday'">
+                                            Martes,
+                                        </t>
+                                        <t t-elif="doc.hr_start.strftime('%A') == 'Wednesday'">
+                                            Miertcoles,
+                                        </t>
+                                        <t t-elif="doc.hr_start.strftime('%A') == 'Thursday'">
+                                            Jueves,
+                                        </t>
+                                        <t t-elif="doc.hr_start.strftime('%A') == 'Friday'">
+                                            Viernes,
+                                        </t>
+                                        <t t-elif="doc.hr_start.strftime('%A') == 'Saturday'">
+                                            Sabado,
+                                        </t>
+                                        <t t-elif="doc.hr_start.strftime('%A') == 'Sunday'">
+                                            Domingo,
+                                        </t>
+
+                                        <t t-if="doc.hr_start.month == 1">
+                                            Enero
+                                        </t>
+                                        <t t-elif="doc.hr_start.month == 2">
+                                            Febrero
+                                        </t>
+                                        <t t-elif="doc.hr_start.month == 3">
+                                            Marzo
+                                        </t>
+                                        <t t-elif="doc.hr_start.month == 4">
+                                            Abril
+                                        </t>
+                                        <t t-elif="doc.hr_start.month == 5">
+                                            Mayo
+                                        </t>
+                                        <t t-elif="doc.hr_start.month == 6">
+                                            Junio
+                                        </t>
+                                        <t t-elif="doc.hr_start.month == 7">
+                                            Julio
+                                        </t>
+                                        <t t-elif="doc.hr_start.month == 8">
+                                            Agosto
+                                        </t>
+                                        <t t-elif="doc.hr_start.month == 9">
+                                            Setiembre
+                                        </t>
+                                        <t t-elif="doc.hr_start.month == 10">
+                                            Octubre
+                                        </t>
+                                        <t t-elif="doc.hr_start.month == 11">
+                                            Noviembre
+                                        </t>
+                                        <t t-elif="doc.hr_start.month == 12">
+                                            Diciembre
+                                        </t>
+                                        <t t-esc="doc.hr_start.day" />, <t t-esc="doc.hr_start.year"/>
+                                    </t>
+
+                                    <br />
+                                    <b>FECHA PROD: </b>
+                                    <t t-if="doc.hr_end">
+                                        <t t-if="doc.hr_end.strftime('%A') == 'Monday'">
+                                            Lunes,
+                                        </t>
+                                        <t t-elif="doc.hr_end.strftime('%A') == 'Tuesday'">
+                                            Martes,
+                                        </t>
+                                        <t t-elif="doc.hr_end.strftime('%A') == 'Wednesday'">
+                                            Miertcoles,
+                                        </t>
+                                        <t t-elif="doc.hr_end.strftime('%A') == 'Thursday'">
+                                            Jueves,
+                                        </t>
+                                        <t t-elif="doc.hr_end.strftime('%A') == 'Friday'">
+                                            Viernes,
+                                        </t>
+                                        <t t-elif="doc.hr_end.strftime('%A') == 'Saturday'">
+                                            Sabado,
+                                        </t>
+                                        <t t-elif="doc.hr_end.strftime('%A') == 'Sunday'">
+                                            Domingo,
+                                        </t>
+
+                                        <t t-if="doc.hr_end.month == 1">
+                                            Enero
+                                        </t>
+                                        <t t-elif="doc.hr_end.month == 2">
+                                            Febrero
+                                        </t>
+                                        <t t-elif="doc.hr_end.month == 3">
+                                            Marzo
+                                        </t>
+                                        <t t-elif="doc.hr_end.month == 4">
+                                            Abril
+                                        </t>
+                                        <t t-elif="doc.hr_end.month == 5">
+                                            Mayo
+                                        </t>
+                                        <t t-elif="doc.hr_end.month == 6">
+                                            Junio
+                                        </t>
+                                        <t t-elif="doc.hr_end.month == 7">
+                                            Julio
+                                        </t>
+                                        <t t-elif="doc.hr_end.month == 8">
+                                            Agosto
+                                        </t>
+                                        <t t-elif="doc.hr_end.month == 9">
+                                            Setiembre
+                                        </t>
+                                        <t t-elif="doc.hr_end.month == 10">
+                                            Octubre
+                                        </t>
+                                        <t t-elif="doc.hr_end.month == 11">
+                                            Noviembre
+                                        </t>
+                                        <t t-elif="doc.hr_end.month == 12">
+                                            Diciembre
+                                        </t>
+                                        <t t-esc="doc.hr_end.day" />, <t t-esc="doc.hr_end.year"/>
+                                    </t>
+                                </div>
+                                <div class="col-3">
+                                    <br />
+                                    <b>N. ORDEN DE PRODUCCIÓN :</b>
+                                    <t t-esc="doc.name"/>
+                                </div>
+                            </div>
+
+                            <br />
+
+                            <div>
+                                <center>
+                                    <table class="border-0" style="width:100%; font-size:16px;">
+                                        <!-- <tr class="center color-cell" style="text-align:center; background-color:#0094D3; color:white;">
+                                            <td style="width: 7%; height: 0px;"></td>
+                                            <td style="width: 40%; height: 0px;"></td>
+                                            <td style="width: 7%; height: 0px;"></td>
+                                            <td style="width: 6%; height: 0px;"></td>
+                                            <td style="width: 40%; height: 0px;"></td>
+                                        </tr> -->
+                                        <tr class="center color-cell" style="text-align:center; background-color:#0094D3; color:white;">
+                                            <td colspan="5">
+                                                PRODUCTO FINAL
+                                            </td>
+                                        </tr>
+                                        <tr class="center color-cell" style="text-align:center; color:black;">
+                                            <td style="width: 7%;"><b>CÓDIGO</b></td>
+                                            <td style="width: 40%;"><b>DESCRIPCIÓN</b></td>
+                                            <td style="width: 7%;"><b>CANT</b></td>
+                                            <td style="width: 6%;"><b>UND</b></td>
+                                            <td style="width: 40%;"><b>OBSERVACIÓN</b></td>
+                                        </tr>
+                                        <tr class="center color-cell" style="text-align:center; color:black;">
+                                            <td style="width: 7%;"><t t-esc="doc.product_id.default_code" /></td>
+                                            <td style="width: 40%;"><t t-esc="doc.product_id.name" /></td>
+                                            <td style="width: 7%;"><t t-esc="doc.product_qty" /></td>
+                                            <td style="width: 6%;"><t t-if="doc.product_id.uom_id" t-esc="doc.product_id.uom_id.name" /></td>
+                                            <td style="width: 40%;"></td>
+                                        </tr>
+                                        <tr class="center color-cell" style="text-align:center; background-color:#0094D3; color:white;">
+                                            <td colspan="5">
+                                                 MATERIA PRIMA
+                                            </td>
+                                        </tr>
+                                        <tr class="center color-cell" style="text-align:center; color:black;">
+                                            <td style="width: 7%;"><b>CÓDIGO</b></td>
+                                            <td style="width: 40%;"><b>DESCRIPCIÓN</b></td>
+                                            <td style="width: 7%;"><b>CANT</b></td>
+                                            <td style="width: 6%;"><b>UND</b></td>
+                                            <td style="width: 40%;"><b>OBSERVACIÓN</b></td>
+                                        </tr>
+                                        <t t-foreach="doc.move_raw_ids" t-as="order">
+                                            <tr>
+                                                <td style="text-align:center; padding:3px;">
+                                                    <t t-esc="order.product_id.default_code" />
+                                                </td>
+                                                <td style="text-align:center; padding:3px;">
+                                                    <t t-esc="order.location_id.name" />
+                                                </td>
+                                                <td style="text-align:left; padding:3px;">
+                                                    <t t-esc="order.product_uom_qty" />
+                                                </td>
+                                                <td style="text-align:center; padding:3px;">
+                                                    <t t-esc="order.product_uom.name" />
+                                                </td>
+                                                <td style="text-align:right; padding:3px;">
+                                                    <t t-esc="order.observation" />
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </table>
+                                </center>
+                                <!-- <t t-raw="doc.note_report"/> -->
+                            </div>
+
+                            <br />
+
+                            <div class="row">
+                                <div class="col-3">
+                                    <table class="border-0" style="width:100%; font-size:16px;">
+                                        <tr class="border-0" style="text-align:center;">
+                                            <td class="border-0" style="width: 50%;">
+                                                <b>SUMINISTROS:</b>
+                                            </td>
+                                            <td class="border-0" style="width: 20%;"></td>
+                                            <td class="border-0" style="width: 30%;">
+                                                <b>CANT:</b>
+                                            </td>
+                                        </tr>
+                                        <tr class="center color-cell" style="color:black;">
+                                            <td class="border-0" style="width: 50%;">
+                                                Cilindros
+                                            </td>
+                                            <td class="border" style="width: 20%;">
+                                                <t t-if="doc.suministros == '0'">
+                                                    <center>X</center>
+                                                </t>
+                                            </td>
+                                            <td class="border" style="width: 30%;">
+
+                                            </td>
+                                        </tr>
+                                        <tr class="center color-cell" style="color:black;">
+                                            <td class="border-0" style="width: 50%;">
+                                                Hoovers
+                                            </td>
+                                            <td class="border" style="width: 20%;">
+                                                <t t-if="doc.suministros == '1'">
+                                                    <center>X</center>
+                                                </t>
+                                            </td>
+                                            <td class="border" style="width: 30%;">
+
+                                            </td>
+                                        </tr>
+                                        <tr class="center color-cell" style="color:black;">
+                                            <td class="border-0" style="width: 50%;">
+                                                Bolsa de Papel
+                                            </td>
+                                            <td class="border" style="width: 20%;">
+                                                <t t-if="doc.suministros == '2'">
+                                                    <center>X</center>
+                                                </t>
+                                            </td>
+                                            <td class="border" style="width: 30%;">
+
+                                            </td>
+                                        </tr>
+                                        <tr class="center color-cell" style="color:black;">
+                                            <td class="border-0" style="width: 50%;">
+                                                Bolsa de PP
+                                            </td>
+                                            <td class="border" style="width: 20%;">
+                                                <t t-if="doc.suministros == '3'">
+                                                    <center>X</center>
+                                                </t>
+                                            </td>
+                                            <td class="border" style="width: 30%;">
+
+                                            </td>
+                                        </tr>
+                                        <tr class="center color-cell" style="color:black;">
+                                            <td class="border-0" style="width: 50%;">
+                                                Cisterna/Tanque
+                                            </td>
+                                            <td class="border" style="width: 20%;">
+                                                <t t-if="doc.suministros == '4'">
+                                                    <center>X</center>
+                                                </t>
+                                            </td>
+                                            <td class="border" style="width: 30%;">
+
+                                            </td>
+                                        </tr>
+                                        <tr class="center color-cell" style="color:black;">
+                                            <td class="border-0" style="width: 50%;">
+                                                Big Bag
+                                            </td>
+                                            <td class="border" style="width: 20%;">
+                                                <t t-if="doc.suministros == '5'">
+                                                    <center>X</center>
+                                                </t>
+                                            </td>
+                                            <td class="border" style="width: 30%;">
+
+                                            </td>
+                                        </tr>
+                                        <tr class="center color-cell" style="color:black;">
+                                            <td class="border-0" style="width: 50%;">
+                                                Galoneras
+                                            </td>
+                                            <td class="border" style="width: 20%;">
+                                                <t t-if="doc.suministros == '6'">
+                                                    <center>X</center>
+                                                </t>
+                                            </td>
+                                            <td class="border" style="width: 30%;">
+
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-3">
+                                    <b>TRABAJADORES</b>
+                                    <t t-raw="doc.workers"/>
+                                </div>
+                                <div class="col-3">
+                                    <br />
+                                    <br />
+                                    <table class="border-0" style="width:100%; font-size:16px;">
+                                        <tr class="border-0" style="text-align:left;">
+                                            <td class="border-0" style="width: 40%;">
+                                                Merma:
+                                            </td>
+                                            <td class="border-0" style="width: 60%;">
+                                                <t t-esc="doc.merma"/>
+                                            </td>
+                                        </tr>
+                                        <tr class="border-0" style="text-align:left;">
+                                            <td class="border-0" style="width: 40%;">
+                                                Desmedro:
+                                            </td>
+                                            <td class="border-0" style="width: 60%;">
+                                                <t t-esc="doc.desmedro"/>
+                                            </td>
+                                        </tr>
+                                        <tr class="border-0" style="text-align:left;">
+                                            <td class="border-0" style="width: 40%;">
+                                                H. Inicio:
+                                            </td>
+                                            <td class="border-0" style="width: 60%;">
+                                                <t t-esc="doc.hr_start"/>
+                                            </td>
+                                        </tr>
+                                        <tr class="border-0" style="text-align:left;">
+                                            <td class="border-0" style="width: 40%;">
+                                                H. Final:
+                                            </td>
+                                            <td class="border-0" style="width: 60%;">
+                                                <t t-esc="doc.hr_end"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-3">
+                                    <br />
+                                    <br />
+                                    <table class="border-0" style="width:100%; font-size:16px;">
+                                        <tr class="border-0" style="text-align:center;">
+                                            <td class="border-0" style="width: 80%;">
+                                                <b>EQUIPOS:</b>
+                                            </td>
+                                            <td class="border-0" style="width: 20%;"></td>
+                                        </tr>
+                                        <tr class="center color-cell" style="color:black;">
+                                            <td class="border-0">
+                                                Agitador
+                                            </td>
+                                            <td class="border">
+                                                <t t-if="doc.workers == '0'">
+                                                    <center>X</center>
+                                                </t>
+                                            </td>
+                                        </tr>
+                                        <tr class="center color-cell" style="color:black;">
+                                            <td class="border-0">
+                                                Bombas
+                                            </td>
+                                            <td class="border">
+                                                <t t-if="doc.workers == '1'">
+                                                    <center>X</center>
+                                                </t>
+                                            </td>
+                                        </tr>
+                                        <tr class="center color-cell" style="color:black;">
+                                            <td class="border-0">
+                                                Montacarga
+                                            </td>
+                                            <td class="border">
+                                                <t t-if="doc.workers == '2'">
+                                                    <center>X</center>
+                                                </t>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <br /><br /><br />
+
+                            <div>
+                                <b>OBSERVACIÓN: </b><t t-esc="doc.observation" />
+                            </div>
+                            <br /><br /><br /><br /><br /><br /><br />
+
+                            <div class="row">
+                                <div class="col-1" />
+                                <div class="col-4 border-top border-dark" style="text-align:center;">
+                                    <b>AUX. PRODUCCIÓN: ENTREGADO</b>
+                                </div>
+                                <div class="col-2" />
+                                <div class="col-4 border-top border-dark" style="text-align:center;">
+                                    <b>AUX. DE ALMACÉN: RECIBIDO</b>
+                                </div>
+                                <div class="col-1" />
+                            </div>
+                        </div>
+
+                        <div class="footer container" style="display:block; margin-top:20px; padding:0; width:100%; font-size:20px; color:#808080;">
+                            <br />
+                            <hr color="#35547E" />
+                            <center>
+                            <b>A: </b>
+                                <t t-esc="doc.company_id.street_name" />, 
+                                <t t-esc="doc.company_id.city" />, 
+                                <t t-if="doc.company_id.state_id" t-esc="doc.company_id.state_id.name" />, 
+                                <t t-if="doc.company_id.country_id" t-esc="doc.company_id.country_id.name" />
+                                | <b>T: </b>
+                                <t t-esc="doc.company_id.phone" />, 
+                                | <b>E: </b>
+                                <t t-esc="doc.company_id.email" />,
+                            </center>
+                            <hr width="115%" color="#DCDCDC" style="height:20px; margin-left:-15px;" />
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <template id="header_reports_comisub" inherit_id="web.external_layout_standard">
+        <xpath expr="//div[@t-attf-class='header o_company_#{company.id}_layout']" position="replace">
+            <div class="header">
+                <div class="row">
+                    <hr width="115%" color="#DCDCDC" style="height:20px; margin-left:-15px;" />
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)" alt="Logo" style="max-width:300px; max-height:100px; position:absolute; left:4;" />
+                        <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)" alt="Logo" style="max-width:300px; max-height:100px; position:absolute; left:4;" />
+                    </div>
+                    <div class="col-6" style="text-align:center;">
+                        <!-- <p style="font-size:17px; margin:0px; padding:0px;">PRODUCTOS PARA MINERÍA Y CONSTRUCCIÓN</p> -->
+                        <p style="font-size:18px; margin:0px; padding:0px; color:#35547E;">
+                        <t t-esc="doc.name"/>
+                        <!-- <t t-if="len(str(doc.date_order.month)) == 1">
+                            0<t t-esc="doc.date_order.month"/>
+                        </t>
+                        <t t-elif="len(str(doc.date_order.month)) == 2">
+                            <t t-esc="doc.date_order.month"/>
+                        </t>
+                        -
+                        <t t-esc="str(doc.date_order.year)[2:]"/> -->
+                        </p>
+                        <hr color="#35547E" />
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+    <record id="paperformat_sale_report_diamond_it" model="report.paperformat">
+        <field name="name">Personalizado</field>
+        <field name="default" eval="True"/>
+        <field name="format">custom</field>
+        <field name="page_height">297</field>
+        <field name="page_width">210</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">25</field>
+        <field name="margin_bottom">20</field>
+        <field name="margin_left">0</field>
+        <field name="margin_right">0</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">29</field>
+        <field name="dpi">98</field>
+    </record>
+
+    <report
+        id="action_report_purchase_comisub"
+        model="mrp.production"
+        string="Producción Reporte"
+        report_type="qweb-pdf"
+        name="production_reportt_pdf_diamond_rq_it.mrp_report_pdf_diamond"
+        file="production_reportt_pdf_diamond_rq_it.mrp_report_pdf_diamond"
+        paperformat="production_reportt_pdf_diamond_rq_it.paperformat_sale_report_diamond_it"
+    />
+
+</odoo>

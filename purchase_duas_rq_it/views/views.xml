@@ -18,6 +18,30 @@
                     </group>
                 </page>
             </xpath>
+
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="ids_first_contact" invisible="1" />
+                <field name="id_partner_to_create" invisible="1" />
+                <field name="street_partner" invisible="1" />
+                <field name="street2_partner" invisible="1" />
+                <field name="city_partner" invisible="1" />
+                <field name="state_partner" invisible="1" />
+                <field name="zip_partner" invisible="1" />
+                <field name="country_partner" invisible="1" />
+                <field name="check_dÑÑomain" invisible="1" />
+                <field name="first_contacto_partner" domain="[('id', 'in', ids_first_contact)]" context="{
+                    'default_parent_id': partner_id,
+                    'default_street': street_partner,
+                    'default_street2': street2_partner,
+                    'default_city': city_partner,
+                    'default_state_id': state_partner,
+                    'default_zip': zip_partner,
+                    'default_country_id': country_partner,
+                    'default_user_id': user_id,
+                    'default_type': 'contact',
+                    'default_lang': 'es_ES',
+                }" options="{'no_quick_create': True, 'no_create_edit' : True}" />
+            </xpath>
         </field>
     </record>
 
@@ -41,5 +65,7 @@
             </xpath>
         </field>
     </record>
+
+    
 
 </odoo>
