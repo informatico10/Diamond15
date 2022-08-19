@@ -544,9 +544,9 @@
         </t>
     </template>
 
-    <template id="header_reports_comisub" inherit_id="web.external_layout_standard">
+    <!-- <template id="header_reports_comisub" inherit_id="web.external_layout_standard">
         <xpath expr="//div[@t-attf-class='header o_company_#{company.id}_layout']" position="replace">
-            <div class="header">
+            <div class="header" t-attf-class="header o_company_#{company.id}_layout">
                 <div class="row">
                     <hr width="115%" color="#DCDCDC" style="height:20px; margin-left:-15px;" />
                 </div>
@@ -556,26 +556,17 @@
                         <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)" alt="Logo" style="max-width:300px; max-height:100px; position:absolute; left:4;" />
                     </div>
                     <div class="col-6" style="text-align:center;">
-                        <!-- <p style="font-size:17px; margin:0px; padding:0px;">PRODUCTOS PARA MINERÍA Y CONSTRUCCIÓN</p> -->
                         <p style="font-size:18px; margin:0px; padding:0px; color:#35547E;">
                         <t t-esc="doc.name"/>
-                        <!-- <t t-if="len(str(doc.date_order.month)) == 1">
-                            0<t t-esc="doc.date_order.month"/>
-                        </t>
-                        <t t-elif="len(str(doc.date_order.month)) == 2">
-                            <t t-esc="doc.date_order.month"/>
-                        </t>
-                        -
-                        <t t-esc="str(doc.date_order.year)[2:]"/> -->
                         </p>
                         <hr color="#35547E" />
                     </div>
                 </div>
             </div>
         </xpath>
-    </template>
+    </template> -->
 
-    <record id="paperformat_sale_report_diamond_it" model="report.paperformat">
+    <record id="paperformat_production_report_diamond_it" model="report.paperformat">
         <field name="name">Personalizado</field>
         <field name="default" eval="True"/>
         <field name="format">custom</field>
@@ -592,13 +583,13 @@
     </record>
 
     <report
-        id="action_report_purchase_comisub"
+        id="action_report_production_diamond"
         model="mrp.production"
         string="Producción Reporte"
         report_type="qweb-pdf"
         name="production_reportt_pdf_diamond_rq_it.mrp_report_pdf_diamond"
         file="production_reportt_pdf_diamond_rq_it.mrp_report_pdf_diamond"
-        paperformat="production_reportt_pdf_diamond_rq_it.paperformat_sale_report_diamond_it"
+        paperformat="production_reportt_pdf_diamond_rq_it.paperformat_production_report_diamond_it"
     />
 
 </odoo>

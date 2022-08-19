@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem
+        id="purchase_table_menu"
+        name="Compras Tablas Reporte"
+        parent="purchase.menu_purchase_config"
+        sequence="100"
+    />
+
+    <menuitem
+        id="table_by_menu"
+        name="Modelo By"
+        sequence="10"
+        parent="purchase_report_pdf_diamond_rq_it.purchase_table_menu"
+        action="purchase_report_pdf_diamond_rq_it.by_diamond_action"
+    />
+    <menuitem
+        id="table_insurance_menu"
+        name="Modelo Insurance"
+        sequence="20"
+        parent="purchase_report_pdf_diamond_rq_it.purchase_table_menu"
+        action="purchase_report_pdf_diamond_rq_it.insurance_diamond_action"
+    />
+    <menuitem
+        id="table_loading_menu"
+        name="Modelo Loading"
+        sequence="30"
+        parent="purchase_report_pdf_diamond_rq_it.purchase_table_menu"
+        action="purchase_report_pdf_diamond_rq_it.loading_port_diamond_action"
+    />
+    <menuitem
+        id="table_payment_menu"
+        name="Modelo Payment"
+        sequence="40"
+        parent="purchase_report_pdf_diamond_rq_it.purchase_table_menu"
+        action="purchase_report_pdf_diamond_rq_it.payment_term_diamond_action"
+    />
+    <menuitem
+        id="table_shipment_menu"
+        name="Modelo Shipment"
+        sequence="50"
+        parent="purchase_report_pdf_diamond_rq_it.purchase_table_menu"
+        action="purchase_report_pdf_diamond_rq_it.shipment_diamond_action"
+    />
+
+</odoo>

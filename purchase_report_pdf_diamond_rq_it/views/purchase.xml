@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="purchase_order_form_inherit_purchase_report_rq_it" model="ir.ui.view">
+        <field name="name">purchase.order.view.form.inherit</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page name="report_pdf" string="Reporte PDF">
+                    <group>
+                        <group>
+                            <field name="motivo_oc" />
+                            <field name="infra_project" />
+                            <field name="observaciones" />
+                        </group>
+                        <group>
+                            <field name="check_incoterm" invisible="1" />
+                            <field name="incoterm_diamond" attrs="{'invisible': [('incoterm_diamond', '=', False)]}" />
+                            <field name="incoterm_country_diamond_id" attrs="{'invisible': [('incoterm_diamond', '=', False)]}" />
+                        </group>
+                    </group>
+                </page>
+                <page name="validation" string="Validación" attrs="{'invisible': [('user_aprobacion_id', '=', False)]}">
+                    <group>
+                        <group>
+                            <field name="fch_aprobacion" />
+                            <field name="user_aprobacion_id" />
+                        </group>
+                        <group>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

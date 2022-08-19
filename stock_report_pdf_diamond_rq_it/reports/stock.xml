@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="stock_report_pdf_diamond">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <style type="text/css">
+                        <![CDATA[
+                            * {
+                                line-height: 1.5em;
+                            }
+                            table {
+                                width: 100%;
+                                border-top: 1px solid black;
+                                vertical-align: middle;
+                                font-size: 15px;
+                            }
+                            th, td {
+                                border-bottom: 0.5px solid #35547E;
+                                vertical-align: middle;
+                                height: 20px;
+                                font-size: 14px;
+                                margin:0;
+                                padding:3px;
+                            }
+                            .page {
+                                font-family: Verdana;
+                                font-size: 15px;
+                                color:#201F23;
+                                background-image: url(/sale_order_report_by_warehouse_it/static/src/img/fondo.png);
+                                background-repeat: no-repeat;
+                                background-size:300px 200px;
+                                height: 1100px;
+                                background-position: bottom right;
+                            }
+                        ]]>
+                    </style>
+                    <div class="page" style="">
+                        <div class="header">
+                            <div class="row">
+                                <hr width="115%" color="#DCDCDC" style="height:20px; margin-left:-15px;" />
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)" alt="Logo" style="max-width:300px; max-height:100px; position:absolute; left:4;" />
+                                    <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)" alt="Logo" style="max-width:300px; max-height:100px; position:absolute; left:4;" />
+                                </div>
+                                <div class="col-6" style="text-align:center;">
+                                    HOLALALALALAL
+                                    <hr color="#35547E" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container" style="width:90%; font-size:15px">
+                            <div class="row d-flex justify-content-center align-items-center">
+                                <div class="col-6 text-center">
+                                    <b>DIACORSA</b>
+                                </div>
+                                <div class="col-6 text-center">
+                                    <b>Parte de Ingreso Nro: <t t-esc="doc.name"/></b>
+                                </div>
+                            </div>
+
+                            <br />
+
+                            <div class="row d-flex justify-content-center align-items-center">
+                                <div class="col-2 text-left">
+                                    <b>Almacén: </b>
+                                </div>
+                                <div class="col-4 text-left">
+                                    <t t-if="doc.location_dest_id" t-esc="doc.location_dest_id.warehouse_id.name"/>
+                                </div>
+
+                                <div class="col-1" />
+
+                                <div class="col-2 text-left">
+                                    <b>Fecha: </b>
+                                </div>
+                                <div class="col-4 text-left">
+                                    <t t-if="doc.scheduled_date" t-esc="doc.scheduled_date.strftime('%d/%m/%Y')"/>
+                                </div>
+                            </div>
+                            <div class="row d-flex justify-content-center align-items-center">
+                                <div class="col-2 text-left">
+                                    <b>Concepto: </b>
+                                </div>
+                                <div class="col-4 text-left">
+                                    <t t-if="doc.purchase_id and doc.purchase_id.type_purchase == '0'">
+                                        Ingreso Compra O/C
+                                    </t>
+                                    <t t-elif="doc.purchase_id and doc.purchase_id.type_purchase == '1'">
+                                        Compra Importación
+                                    </t>
+                                </div>
+
+                                <div class="col-1" />
+
+                                <div class="col-2 text-left">
+                                    <b>Referencia 2 : </b>
+                                </div>
+                                <div class="col-4 text-left">
+                                    <t t-if="doc.purchase_id and doc.purchase_id.type_purchase == '0'">
+                                        <t t-if="doc.despatch_id" t-esc="doc.despatch_id.name"/>
+                                    </t>
+                                    <t t-elif="doc.purchase_id and doc.purchase_id.type_purchase == '1'">
+                                        <t t-esc="doc.dua"/>
+                                    </t>
+                                </div>
+                            </div>
+
+                            <div class="row d-flex justify-content-center align-items-center">
+                                <div class="col-2 text-left">
+                                    <b>Proveedor: </b>
+                                </div>
+                                <div class="col-4 text-left">
+                                    <t t-if="doc.partner_id">
+                                        <t t-esc="doc.partner_id.vat"/>  <t t-esc="doc.partner_id.name"/>
+                                    </t>
+                                </div>
+
+                                <div class="col-1" />
+
+                                <div class="col-2 text-left">
+                                    <b>Fact-Acree: </b>
+                                </div>
+                                <div class="col-4 text-left">
+
+                                </div>
+                            </div>
+
+                            <div class="row d-flex justify-content-center align-items-center">
+                                <table class="border-0" style="width:100%; font-size:16px;">
+                                    <tr class="center color-cell" style="text-align:center; background-color:#0094D3; color:white;">
+                                        <td style="width: 9%;"><b>ARTÍCULO</b></td>
+                                        <td style="width: 40%;"><b>DESCRIPCIÓN</b></td>
+                                        <td style="width: 14%;"><b>NUM LOTE</b></td>
+                                        <td style="width: 7%;"><b>UND</b></td>
+                                        <td style="width: 10%;"><b>CANTIDAD</b></td>
+                                        <td style="width: 20%;"><b>REFERENCIA</b></td>
+                                    </tr>
+                                    <t t-set="sum_cant" t-value="0"/>
+                                    <t t-foreach="doc.move_line_nosuggest_ids" t-as="line">
+                                        <tr>
+                                            <td style="text-align:center; padding:3px;">
+                                                <t t-esc="line.product_id.default_code" />
+                                            </td>
+                                            <td style="text-align:center; padding:3px;">
+                                                <t t-esc="line.product_id.name" />
+                                            </td>
+                                            <td style="text-align:center; padding:3px;">
+                                                <t t-esc="line.lot_name" />
+                                            </td>
+                                            <td style="text-align:left; padding:3px;">
+                                                <t t-if="line.product_id.uom_id" t-esc="line.product_id.uom_id.name" />
+                                            </td>
+                                            <td style="text-align:right; padding:3px;">
+                                                <t t-if="line.qty_done" t-esc="'{:,.3f}'.format(round(line.qty_done,3))" />
+                                            </td>
+                                            <td style="text-align:right; padding:3px;">
+                                                <t t-if="doc.purchase_id" t-esc="doc.purchase_id.name" />
+                                            </td>
+                                            <t t-set="sum_cant" t-value="sum_cant + line.qty_done"/>
+                                        </tr>
+                                    </t>
+                                    <tr class="center color-cell" style="text-align:right; border: 1px solid white;">
+                                        <td class="border-0" colspan="3"></td>
+                                        <td class="border-0"><b>TOTAL</b></td>
+                                        <td class="border-0"><t t-esc="'{:,.3f}'.format(round(sum_cant,3))" /></td>
+                                        <td class="border-0"></td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <br />
+                            <br />
+
+                            <div class="row">
+                                <div class="col-3">
+                                    <b>Observaciones:</b>
+                                </div>
+                                <div class="col-9">
+                                    <t t-esc="doc.note"/>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="footer container" style="display:block; margin-top:20px; padding:0; width:100%; font-size:20px; color:#808080;">
+                            <br />
+                            <hr color="#35547E" />
+                            <center>
+                            <b>A: </b>
+                                <t t-esc="doc.company_id.street_name" />, 
+                                <t t-esc="doc.company_id.city" />, 
+                                <t t-if="doc.company_id.state_id" t-esc="doc.company_id.state_id.name" />, 
+                                <t t-if="doc.company_id.country_id" t-esc="doc.company_id.country_id.name" />
+                                | <b>T: </b>
+                                <t t-esc="doc.company_id.phone" />, 
+                                | <b>E: </b>
+                                <t t-esc="doc.company_id.email" />,
+                            </center>
+                            <hr width="115%" color="#DCDCDC" style="height:20px; margin-left:-15px;" />
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- <template id="header_reports_comisub" inherit_id="web.external_layout_standard">
+        <xpath expr="//div[@t-attf-class='header o_company_#{company.id}_layout']" position="replace">
+            <div class="header">
+                <div class="row">
+                    <hr width="115%" color="#DCDCDC" style="height:20px; margin-left:-15px;" />
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)" alt="Logo" style="max-width:300px; max-height:100px; position:absolute; left:4;" />
+                        <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)" alt="Logo" style="max-width:300px; max-height:100px; position:absolute; left:4;" />
+                    </div>
+                    <div class="col-6" style="text-align:center;">
+                        <p style="font-size:18px; margin:0px; padding:0px; color:#35547E;">
+                        <t t-esc="doc.name"/>
+                        <hr color="#35547E" />
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template> -->
+
+    <record id="paperformat_stock_report_diamond_it" model="report.paperformat">
+        <field name="name">Personalizado</field>
+        <field name="default" eval="True"/>
+        <field name="format">custom</field>
+        <field name="page_height">210</field>
+        <field name="page_width">297</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">25</field>
+        <field name="margin_bottom">20</field>
+        <field name="margin_left">0</field>
+        <field name="margin_right">0</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">29</field>
+        <field name="dpi">98</field>
+    </record>
+
+    <report
+        id="action_report_stock_diamond"
+        model="stock.picking"
+        string="Stock Reporte"
+        report_type="qweb-pdf"
+        name="stock_report_pdf_diamond_rq_it.stock_report_pdf_diamond"
+        file="stock_report_pdf_diamond_rq_it.stock_report_pdf_diamond"
+        paperformat="stock_report_pdf_diamond_rq_it.paperformat_stock_report_diamond_it"
+    />
+
+</odoo>
