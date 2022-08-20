@@ -1,0 +1,23 @@
+<odoo>
+
+    <record id="group_payment_sale_extracredit" model="res.groups">
+        <field name="name">Aprobación de Extra-créditos - Ventas</field>
+        <field name="category_id" ref="category_only_rq_it.category_sale_module_custom" />
+    </record>
+
+    <record id="group_tesoreria_sale_pay" model="res.groups">
+        <field name="name">Notificación en Venta a Tesoreria al Registrar PDF pago</field>
+        <field name="category_id" ref="category_only_rq_it.category_sale_module_custom" />
+    </record>
+
+    <record id="model_sale_payment_notification" model="ir.model.access">
+        <field name="name">model.sale.payment.notification</field>
+        <field name="model_id" ref="sale_payment_rq_it.model_sale_payment_notification" />
+        <field name="group_id" ref="base.group_system" />
+        <field name="perm_read" eval="1" />
+        <field name="perm_write" eval="1" />
+        <field name="perm_create" eval="1" />
+        <field name="perm_unlink" eval="1" />
+    </record>
+
+</odoo>

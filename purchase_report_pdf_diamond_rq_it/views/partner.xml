@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_partner_form_inherit_incoterm_diamond" model="ir.ui.view">
+        <field name="name">res.partner.view.form.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[1]" position="after">
+                <group>
+                    <group>
+                        <field name="is_supplier" invisible="1" />
+                        <field name="incoterm_diamond" attrs="{'invisible': [('is_supplier', '=', False)]}" />
+                        <field name="incoterm_country_diamond_id" attrs="{'invisible': [('is_supplier', '=', False)]}" />
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

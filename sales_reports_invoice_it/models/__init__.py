@@ -1,0 +1,1 @@
+from . import product, account_move, invoices_reports, sale

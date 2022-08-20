@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_picking_form_inherit_generate_logistic" model="ir.ui.view">
+        <field name="name">stock.picking.view.form.inherit</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="logistic.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='generate_logistic_despatch']" position="attributes">
+                <attribute name="groups">logistic.group_manager</attribute>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

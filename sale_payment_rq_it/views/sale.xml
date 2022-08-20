@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_order_form_inherit_sale_payment_rq_it" model="ir.ui.view">
+        <field name="name">sale.order.view.form.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="check_credit" invisible="1" />
+                <field name="exceeded_credit" invisible="1" />
+                <field name="exceeded_credit_approve" invisible="1" />
+                <field style="color:red;" name="message_credit_0" attrs="{'invisible': [('exceeded_credit', '=', False)]}" readonly="True" />
+            </xpath>
+
+            <xpath expr="//notebook" position="inside">
+                <page name="payment" string="Pagos">
+                    <group>
+                        <group>
+                            <field name="pay_detail" />
+                            <field name="way_pay" attrs="{'invisible': [('pay_detail', '!=', '0')]}" />
+                            <field name="pay_file" attrs="{'invisible': [('pay_detail', '!=', '0')]}" />
+                            <field name="pays_state" attrs="{'invisible': [('pay_detail', '!=', '0')]}" readonly="True" />
+                        </group>
+                        <group>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_quotation_tree_with_onboarding_inherit_sale_payment_rq" model="ir.ui.view">
+        <field name="name">sale.order.view.list.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree_with_onboarding"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="inside">
+                <field name="state_payment_sale" optional="show" />
+                <field name="payment_term_id" optional="show" />
+                <field name="pays_state" optional="show" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_order_tree_inherit_sale_payment_rq_it" model="ir.ui.view">
+        <field name="name">sale.order.view.list.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="inside">
+                <field name="state_payment_sale" optional="show" />
+                <field name="payment_term_id" optional="show" />
+                <field name="pays_state" optional="show" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="sale_payment_notification_view_form" model="ir.ui.view">
+        <field name="name">sale.payment.notification.view.form</field>
+        <field name="model">sale.payment.notification</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <group>
+                    <field name="message" />
+                </group>
+                <center>
+                    <footer>
+                        <button string="Solicitar Aprobación" name="notify" type="object" class="oe_highlight" attrs="{'invisible': [('message', '!=', '0')]}" />
+                        <button string="Solicitar Asignar ExtraCredito a Cliente" name="notify" type="object" class="oe_highlight" attrs="{'invisible': [('message', '!=', '1')]}" />
+                        <button string="Aprobar" name="notify" type="object" class="oe_highlight" attrs="{'invisible': [('message', '!=', '2')]}" />
+                        <button string="CANCELAR" class="oe_link" special="cancel"/>
+                    </footer>
+                </center>
+            </form>
+        </field>
+    </record>
+
+</odoo>

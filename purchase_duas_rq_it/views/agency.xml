@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="agency_aduana_view_tree" model="ir.ui.view">
+        <field name="name">agency.aduana.view.tree</field>
+        <field name="model">agency.aduana</field>
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="name" />
+                <field name="create_uid" />
+                <field name="create_date" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="agency_aduana_view_form" model="ir.ui.view">
+        <field name="name">agency.aduana.view.form</field>
+        <field name="model">agency.aduana</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+                        <field name="name" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="agency_aduana_action" model="ir.actions.act_window">
+        <field name="name">Aduana Agencia</field>
+        <field name="res_model">agency.aduana</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+        id="agency_aduana_menu"
+        name="Agencia Aduana"
+        parent="purchase.menu_purchase_config"
+        action="purchase_duas_rq_it.agency_aduana_action"
+        sequence="80" />
+
+</odoo>

@@ -1,0 +1,8 @@
+<odoo>
+
+    <record id="group_confirm_sale_without_stock" model="res.groups">
+        <field name="name">Responsable Confirmación de Pedido de Venta Sin Stock</field>
+        <field name="category_id" ref="category_only_rq_it.category_sale_module_custom" />
+    </record>
+
+</odoo>

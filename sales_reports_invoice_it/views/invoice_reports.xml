@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="view_report_products_invoice_tree" model="ir.ui.view">
+            <field name="name">report.products.invoice.tree</field>
+            <field name="model">report.products.invoice</field>
+            <field eval="1" name="priority"/>
+            <field name="arch" type="xml">
+                <tree string="Productos Facturados" create="false">
+                    <field name="razon_social" optional="show" />
+                    <field name="codigo" optional="show"/>
+                    <field name="product_name" optional="show"/>
+                    <field name="invoice_name" optional="show"/>
+                    <field name="invoice_number" optional="show"/>
+
+                    <field name="fch_emision" optional="show" />
+                    <field name="fch_entrega" optional="show" /> 
+                    <field name="fch_vencimiento" optional="show"/>
+                    <field name="gr" optional="show"/>
+                    <field name="oc" optional="show" />
+
+                    <field name="qty_loc" optional="show"/>
+                    <field name="price_unit"  optional="show"/>
+                    <field name="currency_name" optional="show"/> 
+                    <field name="tc" optional="show" />
+
+                    <field name="moneda_mn" invisible="True" />
+                    <field name="moneda_me" invisible="True" />
+                    <field name="currency_id" invisible="True" /> 
+
+                    <field name="price_unit" optional="show" widget="monetary" options="{'currency_field': 'currency_id'}" />
+
+                    <field name="subtotal_mn" widget="monetary" options="{'currency_field': 'moneda_mn'}" optional="show" />
+                    <field name="subtotal_me" widget="monetary" options="{'currency_field': 'moneda_me'}" optional="show" />
+                    <field name="total_mn" widget="monetary" options="{'currency_field': 'moneda_mn'}" optional="show" />
+                    <field name="total_me" widget="monetary" options="{'currency_field': 'moneda_me'}" optional="show" />
+
+                    <field name="iqbf" optional="show" />
+                    <field name="sunat_status" optional="show" />
+                    <field name="observacion" optional="show" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_report_products_invoice_pivot" model="ir.ui.view">
+             <field name="name">report.products.invoice.pivot</field>
+             <field name="model">report.products.invoice</field>
+             <field name="arch" type="xml">
+                 <pivot string="Productos Facturados" disable_linking="True">
+                 </pivot>
+             </field>
+        </record>
+
+        <record id="report_products_invoice_view_search" model="ir.ui.view">
+            <field name="name">report.products.invoice.view.search</field>
+            <field name="model">report.products.invoice</field>
+            <field name="arch" type="xml">
+                <search string="">
+                    <field name="razon_social" />
+                    <field name="codigo" />
+                    <field name="product_name" />
+                    <field name="invoice_name" />
+                    <field name="invoice_number" />
+
+                    <filter name="fch_emision" string="Fecha Emisión" context="{'group_by': 'fch_emision'}" />
+                    <filter name="fch_entrega" string="Fecha Entrega" context="{'group_by': 'fch_entrega'}" />
+                    <filter name="fch_vencimiento" string="Vendedor" context="{'group_by': 'fch_vencimiento'}" />
+                    <filter name="razon_social" string="Producto" context="{'group_by': 'razon_social'}" />
+                    <filter name="product_name" string="Producto" context="{'group_by': 'product_name'}" />
+                    <filter name="currency_name" string="Producto" context="{'group_by': 'currency_name'}" />
+                </search>
+            </field>
+        </record>
+
+        <record id="action_report_products_invoice" model="ir.actions.act_window">
+            <field name="name">Reporte de Ventas</field>
+            <field name="res_model">report.products.invoice</field>
+            <field name="view_id" ref="view_report_products_invoice_tree"/>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,pivot</field>
+        </record>
+
+        <menuitem 
+            action="action_report_products_invoice"
+            id="menu_action_report_products_invoice"
+            parent="sale.menu_sale_report"
+            sequence="100"
+        />
+
+    </data>
+</odoo>

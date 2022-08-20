@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="purchase_order_invoice_form_group_rq_it" model="ir.ui.view">
+        <field name="name">purchase.order.view.form.inherit</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <field name="solicitar_creacion_factura" invisible="1" />
+                <button string="Solicitar Factura" name="button_solicitar_creacion_factura" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('solicitar_creacion_factura','=',True), ('state', 'not in', ['done', 'purchase'])]}" groups="!purchase_invoice_generate_rq_it.group_notify_purchase_generate_invoice" />
+            </xpath>
+            <xpath expr="//button[5]" position="attributes">
+                <attribute name="groups">purchase_invoice_generate_rq_it.group_notify_purchase_generate_invoice</attribute>
+            </xpath>
+            <xpath expr="//button[12]" position="attributes">
+                <attribute name="groups">purchase_invoice_generate_rq_it.group_notify_purchase_generate_invoice</attribute>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

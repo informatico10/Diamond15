@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_partner_form_inherit_sale_payment" model="ir.ui.view">
+        <field name="name">res.partner.view.form.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page name="payment" string="Condición de Pago">
+                    <group>
+                        <group>
+                            <field name="payment_condition" readonly="True" />
+                            <field name="credit_limit_payment" attrs="{'invisible': [('payment_condition', '!=', 'credito')]}" />
+                            <field name="currency_credit_id" attrs="{'invisible': [('payment_condition', '!=', 'credito')]}" />
+                            <field name="extra_credit" attrs="{'invisible': [('payment_condition', '!=', 'credito')]}" widget="selection" />
+                        </group>
+                        <group>
+                            <field name="due_current" attrs="{'invisible': [('payment_condition', '!=', 'credito')]}" />
+                            <field name="remaining_credit" attrs="{'invisible': [('payment_condition', '!=', 'credito')]}" />
+                            <field name="state_partner" attrs="{'invisible': [('payment_condition', '!=', 'credito')]}" />
+                            <field name="check_data_payment" invisible="True" />
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_partner_tree_inherit_sale_payment_rq_it" model="ir.ui.view">
+        <field name="name">res.partner.view.list.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="inside">
+                <field name="property_payment_term_id" optional="show" />
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="purchase_report_pdf_diamond">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <style type="text/css">
+                        <![CDATA[
+                            * {
+                                line-height: 1.5em;
+                            }
+                            table {
+                                width: 100%;
+                                border-top: 1px solid black;
+                                vertical-align: middle;
+                                font-size: 15px;
+                            }
+                            th, td {
+                                border-bottom: 0.5px solid #35547E;
+                                vertical-align: middle;
+                                height: 20px;
+                                font-size: 14px;
+                                margin:0;
+                                padding:3px;
+                            }
+                            .page {
+                                font-family: Verdana;
+                                font-size: 15px;
+                                color:#201F23;
+                                background-image: url(/sale_order_report_by_warehouse_it/static/src/img/fondo.png);
+                                background-repeat: no-repeat;
+                                background-size:300px 200px;
+                                height: 1100px;
+                                background-position: bottom right;
+                            }
+                        ]]>
+                    </style>
+                    <div class="page" style="">
+                        <t t-if="doc.type_purchase == '0'">
+                            <div class="container" style="width:90%; font-size:15px">
+                                <div class="row d-flex justify-content-center align-items-center text-center">
+                                    <div class="col-12">
+                                        <h5>
+                                            <b><center>ORDEN DE COMPRA</center></b>
+                                        </h5>
+                                    </div>
+                                </div>
+
+                                <br />
+                                <div class="row d-flex justify-content-center align-items-center">
+                                    <div class="col-6 text-left">
+                                        <b>Fecha: </b>
+                                        <t t-if="doc.create_date" t-esc="doc.create_date.strftime('%d/%m/%Y')" />
+                                    </div>
+
+                                    <div class="col-1" />
+
+                                    <div class="col-5 text-left">
+                                        <b>Representante de Compra: </b>
+                                        <t t-if="doc.user_id" t-esc="doc.user_id.name" />
+                                    </div>
+                                </div>
+
+                                <div class="row d-flex justify-content-center align-items-center">
+                                    <div class="col-6 text-left">
+                                        <b>Proveedor: </b>
+                                        <t t-if="doc.partner_id" t-esc="doc.partner_id.vat" /> - 
+                                        <t t-if="doc.partner_id" t-esc="doc.partner_id.name" />
+                                    </div>
+
+                                    <div class="col-1" />
+
+                                    <div class="col-5 text-left">
+                                        <b>Fecha de Entrega: </b>
+                                        <t t-if="doc.date_planned" t-esc="doc.date_planned.strftime('%d/%m/%Y')" />
+                                    </div>
+                                </div>
+
+                                <div class="row d-flex justify-content-center align-items-center">
+                                    <div class="col-6 text-left">
+                                        <b>Dirección: </b>
+                                        <t t-if="doc.partner_id" t-esc="doc.partner_id.street" />
+                                    </div>
+
+                                    <div class="col-1" />
+
+                                    <div class="col-5 text-left">
+                                        <b>Contacto: </b>
+                                        <t t-if="doc.first_contacto_partner" t-esc="doc.first_contacto_partner.name" />
+                                    </div>
+                                </div>
+
+                                <div class="row d-flex justify-content-center align-items-center">
+                                    <div class="col-6 text-left">
+                                        <b>Teléfono: </b>
+                                        <t t-if="doc.partner_id and doc.partner_id.phone and doc.partner_id.phone != ''">
+                                            <t t-esc="doc.partner_id.phone" />
+                                        </t>
+                                        <t t-elif="doc.partner_id and doc.partner_id.mobile and doc.partner_id.mobile != ''">
+                                            <t t-esc="doc.partner_id.mobile" />
+                                        </t>
+                                    </div>
+
+                                    <div class="col-1" />
+
+                                    <div class="col-5 text-left">
+                                        <b>Moneda: </b>
+                                        <t t-if="doc.currency_id" t-esc="doc.currency_id.currency_unit_label" />
+                                    </div>
+                                </div>
+
+                                <div class="row d-flex justify-content-center align-items-center">
+                                    <div class="col-6 text-left">
+                                        <b>Cond. Pago: </b>
+                                        <t t-if="doc.payment_term_id" t-esc="doc.payment_term_id.name" />
+                                    </div>
+                                </div>
+
+                                <br />
+
+                                <div class="row d-flex justify-content-center align-items-center">
+                                    <table class="border-0" style="width:100%; font-size:16px;">
+                                        <tr class="center color-cell" style="text-align:center; background-color:#0094D3; color:white;">
+                                            <td style="width: 3%;"><b>Item</b></td>
+                                            <td style="width: 7%;"><b>Artículo</b></td>
+                                            <td style="width: 20%;"><b>Descripción</b></td>
+                                            <td style="width: 16%;"><b>Cant</b></td>
+                                            <td style="width: 10%;"><b>Unidad</b></td>
+                                            <td style="width: 12%;"><b>% I.G.V.</b></td>
+                                            <td style="width: 16%;"><b>V. Unit</b></td>
+                                            <td style="width: 16%;"><b>Valor Venta</b></td>
+                                        </tr>
+                                        <t t-set="item" t-value="1"/>
+                                        <t t-foreach="doc.order_line" t-as="line">
+                                            <tr>
+                                                <td style="text-align:center; padding:3px;">
+                                                    <t t-esc="item" />
+                                                </td>
+                                                <td style="text-align:center; padding:3px;">
+                                                    <t t-esc="line.product_id.default_code" />
+                                                </td>
+                                                <td style="text-align:center; padding:3px;">
+                                                    <t t-esc="line.product_id.name" />
+                                                </td>
+
+                                                <td style="text-align:center; padding:3px;">
+                                                    <!-- <t t-esc="line.product_qty" /> -->
+                                                    <t t-esc="'{:,.4f}'.format(round(line.product_qty,4))" />
+                                                </td>
+                                                <td style="text-align:center; padding:3px;">
+                                                    <t t-if="line.product_uom" t-esc="line.product_uom.name" />
+                                                </td>
+                                                <td style="text-align:right; padding:3px;">
+                                                    <t t-if="len(line.taxes_id) > 0">
+                                                        <t t-esc="line.taxes_id[0].amount" />
+                                                    </t>
+                                                </td>
+                                                <td style="text-align:right; padding:3px;">
+                                                    <!-- <t t-esc="line.price_unit" /> -->
+                                                    <t t-esc="'{:,.4f}'.format(round(line.price_unit,4))" />
+                                                </td>
+                                                <td style="text-align:right; padding:3px;">
+                                                    <!-- <t t-esc="line.price_subtotal" /> -->
+                                                    <t t-esc="'{:,.4f}'.format(round(line.price_subtotal,4))" />
+                                                </td>
+
+                                                <t t-set="item" t-value="item + 1"/>
+                                            </tr>
+                                        </t>
+                                    </table>
+                                </div>
+
+                                <br />
+                                <div class="row d-flex justify-content-center align-items-center text-center">
+                                    <div class="col-4">
+                                        <b>Valor Venta Pedido:</b> <t t-esc="'{:,.4f}'.format(round(doc.amount_untaxed,4))" />
+                                    </div>
+                                    <div class="col-4">
+                                        <b>I.G.V.:</b> <t t-esc="'{:,.4f}'.format(round(doc.amount_tax,4))" />
+                                    </div>
+                                    <div class="col-4">
+                                        <b>Precio Venta:</b> <t t-esc="'{:,.4f}'.format(round(doc.amount_total,4))" />
+                                    </div>
+                                </div>
+                                <br />
+                                <br />
+                                <div class="row">
+                                    <div class="col-12">
+                                        <t t-raw="doc.observaciones"/>
+                                    </div>
+                                </div>
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+                                <div class="row">
+                                    <div class="col-1" />
+                                    <div class="col-4 text-center border-top border-dark">
+                                            EMITIDO POR
+                                            <t t-if="doc.user_id" t-esc="doc.user_id.name"/>
+                                    </div>
+                                    <div class="col-2" />
+                                    <div class="col-4 text-center border-top border-dark">
+                                            AUTORIZADO GERENCIA
+                                    </div>
+                                    <div class="col-1" />
+                                </div>
+
+
+                            </div>
+                        </t>
+                        <t t-elif="doc.type_purchase == '1'">
+                            <div class="container" style="width:90%; font-size:15px">
+                                <div class="row d-flex justify-content-center align-items-center text-center">
+                                    <div class="col-12">
+                                        <h5>
+                                            <b><center>ORDEN DE COMPRA</center></b>
+                                        </h5>
+                                    </div>
+                                </div>
+
+                                <br />
+                                <div class="row d-flex justify-content-center align-items-center">
+                                    <div class="col-6 text-left">
+                                        <b>Fecha: </b>
+                                        <t t-if="doc.create_date" t-esc="doc.create_date.strftime('%d/%m/%Y')" />
+                                    </div>
+
+                                    <div class="col-1" />
+
+                                    <div class="col-5 text-left">
+                                        <b>Representante de Compra: </b>
+                                        <t t-if="doc.user_id" t-esc="doc.user_id.name" />
+                                    </div>
+                                </div>
+
+                                <div class="row d-flex justify-content-center align-items-center">
+                                    <div class="col-6 text-left">
+                                        <b>Proveedor: </b>
+                                        <t t-if="doc.partner_id" t-esc="doc.partner_id.vat" /> - 
+                                        <t t-if="doc.partner_id" t-esc="doc.partner_id.name" />
+                                    </div>
+
+                                    <div class="col-1" />
+
+                                    <div class="col-5 text-left">
+                                        <b>Fecha de Entrega: </b>
+                                        <t t-if="doc.date_planned" t-esc="doc.date_planned.strftime('%d/%m/%Y')" />
+                                    </div>
+                                </div>
+
+                                <div class="row d-flex justify-content-center align-items-center">
+                                    <div class="col-6 text-left">
+                                        <b>Dirección: </b>
+                                        <t t-if="doc.partner_id" t-esc="doc.partner_id.street" />
+                                    </div>
+
+                                    <div class="col-1" />
+
+                                    <div class="col-5 text-left">
+                                        <b>Contacto: </b>
+                                        <t t-if="doc.first_contacto_partner" t-esc="doc.first_contacto_partner.name" />
+                                    </div>
+                                </div>
+
+                                <div class="row d-flex justify-content-center align-items-center">
+                                    <div class="col-6 text-left">
+                                        <b>Teléfono: </b>
+                                        <t t-if="doc.partner_id and doc.partner_id.phone and doc.partner_id.phone != ''">
+                                            <t t-esc="doc.partner_id.phone" />
+                                        </t>
+                                        <t t-elif="doc.partner_id and doc.partner_id.mobile and doc.partner_id.mobile != ''">
+                                            <t t-esc="doc.partner_id.mobile" />
+                                        </t>
+                                    </div>
+
+                                    <div class="col-1" />
+
+                                    <div class="col-5 text-left">
+                                        <b>Moneda: </b>
+                                        <t t-if="doc.currency_id" t-esc="doc.currency_id.currency_unit_label" />
+                                    </div>
+                                </div>
+
+                                <div class="row d-flex justify-content-center align-items-center">
+                                    <div class="col-6 text-left">
+                                        <b>Cond. Pago: </b>
+                                        <t t-if="doc.payment_term_id" t-esc="doc.payment_term_id.name" />
+                                    </div>
+                                </div>
+
+                                <br />
+
+                                <div class="row d-flex justify-content-center align-items-center">
+                                    <table class="border-0" style="width:100%; font-size:16px;">
+                                        <tr class="center color-cell" style="text-align:center; background-color:#0094D3; color:white;">
+                                            <td style="width: 3%;"><b>Item</b></td>
+                                            <td style="width: 7%;"><b>Artículo</b></td>
+                                            <td style="width: 20%;"><b>Descripción</b></td>
+                                            <td style="width: 16%;"><b>Cant</b></td>
+                                            <td style="width: 10%;"><b>Unidad</b></td>
+                                            <td style="width: 12%;"><b>% I.G.V.</b></td>
+                                            <td style="width: 16%;"><b>V. Unit</b></td>
+                                            <td style="width: 16%;"><b>Valor Venta</b></td>
+                                        </tr>
+                                        <t t-set="item" t-value="1"/>
+                                        <t t-foreach="doc.order_line" t-as="line">
+                                            <tr>
+                                                <td style="text-align:center; padding:3px;">
+                                                    <t t-esc="item" />
+                                                </td>
+                                                <td style="text-align:center; padding:3px;">
+                                                    <t t-esc="line.product_id.default_code" />
+                                                </td>
+                                                <td style="text-align:center; padding:3px;">
+                                                    <t t-esc="line.product_id.name" />
+                                                </td>
+
+                                                <td style="text-align:center; padding:3px;">
+                                                    <!-- <t t-esc="line.product_qty" /> -->
+                                                    <t t-esc="'{:,.4f}'.format(round(line.product_qty,4))" />
+                                                </td>
+                                                <td style="text-align:center; padding:3px;">
+                                                    <t t-if="line.product_uom" t-esc="line.product_uom.name" />
+                                                </td>
+                                                <td style="text-align:right; padding:3px;">
+                                                    <t t-if="len(line.taxes_id) > 0">
+                                                        <t t-esc="line.taxes_id[0].amount" />
+                                                    </t>
+                                                </td>
+                                                <td style="text-align:right; padding:3px;">
+                                                    <!-- <t t-esc="line.price_unit" /> -->
+                                                    <t t-esc="'{:,.4f}'.format(round(line.price_unit,4))" />
+                                                </td>
+                                                <td style="text-align:right; padding:3px;">
+                                                    <!-- <t t-esc="line.price_subtotal" /> -->
+                                                    <t t-esc="'{:,.4f}'.format(round(line.price_subtotal,4))" />
+                                                </td>
+
+                                                <t t-set="item" t-value="item + 1"/>
+                                            </tr>
+                                        </t>
+                                    </table>
+                                </div>
+
+                                <br />
+                                <div class="row d-flex justify-content-center align-items-center text-center">
+                                    <div class="col-4">
+                                        <b>Valor Venta Pedido:</b> <t t-esc="'{:,.4f}'.format(round(doc.amount_untaxed,4))" />
+                                    </div>
+                                    <div class="col-4">
+                                        <b>I.G.V.:</b> <t t-esc="'{:,.4f}'.format(round(doc.amount_tax,4))" />
+                                    </div>
+                                    <div class="col-4">
+                                        <b>Precio Venta:</b> <t t-esc="'{:,.4f}'.format(round(doc.amount_total,4))" />
+                                    </div>
+                                </div>
+                                <br />
+                                <br />
+                                <div class="row">
+                                    <div class="col-12">
+                                        <t t-raw="doc.observaciones"/>
+                                    </div>
+                                </div>
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+                                <div class="row">
+                                    <div class="col-1" />
+                                    <div class="col-4 text-center border-top border-dark">
+                                            EMITIDO POR
+                                            <t t-if="doc.user_id" t-esc="doc.user_id.name"/>
+                                    </div>
+                                    <div class="col-2" />
+                                    <div class="col-4 text-center border-top border-dark">
+                                            AUTORIZADO GERENCIA
+                                    </div>
+                                    <div class="col-1" />
+                                </div>
+
+
+                            </div>
+                        </t>
+
+                        <div class="footer container" style="display:block; margin-top:20px; padding:0; width:100%; font-size:20px; color:#808080;">
+                            <br />
+                            <hr color="#35547E" />
+                            <center>
+                            <b>A: </b>
+                                <t t-esc="doc.company_id.street_name" />, 
+                                <t t-esc="doc.company_id.city" />, 
+                                <t t-if="doc.company_id.state_id" t-esc="doc.company_id.state_id.name" />, 
+                                <t t-if="doc.company_id.country_id" t-esc="doc.company_id.country_id.name" />
+                                | <b>T: </b>
+                                <t t-esc="doc.company_id.phone" />, 
+                                | <b>E: </b>
+                                <t t-esc="doc.company_id.email" />,
+                            </center>
+                            <hr width="115%" color="#DCDCDC" style="height:20px; margin-left:-15px;" />
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- <template id="header_reports_comisub" inherit_id="web.external_layout_standard">
+        <xpath expr="//div[@t-attf-class='header o_company_#{company.id}_layout']" position="replace">
+            <div class="header">
+                <div class="row">
+                    <hr width="115%" color="#DCDCDC" style="height:20px; margin-left:-15px;" />
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)" alt="Logo" style="max-width:300px; max-height:100px; position:absolute; left:4;" />
+                        <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)" alt="Logo" style="max-width:300px; max-height:100px; position:absolute; left:4;" />
+                    </div>
+                    <div class="col-6" style="text-align:center;">
+                        <p style="font-size:18px; margin:0px; padding:0px; color:#35547E;">
+                        <t t-esc="doc.name"/>
+                        <hr color="#35547E" />
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template> -->
+
+    <record id="paperformat_purchase_report_diamond_it" model="report.paperformat">
+        <field name="name">Personalizado</field>
+        <field name="default" eval="True"/>
+        <field name="format">custom</field>
+        <field name="page_height">210</field>
+        <field name="page_width">297</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">25</field>
+        <field name="margin_bottom">20</field>
+        <field name="margin_left">0</field>
+        <field name="margin_right">0</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">29</field>
+        <field name="dpi">98</field>
+    </record>
+
+    <report
+        id="action_report_purchase_diamond"
+        model="purchase.order"
+        string="Compra Reporte"
+        report_type="qweb-pdf"
+        name="purchase_report_pdf_diamond_rq_it.purchase_report_pdf_diamond"
+        file="purchase_report_pdf_diamond_rq_it.purchase_report_pdf_diamond"
+        paperformat="purchase_report_pdf_diamond_rq_it.paperformat_purchase_report_diamond_it"
+    />
+
+</odoo>

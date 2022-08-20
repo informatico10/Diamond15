@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="sale_report_pdf_diamond">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <style type="text/css">
+                        <![CDATA[
+                            * {
+                                line-height: 1.5em;
+                            }
+                            table {
+                                width: 100%;
+                                border-top: 1px solid black;
+                                vertical-align: middle;
+                                font-size: 15px;
+                            }
+                            th, td {
+                                border-bottom: 0.5px solid #35547E;
+                                vertical-align: middle;
+                                height: 20px;
+                                font-size: 14px;
+                                margin:0;
+                                padding:3px;
+                            }
+                            .page {
+                                font-family: Verdana;
+                                font-size: 15px;
+                                color:#201F23;
+                                background-image: url(/sale_order_report_by_warehouse_it/static/src/img/fondo.png);
+                                background-repeat: no-repeat;
+                                background-size:300px 200px;
+                                height: 1100px;
+                                background-position: bottom right;
+                            }
+                        ]]>
+                    </style>
+                    <div class="page" style="">
+                        <div class="container" style="width:90%; font-size:15px">
+                            <div class="header">
+                                <div class="row">
+                                    <hr width="115%" color="#DCDCDC" style="height:20px; margin-left:-15px;" />
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)" alt="Logo" style="max-width:300px; max-height:100px; position:absolute; left:4;" />
+                                        <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)" alt="Logo" style="max-width:300px; max-height:100px; position:absolute; left:4;" />
+                                    </div>
+                                    <div class="col-6" style="text-align:center;">
+                                        <p style="font-size:12px; margin:0px; padding:0px; color:#35547E;">
+                                        <t t-esc="doc.name"/>
+                                        </p>
+                                        <hr color="#35547E" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <p>
+                                    San Isidro, <t t-esc="doc.date_order.day"/> de 
+                                    <t t-if="doc.date_order.month == 1">
+                                        Enero
+                                    </t>
+                                    <t t-elif="doc.date_order.month == 2">
+                                        Febrero
+                                    </t>
+                                    <t t-elif="doc.date_order.month == 3">
+                                        Marzo
+                                    </t>
+                                    <t t-elif="doc.date_order.month == 4">
+                                        Abril
+                                    </t>
+                                    <t t-elif="doc.date_order.month == 5">
+                                        Mayo
+                                    </t>
+                                    <t t-elif="doc.date_order.month == 6">
+                                        Junio
+                                    </t>
+                                    <t t-elif="doc.date_order.month == 7">
+                                        Julio
+                                    </t>
+                                    <t t-elif="doc.date_order.month == 8">
+                                        Agosto
+                                    </t>
+                                    <t t-elif="doc.date_order.month == 9">
+                                        Setiembre
+                                    </t>
+                                    <t t-elif="doc.date_order.month == 10">
+                                        Octubre
+                                    </t>
+                                    <t t-elif="doc.date_order.month == 11">
+                                        Noviembre
+                                    </t>
+                                    <t t-elif="doc.date_order.month == 12">
+                                        Diciembre
+                                    </t>
+                                    de <t t-esc="doc.date_order.year"/>
+                                </p>
+                            </div>
+                            <br />
+                            <div>
+                                Señores:
+                                <br />
+                                <b><t t-esc="doc.partner_id.name" /></b>
+                                <br />
+                                <b><t t-esc="doc.partner_id.street" /></b>
+                                <br />
+                                <b><t t-esc="doc.partner_id.city_id.name" /></b>
+                                <br />
+                                <b><t t-esc="doc.referencia_pdf" /></b>
+                                <br />
+                                <b>Atención: <t t-if="doc.first_contacto_partner" t-esc="doc.first_contacto_partner.name" /></b>
+                            </div>
+
+                            <br />
+                            <br />
+
+                            <div>
+                                Estimado Señor:<br />
+                                Nos es grato saludarlo y a la vez presentarle nuestra mejor propuesta comercial:
+                                <br />
+                                <br />
+                                <center>
+                                    <table  style="width:90%; font-size:16px;">
+                                        <tr class="center color-cell" style="text-align:center; background-color:#0094D3; color:white;">
+                                            <td style="width: 15%;"><b>CANTIDAD</b></td>
+                                            <td style="width: 5%;"><b>UDM</b></td>
+                                            <td style="width: 50%;"><b>PRODUCTO</b></td>
+                                            <td style="width: 15%;"><b>PRESENTACIÓN</b></td>
+                                            <td style="width: 15%;"><b>PRECIO</b></td>
+                                        </tr>
+                                        <t t-foreach="doc.order_line" t-as="order">
+                                            <tr>
+                                                <td style="text-align:center; padding:3px;"><t t-esc="int(order.product_uom_qty)" /></td>
+                                                <td style="text-align:center; padding:3px;"><t t-if="order.product_uom" t-esc="order.product_uom.name" /></td>
+                                                <td style="text-align:left; padding:3px;"><t t-esc="order.name" /></td>
+                                                <td style="text-align:center; padding:3px;"><t t-if="order.presentation_id" t-esc="order.presentation_id.name" /></td>
+                                                <!-- <td style="text-align:right; padding:3px;"><t t-esc="'%.2f'%order.price_unit" /></td> -->
+                                                <!-- <td style="text-align:right; padding:3px;"><t t-esc="'%.2f'order.price_subtotal" /></td> -->
+                                                <td style="text-align:right; padding:3px;"><t t-if="order.currency_id" t-esc="order.currency_id.symbol"/> <t t-esc="'{:,.4f}'.format(round(order.price_subtotal,4))" /></td>
+                                            </tr>
+                                        </t>
+                                        <!-- <tr class="center color-cell" style="text-align:right; border: 1px solid white;">
+                                            <td style="width: 71%; border: 1px solid white;" colspan="3"></td>
+                                            <td style="border: 1px solid white;" ><b>SUBTOTAL $</b></td>
+                                            <td style="border: 1px solid white;" ><t t-esc="'{:,.4f}'.format(round(doc.amount_untaxed,4))" /></td>
+                                        </tr>
+                                        <tr class="center color-cell" style="text-align:right; border: 1px solid white;">
+                                            <td style="border: 1px solid white;" colspan="3"></td>
+                                            <td style="border: 1px solid white;"><b>I.G.V.(18%)</b></td>
+                                            <td style="border: 1px solid white;"><t t-esc="'{:,.4f}'.format(round(doc.amount_tax,4))" /></td>
+                                        </tr> -->
+                                        <tr class="center color-cell" style="text-align:right; border: 1px solid white;">
+                                            <td style="border: 1px solid white;" colspan="3"></td>
+                                            <td style="border: 1px solid white;"><b>TOTAL <t t-if="doc.currency_id" t-esc="doc.currency_id.symbol"/> </b></td>
+                                            <td style="border: 1px solid white;"><t t-esc="'{:,.4f}'.format(round(doc.amount_total,4))" /></td>
+                                        </tr>
+                                    </table>
+                                </center>
+
+                                <br />
+                                <br />
+
+                                <!-- <b>* PRECIO: NO INCLUYE IGV</b>
+
+                                <br />
+                                <br />
+
+                                <b>CONDICIONES DE PAGO</b>: Factura <t t-if="doc.payment_term_id" t-esc="doc.payment_term_id.name"/> -->
+                                <t t-raw="doc.note_report"/>
+                            </div>
+                            <br /><br /><br /><br /><br /><br /><br /><br />
+                            <div>
+                                <div class="row">
+                                    <div class="col-3" style="border-top: black;">
+                                        <b>
+                                            <t t-esc="doc.user_id.name"/>
+                                            <br />
+                                            Ejecutivo Comercial
+                                        </b>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="footer container" style="display:block; margin-top:20px; padding:0; width:100%; font-size:20px; color:#808080;">
+                            <br />
+                            <hr color="#35547E" />
+                            <center>
+                            <b>A: </b>
+                                <t t-esc="doc.company_id.street_name" />, 
+                                <t t-esc="doc.company_id.city" />, 
+                                <t t-if="doc.company_id.state_id" t-esc="doc.company_id.state_id.name" />, 
+                                <t t-if="doc.company_id.country_id" t-esc="doc.company_id.country_id.name" />
+                                | <b>T: </b>
+                                <t t-esc="doc.company_id.phone" />, 
+                                | <b>E: </b>
+                                <t t-esc="doc.company_id.email" />,
+                            </center>
+                            <hr width="115%" color="#DCDCDC" style="height:20px; margin-left:-15px;" />
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <template id="header_reports_diamond" inherit_id="web.external_layout_standard">
+        <xpath expr="//div[@t-attf-class='header o_company_#{company.id}_layout']" position="replace">
+            <div class="header">
+                <div class="row">
+                    <hr width="115%" color="#DCDCDC" style="height:20px; margin-left:-15px;" />
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)" alt="Logo" style="max-width:300px; max-height:100px; position:absolute; left:4;" />
+                        <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)" alt="Logo" style="max-width:300px; max-height:100px; position:absolute; left:4;" />
+                    </div>
+                    <div class="col-6" style="text-align:center;">
+                        <p style="font-size:18px; margin:0px; padding:0px; color:#35547E;">
+                            <t t-if="doc.name.find('DG')">
+                                DIAMOND - <t t-esc="doc.name"/>
+                            </t>
+                            <t t-else="">
+                                <t t-esc="doc.name"/>
+                            </t>
+                        </p>
+                        <hr color="#35547E" />
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+    <record id="paperformat_sale_report_diamond_it" model="report.paperformat">
+        <field name="name">Personalizado</field>
+        <field name="default" eval="True"/>
+        <field name="format">custom</field>
+        <field name="page_height">297</field>
+        <field name="page_width">210</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">25</field>
+        <field name="margin_bottom">20</field>
+        <field name="margin_left">0</field>
+        <field name="margin_right">0</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">29</field>
+        <field name="dpi">98</field>
+    </record>
+
+    <report
+        id="action_report_sale_report"
+        model="sale.order"
+        string="Venta Reporte"
+        report_type="qweb-pdf"
+        name="sale_report_pdf_diamond_rq_it.sale_report_pdf_diamond"
+        file="sale_report_pdf_diamond_rq_it.sale_report_pdf_diamond"
+        paperformat="sale_report_pdf_diamond_rq_it.paperformat_sale_report_diamond_it"
+    />
+
+</odoo>

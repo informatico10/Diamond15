@@ -1,0 +1,40 @@
+<odoo>
+
+    <record id="category_sale_module_custom" model="ir.module.category">
+        <field name="name">Venta Grupo Personalizado</field>
+        <field name="description">Categoria general para usar en otros modulos</field>
+        <field name="sequence">1000</field>
+    </record>
+
+    <record id="category_purchase_module_custom" model="ir.module.category">
+        <field name="name">Compra Grupo Personalizado</field>
+        <field name="description">Categoria general para usar en otros modulos</field>
+        <field name="sequence">1020</field>
+    </record>
+
+    <record id="category_stock_module_custom" model="ir.module.category">
+        <field name="name">Inventario Grupo Personalizado</field>
+        <field name="description">Categoria general para usar en otros modulos</field>
+        <field name="sequence">1040</field>
+    </record>
+
+    <record id="category_account_module_custom" model="ir.module.category">
+        <field name="name">Contabilidad Grupo Personalizado</field>
+        <field name="description">Categoria general para usar en otros modulos</field>
+        <field name="sequence">1060</field>
+    </record>
+
+    <record id="category_contact_module_custom" model="ir.module.category">
+        <field name="name">Contacto Grupo Personalizado</field>
+        <field name="description">Categoria general para usar en otros modulos</field>
+        <field name="sequence">1080</field>
+    </record>
+
+    <record id="category_product_module_custom" model="ir.module.category">
+        <field name="name">Producto Grupo Personalizado</field>
+        <field name="description">Categoria general para usar en otros modulos</field>
+        <field name="sequence">1080</field>
+    </record>
+
+</odoo>
+

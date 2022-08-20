@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="access_payment_term_diamond" model="ir.model.access">
+        <field name="name">access.payment.term.diamond</field>
+        <field name="model_id" ref="purchase_report_pdf_diamond_rq_it.model_payment_term_diamond" />
+        <field name="group_id" ref="base.group_user" />
+        <field name="perm_read" eval="1" />
+        <field name="perm_write" eval="1" />
+        <field name="perm_create" eval="1" />
+        <field name="perm_unlink" eval="1" />
+    </record>
+
+    <record id="access_by_diamond" model="ir.model.access">
+        <field name="name">access.by.diamond</field>
+        <field name="model_id" ref="purchase_report_pdf_diamond_rq_it.model_by_diamond" />
+        <field name="group_id" ref="base.group_user" />
+        <field name="perm_read" eval="1" />
+        <field name="perm_write" eval="1" />
+        <field name="perm_create" eval="1" />
+        <field name="perm_unlink" eval="1" />
+    </record>
+
+    <record id="access_loading_port_diamond" model="ir.model.access">
+        <field name="name">access.loading.port.diamond</field>
+        <field name="model_id" ref="purchase_report_pdf_diamond_rq_it.model_loading_port_diamond" />
+        <field name="group_id" ref="base.group_user" />
+        <field name="perm_read" eval="1" />
+        <field name="perm_write" eval="1" />
+        <field name="perm_create" eval="1" />
+        <field name="perm_unlink" eval="1" />
+    </record>
+
+    <record id="access_shipment_diamond" model="ir.model.access">
+        <field name="name">access.shipment.diamond</field>
+        <field name="model_id" ref="purchase_report_pdf_diamond_rq_it.model_shipment_diamond" />
+        <field name="group_id" ref="base.group_user" />
+        <field name="perm_read" eval="1" />
+        <field name="perm_write" eval="1" />
+        <field name="perm_create" eval="1" />
+        <field name="perm_unlink" eval="1" />
+    </record>
+
+    <record id="access_insurance_diamond" model="ir.model.access">
+        <field name="name">access.insurance.diamond</field>
+        <field name="model_id" ref="purchase_report_pdf_diamond_rq_it.model_insurance_diamond" />
+        <field name="group_id" ref="base.group_user" />
+        <field name="perm_read" eval="1" />
+        <field name="perm_write" eval="1" />
+        <field name="perm_create" eval="1" />
+        <field name="perm_unlink" eval="1" />
+    </record>
+
+</odoo>

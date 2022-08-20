@@ -1,0 +1,9 @@
+<odoo>
+
+    <record id="group_confirm_purchase" model="res.groups">
+        <field name="name">Confirmar Compras</field>
+        <field name="category_id" ref="category_only_rq_it.category_purchase_module_custom" />
+    </record>
+
+</odoo>
+

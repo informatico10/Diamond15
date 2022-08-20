@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="purchase_order_form_inherit_duas_rq_it" model="ir.ui.view">
+        <field name="name">purchase.order.view.form.inherit</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <field name="type_purchase" invisible="1" />
+                <page name="duas" string="Duas" attrs="{'invisible': [('type_purchase', '=', '0')]}">
+                    <group>
+                        <group>
+                            <field name="dua" />
+                            <field name="name_agency" />
+                        </group>
+                        <group>
+                            <field name="agency_aduana_id" />
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="ids_first_contact" invisible="1" />
+                <field name="id_partner_to_create" invisible="1" />
+                <field name="street_partner" invisible="1" />
+                <field name="street2_partner" invisible="1" />
+                <field name="city_partner" invisible="1" />
+                <field name="state_partner" invisible="1" />
+                <field name="zip_partner" invisible="1" />
+                <field name="country_partner" invisible="1" />
+                <field name="check_domain" invisible="1" />
+                <field name="first_contacto_partner" domain="[('id', 'in', ids_first_contact)]" context="{
+                    'default_parent_id': partner_id,
+                    'default_street': street_partner,
+                    'default_street2': street2_partner,
+                    'default_city': city_partner,
+                    'default_state_id': state_partner,
+                    'default_zip': zip_partner,
+                    'default_country_id': country_partner,
+                    'default_user_id': user_id,
+                    'default_type': 'contact',
+                    'default_lang': 'es_ES',
+                }" options="{'no_quick_create': True, 'no_create_edit' : True}" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_picking_form_inherit_duas_rq_it" model="ir.ui.view">
+        <field name="name">stock.picking.view.form.inherit</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page name="duas" string="Duas" attrs="{'invisible': [('show_for_import', '=', False)]}">
+                    <field name="check_duas" invisible="True" />
+                    <field name="show_for_import" invisible="True" />
+                    <group>
+                        <group>
+                            <field name="dua" readonly="False" />
+                            <field name="name_agency" readonly="False" />
+                        </group>
+                        <group>
+                            <field name="agency_aduana_id" readonly="False" />
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    
+
+</odoo>
