@@ -29,3 +29,10 @@ class PurchaseOrderStockNotification(models.Model):
                     rec.type_purchase = '0'
                 else:
                     rec.type_purchase = '1'
+            users = self.env.ref('account.group_account_manager').users
+            body = '<Admins Facturacion> Factura Creada '
+            model = 'account.move'
+            for invoice in rec.invoice_ids:
+                if invoice.create_notify_admins == False:
+                    invoice.message_channel_account(users, body, model)
+                    invoice.create_notify_admins = True

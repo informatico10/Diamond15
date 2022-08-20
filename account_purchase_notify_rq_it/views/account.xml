@@ -9,7 +9,7 @@
             <xpath expr="//notebook" position="inside">
                 <field name="check_fields" invisible="True" />
                 <field name="type_purchase" invisible="True" />
-                <page name="invoice_supplier" string="Factura de Proveedor" attrs="{'invisible': [('type_purchase', '!=', '0')]}">
+                <page name="invoice_supplier" string="Factura de Proveedor">
                     <group>
                         <group>
                             <field name="invoice_purchase" />

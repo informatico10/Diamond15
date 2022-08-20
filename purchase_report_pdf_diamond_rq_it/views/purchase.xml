@@ -27,6 +27,16 @@
                             <field name="fch_aprobacion" />
                             <field name="user_aprobacion_id" />
                         </group>
+                         <group>
+                        </group>
+                    </group>
+                </page>
+                <page name="report_importacion" string="Validación" attrs="{'invisible': [('type_purchase', '=', '0')]}">
+                    <group>
+                        <group>
+                            <field name="fch_aprobacion" />
+                            <field name="user_aprobacion_id" />
+                        </group>
                         <group>
                         </group>
                     </group>

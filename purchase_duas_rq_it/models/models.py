@@ -7,6 +7,7 @@ class PurchaseOrderDuasRqIt(models.Model):
 
     dua = fields.Char('Dua')
     agency_aduana_id = fields.Many2one('agency.aduana', string='Agencia Aduana')
+    name_agency = fields.Char('Nombre Agencia')
 
     #to contact
     id_partner_to_create = fields.Integer(string='', related='partner_id.id')
@@ -54,9 +55,29 @@ class StockPickingDuaRQIt(models.Model):
 
     dua = fields.Char('Dua')
     agency_aduana_id = fields.Many2one('agency.aduana', string='Agencia Aduana')
+    name_agency = fields.Char('Nombre Agencia')
+
+    show_for_import = fields.Boolean('Mostrar por importación')
+
     check_duas = fields.Boolean(compute='_compute_check_duas', string='Check Duas')
 
-    @api.depends('dua', 'agency_aduana_id')
+    @api.onchange('dua')
+    def _onchange_dua(self):
+        if self.purchase_id:
+            self.purchase_id.dua = self.dua
+
+    @api.onchange('agency_aduana_id')
+    def _onchange_agency_aduana_id(self):
+        if self.purchase_id:
+            self.purchase_id.agency_aduana_id = self.agency_aduana_id.id
+
+    @api.onchange('name_agency')
+    def _onchange_name_agency(self):
+        if self.purchase_id:
+            self.purchase_id.name_agency = self.name_agency
+
+
+    @api.depends('dua', 'agency_aduana_id', 'name_agency')
     def _compute_check_duas(self):
         for rec in self:
             if rec.origin:
@@ -64,10 +85,14 @@ class StockPickingDuaRQIt(models.Model):
                 if purchase:
                     rec.dua = purchase.dua
                     rec.agency_aduana_id = purchase.agency_aduana_id.id
+                    rec.name_agency = purchase.name_agency
                     rec.check_duas = True
+                    if purchase.type_purchase == '1':
+                        rec.show_for_import = True
                 else:
                     rec.dua = False
                     rec.agency_aduana_id = False
+                    rec.name_agency = False
                     rec.check_duas = False
             else:
                 rec.check_duas = False

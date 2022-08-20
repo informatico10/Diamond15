@@ -22,14 +22,14 @@ class AccountMoveNotifyRqIt(models.Model):
     @api.onchange('field_xml')
     def _onchange_field_xml(self):
         if self.field_xml:
-            self.field_xml = True
-            self._origin.field_xml = True
+            self.change_pdf = True
+            self._origin.change_pdf = True
 
     @api.onchange('field_cdr')
     def _onchange_field_cdr(self):
         if self.field_cdr:
-            self.field_cdr = True
-            self._origin.field_cdr = True
+            self.change_pdf = True
+            self._origin.change_pdf = True
 
     purchase_order_id = fields.Many2one('purchase.order', string='Compra')
     type_purchase = fields.Selection([
@@ -47,6 +47,8 @@ class AccountMoveNotifyRqIt(models.Model):
                 self.purchase_order_id = purchase.id
                 res.purchase_order_id = purchase.id
         return res
+
+    create_notify_admins = fields.Boolean('Create Notify', default=False)
 
     @api.depends('purchase_order_id')
     def _compute_check_fields(self):

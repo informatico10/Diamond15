@@ -7,10 +7,12 @@
         <field name="inherit_id" ref="purchase.purchase_order_form"/>
         <field name="arch" type="xml">
             <xpath expr="//notebook" position="inside">
-                <page name="duas" string="Duas">
+                <field name="type_purchase" invisible="1" />
+                <page name="duas" string="Duas" attrs="{'invisible': [('type_purchase', '=', '0')]}">
                     <group>
                         <group>
                             <field name="dua" />
+                            <field name="name_agency" />
                         </group>
                         <group>
                             <field name="agency_aduana_id" />
@@ -28,7 +30,7 @@
                 <field name="state_partner" invisible="1" />
                 <field name="zip_partner" invisible="1" />
                 <field name="country_partner" invisible="1" />
-                <field name="check_dÑÑomain" invisible="1" />
+                <field name="check_domain" invisible="1" />
                 <field name="first_contacto_partner" domain="[('id', 'in', ids_first_contact)]" context="{
                     'default_parent_id': partner_id,
                     'default_street': street_partner,
@@ -51,14 +53,16 @@
         <field name="inherit_id" ref="stock.view_picking_form"/>
         <field name="arch" type="xml">
             <xpath expr="//notebook" position="inside">
-                <page name="duas" string="Duas">
+                <page name="duas" string="Duas" attrs="{'invisible': [('show_for_import', '=', False)]}">
                     <field name="check_duas" invisible="True" />
-                    <group attrs="{'invisible': [('check_duas', '=', False)]}">
+                    <field name="show_for_import" invisible="True" />
+                    <group>
                         <group>
-                            <field name="dua" readonly="True" />
+                            <field name="dua" readonly="False" />
+                            <field name="name_agency" readonly="False" />
                         </group>
                         <group>
-                            <field name="agency_aduana_id" readonly="True" />
+                            <field name="agency_aduana_id" readonly="False" />
                         </group>
                     </group>
                 </page>

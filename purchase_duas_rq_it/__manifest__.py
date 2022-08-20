@@ -10,7 +10,8 @@
     'auto_install': False,
     'depends': [
         'purchase',
-        'stock'
+        'stock',
+        'account_purchase_notify_rq_it'
     ],
     'data': [
         'security/security.xml',
