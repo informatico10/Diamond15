@@ -9,7 +9,7 @@ class PurchaseOrderGroupRqITInvoice(models.Model):
     solicitante_creacion_factura_id = fields.Many2one('res.users', string='Solicitante Aprobacion')
 
     def button_solicitar_creacion_factura(self):
-        users = self.env['res.groups'].search( [('name','=','Confirmar Compras')], limit=1).users
+        users = self.env['res.groups'].search( [('name','=','Notificar Creación Factura en Compras')], limit=1).users
         if users:
             body = 'Solitar Creación de Factura en Compra '
             self.message(users, body)
@@ -17,7 +17,7 @@ class PurchaseOrderGroupRqITInvoice(models.Model):
             self.solicitar_creacion_factura = True
             self.solicitante_creacion_factura_id = self.env.user
         else:
-            raise ValidationError('No hay Usuarios en el grupo Confirmar Compras')
+            raise ValidationError('No hay Usuarios en el grupo crear Factura en Compras')
 
     def action_create_invoice(self):
         res = super(PurchaseOrderGroupRqITInvoice, self).action_create_invoice()
