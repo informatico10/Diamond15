@@ -208,7 +208,7 @@
     <template id="header_reports_diamond" inherit_id="web.external_layout_standard">
         <xpath expr="//div[@t-attf-class='header o_company_#{company.id}_layout']" position="replace">
             <div class="header">
-                <t t-if="doc and doc.company_id">
+                <t t-if="doc and doc.company_id"> 
                     <div class="row">
                         <hr width="115%" color="#DCDCDC" style="height:20px; margin-left:-15px;" />
                     </div>
