@@ -219,82 +219,109 @@
                                 <div class="row d-flex justify-content-center align-items-center text-center">
                                     <div class="col-12">
                                         <h5>
-                                            <b><center>ORDEN DE COMPRA</center></b>
+                                            <b><center>PURCHASE ORDER / ORDEN DE COMPRA</center></b>
                                         </h5>
                                     </div>
                                 </div>
-
                                 <br />
-                                <div class="row d-flex justify-content-center align-items-center">
-                                    <div class="col-6 text-left">
-                                        <b>Fecha: </b>
-                                        <t t-if="doc.create_date" t-esc="doc.create_date.strftime('%d/%m/%Y')" />
+                                <div class="row d-flex justify-content-center align-items-center text-center">
+                                    <div class="col-6">
                                     </div>
-
-                                    <div class="col-1" />
-
-                                    <div class="col-5 text-left">
-                                        <b>Representante de Compra: </b>
-                                        <t t-if="doc.user_id" t-esc="doc.user_id.name" />
-                                    </div>
-                                </div>
-
-                                <div class="row d-flex justify-content-center align-items-center">
-                                    <div class="col-6 text-left">
-                                        <b>Proveedor: </b>
-                                        <t t-if="doc.partner_id" t-esc="doc.partner_id.vat" /> - 
-                                        <t t-if="doc.partner_id" t-esc="doc.partner_id.name" />
-                                    </div>
-
-                                    <div class="col-1" />
-
-                                    <div class="col-5 text-left">
-                                        <b>Fecha de Entrega: </b>
-                                        <t t-if="doc.date_planned" t-esc="doc.date_planned.strftime('%d/%m/%Y')" />
+                                    <div class="col-6 border">
+                                        <div class="row">
+                                            <div class="col-6 border">
+                                                <b>Date / Fecha</b>
+                                            </div>
+                                            <div class="col-6 border">
+                                                <b>Number / Número</b>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-6 border">
+                                                <t t-if="doc.create_date" t-esc="doc.create_date.strftime('%d/%m/%Y')" />
+                                            </div>
+                                            <div class="col-6 border">
+                                                <t t-esc="doc.name" />
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div class="row d-flex justify-content-center align-items-center">
-                                    <div class="col-6 text-left">
-                                        <b>Dirección: </b>
-                                        <t t-if="doc.partner_id" t-esc="doc.partner_id.street" />
+                                <br /><br />
+
+                                <div class="row d-flex justify-content-center align-items-center text-left border">
+                                    <div class="col-6 border">
+                                        <b>Supplier / Proveedor</b>
+                                        <br />
+                                        <t t-esc="doc.partner_id.name"/>
+                                        <br />
+                                        <t t-esc="doc.partner_id.street"/>
                                     </div>
+                                    <div class="col-6 border">
+                                        <b>Shipment / Embarcar a</b>
 
-                                    <div class="col-1" />
+                                        <br /><br />
 
-                                    <div class="col-5 text-left">
-                                        <b>Contacto: </b>
-                                        <t t-if="doc.first_contacto_partner" t-esc="doc.first_contacto_partner.name" />
-                                    </div>
-                                </div>
-
-                                <div class="row d-flex justify-content-center align-items-center">
-                                    <div class="col-6 text-left">
-                                        <b>Teléfono: </b>
-                                        <t t-if="doc.partner_id and doc.partner_id.phone and doc.partner_id.phone != ''">
-                                            <t t-esc="doc.partner_id.phone" />
+                                        <b>Contact / Contacto</b>
+                                        <br />
+                                        <t t-if="doc.user_id">
+                                            <t t-esc="doc.user_id.name"/>
+                                            <br />
+                                            T: <t t-esc="doc.user_id.phone"/>
+                                            <br />
+                                            E: <t t-esc="doc.user_id.email"/>
                                         </t>
-                                        <t t-elif="doc.partner_id and doc.partner_id.mobile and doc.partner_id.mobile != ''">
-                                            <t t-esc="doc.partner_id.mobile" />
-                                        </t>
+
                                     </div>
+                                </div>
+                                <div class="row d-flex justify-content-center align-items-center text-left border">
+                                    <div class="col-6 border">
+                                        <b>Payment terms / Condiciones de pago</b>
+                                        <br />
+                                        <t t-if="doc.payment_diamond_id" t-esc="doc.payment_diamond_id.name" />
+                                    </div>
+                                    <div class="col-6 border">
+                                        <b>Marks / Marcas</b>
+                                        <br />
+                                        <t t-raw="doc.marks" />
 
-                                    <div class="col-1" />
+                                        <br /><br />
 
-                                    <div class="col-5 text-left">
-                                        <b>Moneda: </b>
-                                        <t t-if="doc.currency_id" t-esc="doc.currency_id.currency_unit_label" />
+                                        <b>Quotation N° / N° de cotización</b>
+                                        <br />
+                                        <t t-raw="doc.quotation" />
+                                    </div>
+                                </div>
+                                <div class="row d-flex justify-content-center align-items-center text-left border">
+                                    <div class="col-6 border">
+                                        <b>By / Vía</b>
+                                        <br />
+                                        <t t-if="doc.by_diamond_id" t-esc="doc.by_diamond_id.name" />
+                                        <br />
+
+                                        <b>Delivery terms / Condiciones de entrega</b>
+                                        <br />
+                                        <t t-raw="doc.delivery_diaomnd" />
+                                    </div>
+                                    <div class="col-6 border">
+                                        <b>Loading port / Puerto de embarque</b>
+                                        <br />
+                                        <t t-if="doc.loading_port_id" t-esc="doc.loading_port_id.name" />
+
+                                        <br />
+
+                                        <b>Shipment / Embarque</b>
+                                        <br />
+                                        <t t-if="doc.shipment_id" t-esc="doc.shipment_id.name"/>
+
+                                        <br />
+
+                                        <b>Currency / Moneda</b>
+                                        <br />
+                                        USD (AMERICAN DOLLARS)
                                     </div>
                                 </div>
 
-                                <div class="row d-flex justify-content-center align-items-center">
-                                    <div class="col-6 text-left">
-                                        <b>Cond. Pago: </b>
-                                        <t t-if="doc.payment_term_id" t-esc="doc.payment_term_id.name" />
-                                    </div>
-                                </div>
-
-                                <br />
 
                                 <div class="row d-flex justify-content-center align-items-center">
                                     <table class="border-0" style="width:100%; font-size:16px;">
