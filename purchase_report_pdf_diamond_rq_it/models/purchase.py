@@ -1,7 +1,7 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 from datetime import datetime, date
-
+from . import read_num, read_num_english
 
 class PaymentTermDiamond(models.Model):
     _name = 'payment.term.diamond'
@@ -66,6 +66,9 @@ class PurchaseOrderReportPdf(models.Model):
         ENTREGAR: MSDS, CERTIFICADO DE ANÁLISIS, NÚMERO DE LOTE, FECHA DE PRODUCCIÓN
     """)
 
+    total_spanish = fields.Char('Total Spanish')
+    total_english = fields.Char('Total English')
+
     incoterm_diamond = fields.Selection([
         ('0', 'FOB'),
         ('1', 'FCA'),
@@ -85,6 +88,9 @@ class PurchaseOrderReportPdf(models.Model):
                 rec.incoterm_diamond = False
                 rec.incoterm_country_diamond_id = False
             rec.check_incoterm = True
+
+            rec.total_spanish = read_num.numero_a_monedas(rec.amount_total)
+            rec.total_english = read_num_english.numero_a_monedas(rec.amount_total)
 
     motivo_oc = fields.Selection([
         ('0', 'OC'),
