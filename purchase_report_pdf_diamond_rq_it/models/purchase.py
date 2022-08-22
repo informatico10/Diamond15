@@ -61,7 +61,7 @@ class PurchaseOrderReportPdf(models.Model):
         <br />
         DESPACHAR EN: CALLE LAS GARDENIAS MZ D LT. 16 KM 40 PAN SUR ANTIGUA
         <br />
-        INDICAR EN SI GUÍA Y FACTURA NUESTRO NÚMERO DE OC
+        INDICAR EN LA GUÍA Y FACTURA NUESTRO NÚMERO DE OC
         <br />
         ENTREGAR: MSDS, CERTIFICADO DE ANÁLISIS, NÚMERO DE LOTE, FECHA DE PRODUCCIÓN
     """)
@@ -95,7 +95,7 @@ class PurchaseOrderReportPdf(models.Model):
     motivo_oc = fields.Selection([
         ('0', 'OC'),
         ('1', 'OS'),
-        ('2', 'OS!'),
+        ('2', 'OSQ'),
     ], string='Motivo de OC')
 
     infra_project = fields.Text('Proyecto Infraestructura')
