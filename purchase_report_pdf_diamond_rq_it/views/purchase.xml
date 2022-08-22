@@ -53,4 +53,26 @@
         </field>
     </record>
 
+    <record id="purchase_order_kpis_tree_inherit_purchase_report" model="ir.ui.view">
+        <field name="name">purchase.order.view.list.inherit</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_kpis_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="motivo_oc" optional="show" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="purchase_order_view_tree_inherit_purchase_report" model="ir.ui.view">
+        <field name="name">purchase.order.view.list.inherit</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_view_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="motivo_oc" optional="show" />
+            </xpath>
+        </field>
+    </record>
+
 </odoo>

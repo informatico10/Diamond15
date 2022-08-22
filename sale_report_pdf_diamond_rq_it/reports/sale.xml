@@ -208,26 +208,28 @@
     <template id="header_reports_diamond" inherit_id="web.external_layout_standard">
         <xpath expr="//div[@t-attf-class='header o_company_#{company.id}_layout']" position="replace">
             <div class="header">
-                <div class="row">
-                    <hr width="115%" color="#DCDCDC" style="height:20px; margin-left:-15px;" />
-                </div>
-                <div class="row">
-                    <div class="col-6">
-                        <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)" alt="Logo" style="max-width:300px; max-height:100px; position:absolute; left:4;" />
-                        <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)" alt="Logo" style="max-width:300px; max-height:100px; position:absolute; left:4;" />
+                <t t-if="doc and doc.company_id"> 
+                    <div class="row">
+                        <hr width="115%" color="#DCDCDC" style="height:20px; margin-left:-15px;" />
                     </div>
-                    <div class="col-6" style="text-align:center;">
-                        <p style="font-size:18px; margin:0px; padding:0px; color:#35547E;">
-                            <t t-if="doc.name.find('DG')">
-                                DIAMOND - <t t-esc="doc.name"/>
-                            </t>
-                            <t t-else="">
-                                <t t-esc="doc.name"/>
-                            </t>
-                        </p>
-                        <hr color="#35547E" />
+                    <div class="row">
+                        <div class="col-6">
+                            <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)" alt="Logo" style="max-width:300px; max-height:100px; position:absolute; left:4;" />
+                            <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)" alt="Logo" style="max-width:300px; max-height:100px; position:absolute; left:4;" />
+                        </div>
+                        <div class="col-6" style="text-align:center;">
+                            <p style="font-size:18px; margin:0px; padding:0px; color:#35547E;">
+                                <t t-if="doc.name.find('DG')">
+                                    DIAMOND - <t t-esc="doc.name"/>
+                                </t>
+                                <t t-else="">
+                                    <t t-esc="doc.name"/>
+                                </t>
+                            </p>
+                            <hr color="#35547E" />
+                        </div>
                     </div>
-                </div>
+                </t>
             </div>
         </xpath>
     </template>

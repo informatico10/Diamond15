@@ -3,7 +3,7 @@
     <record id="model_agency_aduana" model="ir.model.access">
         <field name="name">model.agency.aduana</field>
         <field name="model_id" ref="purchase_duas_rq_it.model_agency_aduana" />
-        <field name="group_id" ref="base.group_system" />
+        <field name="group_id" ref="base.group_user" />
         <field name="perm_read" eval="1" />
         <field name="perm_write" eval="1" />
         <field name="perm_create" eval="1" />
