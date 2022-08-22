@@ -291,7 +291,7 @@
                                                     <t t-esc="order.product_id.default_code" />
                                                 </td>
                                                 <td style="text-align:center; padding:3px;">
-                                                    <t t-esc="order.location_id.name" />
+                                                    <t t-esc="order.product_id.name" />
                                                 </td>
                                                 <td style="text-align:left; padding:3px;">
                                                     <t t-esc="order.product_uom_qty" />
