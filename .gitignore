@@ -3,3 +3,6 @@
 *.cpython-36
 __pycache__/
 .idea/
+stock_move_picking_hook/__pycache__/__init__.cpython-37.pyc
+*.pyc
+*.pyc
