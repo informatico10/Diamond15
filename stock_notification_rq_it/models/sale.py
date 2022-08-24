@@ -11,7 +11,7 @@ class SaleOrderStockNotification(models.Model):
         users = self.env['res.groups'].search( [('name', '=', 'Notificar Responsable de Almacén')] ).users
         users_notify = []
         for user in users:
-            if user.warehouse_responsable_id == self.warehouse_id:
+            if self.warehouse_id in user.warehouse_responsable_id:
                 users_notify.append(user)
         model = 'sale.order'
         body = 'Venta con Almacén <span style="color:blue;">' + self.warehouse_id.name + '</span> ha sido Confirmado'

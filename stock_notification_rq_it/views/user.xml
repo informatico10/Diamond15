@@ -7,7 +7,7 @@
         <field name="inherit_id" ref="base.view_users_form"/>
         <field name="arch" type="xml">
             <xpath expr="//group[1]" position="inside">
-                <field name="warehouse_responsable_id" />
+                <field name="warehouse_responsable_id" widget="many2many_tags" />
             </xpath>
         </field>
     </record>

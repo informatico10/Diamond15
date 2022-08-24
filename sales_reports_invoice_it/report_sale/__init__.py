@@ -1,0 +1,1 @@
+from . import report_sale_model, report_sale_wizard

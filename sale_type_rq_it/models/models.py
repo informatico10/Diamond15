@@ -9,7 +9,7 @@ class SaleOrder(models.Model):
     sale_type = fields.Selection([
         ('export', 'Exportación'),
         ('nacional', 'Venta Nacional')
-    ], string='Sale Type')
+    ], string='Tipo Venta')
 
     @api.onchange('partner_id')
     def _onchange_partner_id(self):

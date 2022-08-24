@@ -7,7 +7,7 @@ class AccountMoveSalesReports(models.Model):
 
     sale_id = fields.Many2one('sale.order', string='sale')
     gr = fields.Char('GR')
-    oc_partner = fields.Char('Orden de Compra Cliente')
+    # oc_partner = fields.Char('Orden de Compra Cliente')
 
     observacion = fields.Text('Observación')
 
@@ -31,8 +31,8 @@ class AccountMoveSalesReports(models.Model):
                 if sale:
                     rec.sale_id = sale.id
                     rec.gr = rec.sale_id.gr
-                    rec.oc_partner = rec.sale_id.oc_partner
+                    # rec.oc_partner = rec.sale_id.oc_partner
                 else:
                     rec.sale_id = False
                     rec.gr = ''
-                    rec.oc_partner = ''
+                    # rec.oc_partner = ''

@@ -522,7 +522,7 @@
                             </div>
                         </div>
 
-                        <div class="footer container" style="display:block; margin-top:20px; padding:0; width:100%; font-size:20px; color:#808080;">
+                        <!-- <div class="footer container" style="display:block; margin-top:20px; padding:0; width:100%; font-size:20px; color:#808080;">
                             <br />
                             <hr color="#35547E" />
                             <center>
@@ -537,7 +537,7 @@
                                 <t t-esc="doc.company_id.email" />,
                             </center>
                             <hr width="115%" color="#DCDCDC" style="height:20px; margin-left:-15px;" />
-                        </div>
+                        </div> -->
                     </div>
                 </t>
             </t>

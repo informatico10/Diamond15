@@ -29,8 +29,17 @@ class SaleOrderLineStockValidation(models.Model):
     def _compute_check_cant_disponible(self):
         for rec in self:
             if rec.product_id:
-                quants = self.env['stock.quant'].search( [('company_id', '=', rec.company_id.id), ('product_id', '=', self.product_id.id), ('location_id', '=', rec.order_id.warehouse_id.lot_stock_id.id)] )
+                quants = self.env['stock.quant'].search( [('company_id', '=', rec.company_id.id), ('product_id', '=', rec.product_id.id), ('location_id', '=', rec.order_id.warehouse_id.lot_stock_id.id)] )
                 rec.quantity_available = 0
                 for quant in quants:
                     rec.quantity_available += quant.available_quantity
             rec.check_cant_disponible = True
+    
+    @api.onchange('product_id')
+    def _onchange_product_id_get_quantity_available(self):
+        for rec in self:
+            if rec.product_id:
+                quants = self.env['stock.quant'].search( [('company_id', '=', rec.company_id.id), ('product_id', '=', rec.product_id.id), ('location_id', '=', rec.order_id.warehouse_id.lot_stock_id.id)] )
+                rec.quantity_available = 0
+                for quant in quants:
+                    rec.quantity_available += quant.available_quantity

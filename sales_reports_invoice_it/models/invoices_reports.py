@@ -21,7 +21,7 @@ class report_products_invoice(models.Model):
     fch_entrega = fields.Date(string='Fch Entrega')
 
     cond_pago = fields.Char('Cond. Pago')
-    cond_pago_sistema = fields.Char('Cond. Pago Sistema')
+    # cond_pago_sistema = fields.Char('Cond. Pago Sistema')
 
     fch_vencimiento = fields.Date(string='Fch Vencimiento')
     gr= fields.Char('GR')
@@ -38,7 +38,8 @@ class report_products_invoice(models.Model):
     total_mn        = fields.Monetary('Total MN')
     total_me        = fields.Monetary('Total ME')
 
-    iqbf = fields.Char('IQBF')
+    iqbf = fields.Boolean('IQBF Internal')
+    iqbf_c = fields.Char('IQBF', compute='get_moneda')
     sunat_status = fields.Char('Sunat Status')
     observacion = fields.Char('Observación')
 
@@ -58,6 +59,11 @@ class report_products_invoice(models.Model):
         for i in self:
             i.moneda_mn = 154
             i.moneda_me = 2
+            if i.iqbf:
+                i.iqbf_c = 'X'
+            else:
+                i.iqbf_c = ''
+
 
     # new fields
     def init(self):
@@ -76,11 +82,10 @@ class report_products_invoice(models.Model):
                 account_move.ref AS invoice_number,
                 account_move.invoice_date AS fch_emision,
                 account_move.fch_entrega AS fch_entrega,
-                -- AS cond_pago
-                -- AS cond_pago_sistema
+                account_payment_term.name AS cond_pago,
                 account_move.fch_vencimiento AS fch_vencimiento,
                 account_move.gr AS gr,
-                account_move.oc_partner AS oc,
+                account_move.l10n_pe_dte_service_order AS oc,
                 -- AS qty_expo
                 account_move_line.quantity AS qty_loc,
 
@@ -123,12 +128,13 @@ class report_products_invoice(models.Model):
                 account_move.currency_rate as tc
 
                 from account_move_line
-                inner join account_move on account_move.id = account_move_line.move_id
-                inner join product_product on account_move_line.product_id = product_product.id
-                inner join product_template on product_product.product_tmpl_id = product_template.id
-                inner join res_partner on account_move.partner_id =res_partner.id
+                LEFT join account_move on account_move.id = account_move_line.move_id
+                LEFT join account_payment_term on account_move.invoice_payment_term_id = account_payment_term.id
+                LEFT join product_product on account_move_line.product_id = product_product.id
+                LEFT join product_template on product_product.product_tmpl_id = product_template.id
+                LEFT join res_partner on account_move.partner_id =res_partner.id
                 left join res_currency on account_move.currency_id = res_currency.id
-                inner join l10n_latam_document_type on account_move.l10n_latam_document_type_id = l10n_latam_document_type.id
+                LEFT join l10n_latam_document_type on account_move.l10n_latam_document_type_id = l10n_latam_document_type.id
 
                 WHERE account_move_line.exclude_from_invoice_tab = false
                     AND  account_move.state = 'posted' AND
