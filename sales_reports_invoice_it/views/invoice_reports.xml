@@ -8,11 +8,13 @@
             <field eval="1" name="priority"/>
             <field name="arch" type="xml">
                 <tree string="Productos Facturados" create="false">
+                    <field name="venta" optional="show" />
                     <field name="razon_social" optional="show" />
                     <field name="codigo" optional="show"/>
                     <field name="product_name" optional="show"/>
                     <field name="invoice_name" optional="show"/>
                     <field name="invoice_number" optional="show"/>
+                    <field name="tipo_doc" optional="show"/>
 
                     <field name="fch_emision" optional="show" />
                     <field name="fch_entrega" optional="show" /> 
@@ -68,10 +70,10 @@
 
                     <filter name="fch_emision" string="Fecha Emisión" context="{'group_by': 'fch_emision'}" />
                     <filter name="fch_entrega" string="Fecha Entrega" context="{'group_by': 'fch_entrega'}" />
-                    <filter name="fch_vencimiento" string="Vendedor" context="{'group_by': 'fch_vencimiento'}" />
-                    <filter name="razon_social" string="Producto" context="{'group_by': 'razon_social'}" />
+                    <filter name="fch_vencimiento" string="Fecha Vencimiento" context="{'group_by': 'fch_vencimiento'}" />
+                    <filter name="razon_social" string="Razón Social" context="{'group_by': 'razon_social'}" />
                     <filter name="product_name" string="Producto" context="{'group_by': 'product_name'}" />
-                    <filter name="currency_name" string="Producto" context="{'group_by': 'currency_name'}" />
+                    <filter name="currency_name" string="Moneda" context="{'group_by': 'currency_name'}" />
                 </search>
             </field>
         </record>
