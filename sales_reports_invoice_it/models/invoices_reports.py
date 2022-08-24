@@ -46,8 +46,19 @@ class report_products_invoice(models.Model):
     currency_id = fields.Many2one('res.currency', string='Moneda Id')
     currency_name 	= fields.Char('Moneda')
     tc = fields.Float('TC')
-    payment_state = fields.Char('Estado Pago')
-    state = fields.Char('Estado')
+    payment_state = fields.Selection([
+        ('not_paid', 'No Pagadas'),
+        ('in_payment', 'En proceso de Pago'),
+        ('paid', 'Pagado'),
+        ('partial', 'Pagado Parcialmente'),
+        ('reversed', 'Revertido'),
+        ('invoicing_legacy', 'Factura Sistema Anterior'),
+    ], string='Estado Pago')
+    state = fields.Selection([
+        ('draft', 'Borrador'),
+        ('posted', 'Publicado'),
+        ('cancel', 'Cancelado'),
+    ], string='Estado')
 
 
     # subtotal_amount = fields.Monetary('Sub Total')
