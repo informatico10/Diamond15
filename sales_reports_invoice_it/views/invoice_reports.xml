@@ -39,6 +39,8 @@
 
                     <field name="iqbf_c" optional="show" />
                     <field name="sunat_status" optional="show" />
+                    <field name="payment_state" optional="show" />
+                    <field name="state" optional="show" />
                     <field name="observacion" optional="show" />
                 </tree>
             </field>

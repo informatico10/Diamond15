@@ -46,6 +46,9 @@ class report_products_invoice(models.Model):
     currency_id = fields.Many2one('res.currency', string='Moneda Id')
     currency_name 	= fields.Char('Moneda')
     tc = fields.Float('TC')
+    payment_state = fields.Char('Estado Pago')
+    state = fields.Char('Estado')
+
 
     # subtotal_amount = fields.Monetary('Sub Total')
     # company_id = fields.Many2one('res.company', 'Company')
@@ -125,7 +128,9 @@ class report_products_invoice(models.Model):
 
                 res_currency.id as currency_id,
                 res_currency.symbol as currency_name,
-                account_move.currency_rate as tc
+                account_move.currency_rate as tc,
+                account_move.payment_state as payment_state,
+                account_move.state as state
 
                 from account_move_line
                 LEFT join account_move on account_move.id = account_move_line.move_id
