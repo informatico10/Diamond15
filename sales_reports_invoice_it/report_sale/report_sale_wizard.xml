@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="report_sale_select_wizard_view_form" model="ir.ui.view">
+        <field name="name">report.sale.select.wizard.view.form</field>
+        <field name="model">report.sale.select.wizard</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <group>
+                    <group col='2'>
+                        <field name="type_partner_product" />
+                        <field name="partner_id" attrs="{'invisible': [('type_partner_product','!=','partner')], 'required': [('type_partner_product','=','partner')]}" />
+                        <field name="product_id" attrs="{'invisible': [('type_partner_product','!=','product')], 'required': [('type_partner_product','=','product')]}" />
+
+                        <field name="type_currency" />
+                    </group>
+                    <group col='2'>
+                        <field name="fch_start" />
+                        <field name="fch_end" />
+                    </group>
+                    <group>
+                        <field name="visualizacion" />
+                    </group>
+                </group>
+                <center>
+                    <footer>
+                        <button string="OBTENER REPORTE" name="get_report" type="object" class="oe_highlight"/>
+                        <button string="CANCELAR" class="oe_link" special="cancel"/>
+                    </footer>
+                </center>
+            </form>
+        </field>
+    </record>
+
+    <record id="report_sale_select_wizard_action" model="ir.actions.act_window">
+        <field name="name">Report Venta</field>
+        <field name="res_model">report.sale.select.wizard</field>
+        <field name="target">new</field>
+        <field name="view_mode">form</field>
+    </record>
+
+    <menuitem
+        id="report_sale_select_wizard_menu"
+        name="Por Cliente o Producto"
+        action="report_sale_select_wizard_action"
+        parent="sale.menu_sale_report"
+        sequence="120" />
+
+</odoo>

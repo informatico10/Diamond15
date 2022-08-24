@@ -8,7 +8,7 @@
         <field name="arch" type="xml">
 
             <xpath expr="//field[@name='payment_term_id']" position="after">
-                <field name="oc_partner" required="True" />
+                <!-- <field name="oc_partner" required="True" /> -->
                 <field name="gr" readonly="True" />
                 <field name="set_new_field" invisible="1" />
             </xpath>

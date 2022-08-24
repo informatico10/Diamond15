@@ -38,7 +38,7 @@
                     </style>
                     <div class="page" style="">
                         <div class="container" style="width:90%; font-size:15px">
-                            <div class="header">
+                            <!-- <div class="header">
                                 <div class="row">
                                     <hr width="115%" color="#DCDCDC" style="height:20px; margin-left:-15px;" />
                                 </div>
@@ -54,7 +54,7 @@
                                         <hr color="#35547E" />
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                             <div>
                                 <p>
                                     San Isidro, <t t-esc="doc.date_order.day"/> de 
@@ -183,11 +183,10 @@
                             </div>
                         </div>
 
-                        <div class="footer container" style="display:block; margin-top:20px; padding:0; width:100%; font-size:20px; color:#808080;">
-                            <br />
-                            <hr color="#35547E" />
+                        <!-- <div class="footer container-fluid" style="display:block; margin-top:20px; padding:0; width:100%; font-size:20px; color:white; background-color: #0175CA;">
                             <center>
-                            <b>A: </b>
+                                <br />
+                                <b>A: </b>
                                 <t t-esc="doc.company_id.street_name" />, 
                                 <t t-esc="doc.company_id.city" />, 
                                 <t t-if="doc.company_id.state_id" t-esc="doc.company_id.state_id.name" />, 
@@ -196,9 +195,10 @@
                                 <t t-esc="doc.company_id.phone" />, 
                                 | <b>E: </b>
                                 <t t-esc="doc.company_id.email" />,
+                                <br />
+                                <br />
                             </center>
-                            <hr width="115%" color="#DCDCDC" style="height:20px; margin-left:-15px;" />
-                        </div>
+                        </div> -->
                     </div>
                 </t>
             </t>
@@ -208,23 +208,24 @@
     <template id="header_reports_diamond" inherit_id="web.external_layout_standard">
         <xpath expr="//div[@t-attf-class='header o_company_#{company.id}_layout']" position="replace">
             <div class="header">
-                <t t-if="doc and doc.company_id"> 
-                    <div class="row">
-                        <hr width="115%" color="#DCDCDC" style="height:20px; margin-left:-15px;" />
-                    </div>
-                    <div class="row">
+                <t t-if="doc and doc.company_id">
+                    <div class="row d-flex justify-content-center align-items-center text-center" style="background-color: #0175CA;" >
                         <div class="col-6">
                             <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)" alt="Logo" style="max-width:300px; max-height:100px; position:absolute; left:4;" />
                             <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)" alt="Logo" style="max-width:300px; max-height:100px; position:absolute; left:4;" />
                         </div>
                         <div class="col-6" style="text-align:center;">
-                            <p style="font-size:18px; margin:0px; padding:0px; color:#35547E;">
+                            <p style="font-size:18px; margin:0px; padding:0px; color:white;">
+                                <br />
+                                <br />
                                 <t t-if="doc.name.find('DG')">
                                     DIAMOND - <t t-esc="doc.name"/>
                                 </t>
                                 <t t-else="">
                                     <t t-esc="doc.name"/>
                                 </t>
+                                <br />
+                                <br />
                             </p>
                             <hr color="#35547E" />
                         </div>
@@ -232,7 +233,27 @@
                 </t>
             </div>
         </xpath>
+        <xpath expr="//div[@t-attf-class='footer o_standard_footer o_company_#{company.id}_layout']" position="replace">
+            <div t-attf-class="footer o_standard_footer o_company_#{company.id}_layout" style="display:block; margin-left: -15px;; padding:0; width:105%; font-size:20px; color:white; background-color: #0175CA;">
+                <center>
+                    <br />
+                    <b>A: </b>
+                    <t t-esc="o.company_id.street_name" />,
+                    <t t-esc="o.company_id.city" />, 
+                    <t t-if="o.company_id.state_id" t-esc="o.company_id.state_id.name" />, 
+                    <t t-if="o.company_id.country_id" t-esc="o.company_id.country_id.name" />
+                    | <b>T: </b>
+                    <t t-esc="o.company_id.phone" />, 
+                    | <b>E: </b>
+                    <t t-esc="o.company_id.email" />,
+                    <br />
+                    <br />
+                    <br />
+                </center>
+            </div>
+        </xpath>
     </template>
+
 
     <record id="paperformat_sale_report_diamond_it" model="report.paperformat">
         <field name="name">Personalizado</field>

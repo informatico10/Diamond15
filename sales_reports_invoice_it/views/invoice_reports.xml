@@ -16,6 +16,7 @@
 
                     <field name="fch_emision" optional="show" />
                     <field name="fch_entrega" optional="show" /> 
+                    <field name="cond_pago" optional="show" /> 
                     <field name="fch_vencimiento" optional="show"/>
                     <field name="gr" optional="show"/>
                     <field name="oc" optional="show" />
@@ -36,7 +37,7 @@
                     <field name="total_mn" widget="monetary" options="{'currency_field': 'moneda_mn'}" optional="show" />
                     <field name="total_me" widget="monetary" options="{'currency_field': 'moneda_me'}" optional="show" />
 
-                    <field name="iqbf" optional="show" />
+                    <field name="iqbf_c" optional="show" />
                     <field name="sunat_status" optional="show" />
                     <field name="observacion" optional="show" />
                 </tree>

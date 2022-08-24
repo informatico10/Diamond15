@@ -17,6 +17,8 @@
 		'views/account_move.xml',
 		'views/sale.xml',
 		'views/product.xml',
+
+		'report_sale/report_sale_wizard.xml',
 	],
 	'installable': True
 }
