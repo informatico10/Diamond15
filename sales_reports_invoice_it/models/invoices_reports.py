@@ -157,7 +157,7 @@ class report_products_invoice(models.Model):
                 LEFT join l10n_latam_document_type on account_move.l10n_latam_document_type_id = l10n_latam_document_type.id
 
                 WHERE account_move_line.exclude_from_invoice_tab = false
-                    AND  account_move.state in ['posted', 'draft'] AND
+                    AND account_move.state = 'posted' AND
                     (account_move.move_type = 'out_invoice' or account_move.move_type = 'out_refund' or account_move.move_type = 'out_receipt')
                 )T
             );
