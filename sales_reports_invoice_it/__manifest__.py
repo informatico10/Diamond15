@@ -3,7 +3,7 @@
 	'name': 'Reportes para ventas de lavoro',
 	'category': 'sale',
 	'author': 'ITGRUPO',
-	'depends': ['sale', 'account', 'stock', 'logistic', 'account_fields_it'],
+	'depends': ['sale', 'account', 'stock', 'logistic', 'account_fields_it', 'l10n_pe_edi_extended'],
 	'version': '1.0',
 	'description':"""
 		REPORTES DE VENTAS Y FACTURAS

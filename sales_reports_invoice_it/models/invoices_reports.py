@@ -27,7 +27,7 @@ class report_products_invoice(models.Model):
     gr= fields.Char('GR')
     oc = fields.Char('OC')
 
-    qty_expo = fields.Float('Cantidad Expo',digits=(12,2))
+    # qty_expo = fields.Float('Cantidad Expo',digits=(12,2))
     qty_loc = fields.Float('Cantidad Loc',digits=(12,2))
 
 
