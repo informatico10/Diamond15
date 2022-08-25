@@ -1,7 +1,7 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 
-	# res_partner_tarifa_plazo_group.view_partner_plazo_pago_readonly_form
+
 class ResPartnerPayment(models.Model):
     _inherit = 'res.partner'
 
@@ -21,6 +21,21 @@ class ResPartnerPayment(models.Model):
     def _onchange_extra_credit(self):
         if not self.env.user.has_group('sale_payment_rq_it.group_payment_sale_extracredit'):
             raise ValidationError('Necesita el permiso <Aprobación de Extra-créditos - Ventas> para cambiar el campo')
+
+    @api.onchange('credit_limit_payment')
+    def _onchange_credit_limit_payment(self):
+        for rec in self:
+            rec.due_current = rec.total_due
+            rec._origin.due_current = rec.total_due
+
+            rec.remaining_credit = rec.credit_limit_payment - rec.due_current
+            rec._origin.remaining_credit = rec.credit_limit_payment - rec.due_current
+            if rec.remaining_credit >= 0:
+                rec.state_partner = '1'
+                rec._origin.state_partner = '1'
+            else:
+                rec.state_partner = '0'
+                rec._origin.state_partner = '0'
 
     due_current = fields.Float('Deuda Actual', readonly=True)
     remaining_credit = fields.Float('Crédito Restante', readonly=True)
