@@ -46,6 +46,22 @@ class report_products_invoice(models.Model):
     currency_id = fields.Many2one('res.currency', string='Moneda Id')
     currency_name 	= fields.Char('Moneda')
     tc = fields.Float('TC')
+    payment_state = fields.Selection([
+        ('not_paid', 'No Pagadas'),
+        ('in_payment', 'En proceso de Pago'),
+        ('paid', 'Pagado'),
+        ('partial', 'Pagado Parcialmente'),
+        ('reversed', 'Revertido'),
+        ('invoicing_legacy', 'Factura Sistema Anterior'),
+    ], string='Estado Pago')
+    state = fields.Selection([
+        ('draft', 'Borrador'),
+        ('posted', 'Publicado'),
+        ('cancel', 'Cancelado'),
+    ], string='Estado')
+
+    tipo_doc = fields.Char('Tipo Documento')
+    venta = fields.Char('# Pedido')
 
     # subtotal_amount = fields.Monetary('Sub Total')
     # company_id = fields.Many2one('res.company', 'Company')
@@ -125,8 +141,12 @@ class report_products_invoice(models.Model):
 
                 res_currency.id as currency_id,
                 res_currency.symbol as currency_name,
-                account_move.currency_rate as tc
-
+                account_move.currency_rate as tc,
+                account_move.payment_state as payment_state,
+                account_move.state as state,
+                account_move.invoice_origin as venta,
+                l10n_latam_document_type.name as tipo_doc
+                
                 from account_move_line
                 LEFT join account_move on account_move.id = account_move_line.move_id
                 LEFT join account_payment_term on account_move.invoice_payment_term_id = account_payment_term.id
@@ -137,7 +157,7 @@ class report_products_invoice(models.Model):
                 LEFT join l10n_latam_document_type on account_move.l10n_latam_document_type_id = l10n_latam_document_type.id
 
                 WHERE account_move_line.exclude_from_invoice_tab = false
-                    AND  account_move.state = 'posted' AND
+                    AND account_move.state = 'posted' AND
                     (account_move.move_type = 'out_invoice' or account_move.move_type = 'out_refund' or account_move.move_type = 'out_receipt')
                 )T
             );

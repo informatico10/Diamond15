@@ -31,7 +31,7 @@ class AccountMoveSalesReports(models.Model):
                 if sale:
                     rec.sale_id = sale.id
                     rec.gr = rec.sale_id.gr
-                    # rec.oc_partner = rec.sale_id.oc_partner
+                    rec.l10n_pe_dte_service_order = rec.sale_id.oc_partner
                 else:
                     rec.sale_id = False
                     rec.gr = ''

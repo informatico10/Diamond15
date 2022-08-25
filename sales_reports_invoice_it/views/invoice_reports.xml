@@ -8,11 +8,13 @@
             <field eval="1" name="priority"/>
             <field name="arch" type="xml">
                 <tree string="Productos Facturados" create="false">
+                    <field name="venta" optional="show" />
                     <field name="razon_social" optional="show" />
                     <field name="codigo" optional="show"/>
                     <field name="product_name" optional="show"/>
                     <field name="invoice_name" optional="show"/>
                     <field name="invoice_number" optional="show"/>
+                    <field name="tipo_doc" optional="show"/>
 
                     <field name="fch_emision" optional="show" />
                     <field name="fch_entrega" optional="show" /> 
@@ -32,13 +34,15 @@
 
                     <field name="price_unit" optional="show" widget="monetary" options="{'currency_field': 'currency_id'}" />
 
-                    <field name="subtotal_mn" widget="monetary" options="{'currency_field': 'moneda_mn'}" optional="show" />
-                    <field name="subtotal_me" widget="monetary" options="{'currency_field': 'moneda_me'}" optional="show" />
-                    <field name="total_mn" widget="monetary" options="{'currency_field': 'moneda_mn'}" optional="show" />
-                    <field name="total_me" widget="monetary" options="{'currency_field': 'moneda_me'}" optional="show" />
+                    <field name="subtotal_mn" widget="monetary" options="{'currency_field': 'moneda_mn'}" optional="show" sum="Sutotal MN" />
+                    <field name="subtotal_me" widget="monetary" options="{'currency_field': 'moneda_me'}" optional="show" sum="Sutotal ME" />
+                    <field name="total_mn" widget="monetary" options="{'currency_field': 'moneda_mn'}" optional="show" sum="Total MN" />
+                    <field name="total_me" widget="monetary" options="{'currency_field': 'moneda_me'}" optional="show" sum="Total ME" />
 
                     <field name="iqbf_c" optional="show" />
                     <field name="sunat_status" optional="show" />
+                    <field name="payment_state" optional="show" widget="badge" decoration-danger="payment_state == 'not_paid'" decoration-warning="payment_state in ('partial', 'in_payment')" decoration-success="payment_state in ('paid', 'reversed')" />
+                    <field name="state" optional="show" widget="badge" decoration-success="state == 'posted'" decoration-info="state == 'draft'" />
                     <field name="observacion" optional="show" />
                 </tree>
             </field>
@@ -58,6 +62,7 @@
             <field name="model">report.products.invoice</field>
             <field name="arch" type="xml">
                 <search string="">
+                    <field name="venta" />
                     <field name="razon_social" />
                     <field name="codigo" />
                     <field name="product_name" />
@@ -66,10 +71,10 @@
 
                     <filter name="fch_emision" string="Fecha Emisión" context="{'group_by': 'fch_emision'}" />
                     <filter name="fch_entrega" string="Fecha Entrega" context="{'group_by': 'fch_entrega'}" />
-                    <filter name="fch_vencimiento" string="Vendedor" context="{'group_by': 'fch_vencimiento'}" />
-                    <filter name="razon_social" string="Producto" context="{'group_by': 'razon_social'}" />
+                    <filter name="fch_vencimiento" string="Fecha Vencimiento" context="{'group_by': 'fch_vencimiento'}" />
+                    <filter name="razon_social" string="Razón Social" context="{'group_by': 'razon_social'}" />
                     <filter name="product_name" string="Producto" context="{'group_by': 'product_name'}" />
-                    <filter name="currency_name" string="Producto" context="{'group_by': 'currency_name'}" />
+                    <filter name="currency_name" string="Moneda" context="{'group_by': 'currency_name'}" />
                 </search>
             </field>
         </record>
