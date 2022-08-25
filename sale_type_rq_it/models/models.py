@@ -20,3 +20,4 @@ class SaleOrder(models.Model):
             else:
                 self.sale_type = 'export'
                 self._origin.sale_type = 'export'
+
