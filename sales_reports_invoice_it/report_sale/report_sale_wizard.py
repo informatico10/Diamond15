@@ -29,57 +29,121 @@ class ReportSaleSelect(models.TransientModel):
         ('display', 'Pantalla'),
         ('excel', 'Excel'),
         ('pdf', 'PDF'),
-    ], string='visualizacion', default="display")
+    ], string='visualizacion', default="display", required=True)
+
+    # BY REPORT PDF
+    sale_report_partner_product_ids = fields.Many2many('report.sale.select', string='Sale REport PArtner Product')
+    company_id = fields.Many2one('res.company', string='company', default=lambda self: self.env.company.id)
 
     def get_report(self):
+        # para q tome la fecha del dia actual a las 00 horas
+        self.fch_end = self.fch_end + dateutil.relativedelta.relativedelta(days=1)
+
+        if self.type_partner_product == 'partner':
+            self.env.cr.execute("""DROP TABLE IF EXISTS report_sale_select;""")
+            self.env.cr.execute("""CREATE TABLE report_sale_select as (""" + self._get_report_by_partner() + """)""")
+        elif self.type_partner_product == 'product':
+            self.env.cr.execute("""DROP TABLE IF EXISTS report_sale_select;""")
+            self.env.cr.execute("""CREATE TABLE report_sale_select as (""" + self._get_report_by_product() + """)""")
+
+        self.fch_end = self.fch_end - dateutil.relativedelta.relativedelta(days=1)
         if self.visualizacion == 'display':
-            if self.type_partner_product == 'partner':
-                self.env.cr.execute("""DROP TABLE IF EXISTS report_sale_select;""")
-                self.env.cr.execute("""CREATE TABLE report_sale_select as (""" + self._get_report_by_partner() + """)""")
+            return {
+                'name': 'Ventas Por Cliente/Producto',
+                'res_model': 'report.sale.select',
+                'type': 'ir.actions.act_window',
+                'target': 'current',
+                'view_mode': 'tree'
+            }
+        elif self.visualizacion == 'pdf':
+            self.sale_report_partner_product_ids = self.env['report.sale.select'].search( [] )
+
+            return self.env.ref('sales_reports_invoice_it.action_sale_report_partner_product_diamond').report_action(self)
+
 
     def _get_report_by_partner(self):
-        fch_ahora = datetime.now() + timedelta(days=1)
-        first_date = date(fch_ahora.year, 1, 1)
+        ventas_by_partner = self.env['sale.order'].search([('partner_id', '=', self.partner_id.id), ('create_date', '>', self.fch_start), ('create_date', '<', self.fch_end)])
+
+        total_ventas = 0
+        for venta in ventas_by_partner:
+            total_ventas += venta.amount_untaxed
+
+        currency = ''
+        if self.type_currency == 'sol':
+            currency = "('PEN')"
+        elif self.type_currency == 'dol':
+            currency = "('USD')"
+        elif self.type_currency == 'both':
+            currency = "('USD', 'PEN')"
+
         sql = """SELECT row_number() OVER () AS id,
-				gma.fecha_emi,
-				gs2.voucher,
-				gma.fecha_ven, gma.cuenta, gma.divisa, gma.tdp,
-				gma.doc_partner, gma.partner, gma.td_sunat, gma.nro_comprobante,
-				aac.name AS nmbr_cuenta,
-				gma.saldo_mn, gma.saldo_me, ac.glosa, ac.invoice_date_due as fch_ven,
-                ac.currency_rate as tasa_cambio,
-                ac.credit,
-                ac.debit,
-                ac.pdf_powerbi as pdf,
-                ec01.description as tipo_documento,
-                cero_treinta, treinta1_sesenta,
-				sesenta1_noventa, noventa1_ciento20, ciento21_ciento50,
-				ciento51_ciento80, ciento81_mas
-				FROM get_maturity_analysis('%s','%s',%s,'%s') as gma
-                -- LEFT JOIN account_move AS ac ON gma.nro_comprobante = ac.ref
-                LEFT OUTER JOIN LATERAL
-                    ( SELECT ac.glosa, ac.invoice_date_due, ac.currency_rate,
-                        ac.credit,
-                        ac.debit,
-                        ac.pdf_powerbi,
-                        ac.type_document_id
-                        FROM account_move AS ac
-                        WHERE gma.nro_comprobante = ac.ref
-                        LIMIT 1
-                    ) AS ac ON TRUE
-				LEFT JOIN account_account AS aac ON aac.code = cuenta
-                LEFT OUTER JOIN LATERAL
-                    ( SELECT gs2.voucher
-                        FROM get_saldos_2('%s', '%s', 1) AS gs2
-                        WHERE gs2.nro_comprobante = gma.nro_comprobante
-                        LIMIT 1 
-                    ) AS gs2 ON TRUE
-                LEFT JOIN einvoice_catalog_01 AS ec01 ON ec01.id = ac.type_document_id
-                WHERE left(gma.cuenta,2) = '12' OR left(gma.cuenta,2) = '13'
-				OR left(gma.cuenta,2) = '14' OR left(gma.cuenta,2) = '16' OR left(gma.cuenta,2) = '17'
-			""" %(first_date.strftime('%Y/%m/%d'), fch_ahora.strftime('%Y/%m/%d'), 1, 'receivable', first_date.strftime('%Y/%m/%d'),
-                    fch_ahora.strftime('%Y/%m/%d'))
-                # -- LEFT JOIN get_saldos_2('%s', '%s',1)
-				# -- AS gs2 ON gs2.nro_comprobante = gma.nro_comprobante
+                'partner' AS type_partner_product,
+				sale_order.id AS sale_id,
+                '%s' AS fch_start,
+                '%s' AS fch_end,
+                product_template.default_code AS code,
+                product_template.name AS description_product,
+                res_partner.name AS partner,
+                res_partner.vat AS ruc,
+                sale_order_line.product_uom_qty AS kilos,
+                sale_order_line.price_subtotal AS valor_venta,
+                CASE
+                    WHEN %s != 0 THEN (sale_order_line.price_subtotal * 100) / %s
+                    ELSE 0
+                END AS participacion
+
+				FROM sale_order_line
+				LEFT JOIN sale_order ON sale_order.id = sale_order_line.order_id
+                LEFT JOIN product_product on sale_order_line.product_id = product_product.id
+                LEFT JOIN product_template on product_product.product_tmpl_id = product_template.id
+				LEFT JOIN res_partner ON res_partner.id = sale_order.partner_id
+				LEFT JOIN res_currency ON res_currency.id = sale_order.currency_id
+                WHERE res_currency.name in %s AND res_partner.id = %s AND sale_order.create_date >= '%s' AND sale_order.create_date <= '%s'
+			""" %( self.fch_start.strftime('%Y/%m/%d'), self.fch_end.strftime('%Y/%m/%d'),
+                total_ventas, total_ventas, currency, self.partner_id.id, self.fch_start.strftime('%Y/%m/%d'), self.fch_end.strftime('%Y/%m/%d'))
+
+        return sql
+
+    def _get_report_by_product(self):
+        line_sale = self.env['sale.order.line'].search([('product_id', '=', self.product_id.id), ('create_date', '>', self.fch_start), ('create_date', '<', self.fch_end)])
+
+        total_ventas = 0
+        for venta in line_sale:
+            total_ventas += venta.price_subtotal
+
+        currency = ''
+        if self.type_currency == 'sol':
+            currency = "('PEN')"
+        elif self.type_currency == 'dol':
+            currency = "('USD')"
+        elif self.type_currency == 'both':
+            currency = "('USD', 'PEN')"
+
+        sql = """SELECT row_number() OVER () AS id,
+                'partner' AS type_partner_product,
+				sale_order.id AS sale_id,
+                '%s' AS fch_start,
+                '%s' AS fch_end,
+                product_template.default_code AS code,
+                product_template.name AS description_product,
+                res_partner.name AS partner,
+                res_partner.vat AS ruc,
+                sale_order_line.product_uom_qty AS kilos,
+                sale_order_line.price_subtotal AS valor_venta,
+                CASE
+                    WHEN %s != 0 THEN (sale_order_line.price_subtotal * 100) / %s
+                    ELSE 0
+                END AS participacion
+
+				FROM sale_order_line
+				LEFT JOIN sale_order ON sale_order.id = sale_order_line.order_id
+                LEFT JOIN product_product on sale_order_line.product_id = product_product.id
+                LEFT JOIN product_template on product_product.product_tmpl_id = product_template.id
+				LEFT JOIN res_partner ON res_partner.id = sale_order.partner_id
+				LEFT JOIN res_currency ON res_currency.id = sale_order.currency_id
+
+                WHERE res_currency.name in %s AND product_product.id = %s AND sale_order.create_date >= '%s' AND sale_order.create_date <= '%s'
+			""" %( self.fch_start.strftime('%Y/%m/%d'), self.fch_end.strftime('%Y/%m/%d'),
+                total_ventas, total_ventas, currency, self.product_id.id, self.fch_start.strftime('%Y/%m/%d'), self.fch_end.strftime('%Y/%m/%d'))
 
         return sql

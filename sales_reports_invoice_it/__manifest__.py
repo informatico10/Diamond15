@@ -19,6 +19,8 @@
 		'views/product.xml',
 
 		'report_sale/report_sale_wizard.xml',
+		'report_sale/report_sale_model.xml',
+		'report_sale/pdf.xml',
 	],
 	'installable': True
 }

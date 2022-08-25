@@ -146,7 +146,7 @@ class report_products_invoice(models.Model):
                 account_move.state as state,
                 account_move.invoice_origin as venta,
                 l10n_latam_document_type.name as tipo_doc
-                
+
                 from account_move_line
                 LEFT join account_move on account_move.id = account_move_line.move_id
                 LEFT join account_payment_term on account_move.invoice_payment_term_id = account_payment_term.id

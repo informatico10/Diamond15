@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="report_sale_select_view_tree" model="ir.ui.view">
+        <field name="name">report.sale.select.view.tree</field>
+        <field name="model">report.sale.select</field>
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="partner" optional="show" />
+                <field name="code" optional="show" />
+                <field name="description_product" optional="show" />
+                <field name="fch_start" optional="show" />
+                <field name="fch_end" optional="show" />
+                <field name="sale_id" optional="show" />
+                <field name="kilos" optional="show" />
+                <field name="valor_venta" optional="show" />
+                <field name="participacion" optional="show" />
+                <!-- <field name="" optional="show" /> -->
+            </tree>
+        </field>
+    </record>
+
+    <record id="report_sale_select_action" model="ir.actions.act_window">
+        <field name="name">Ventas Por Cliente/Producto</field>
+        <field name="res_model">report.sale.select</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+
+</odoo>
