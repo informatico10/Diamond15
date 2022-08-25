@@ -34,10 +34,10 @@
 
                     <field name="price_unit" optional="show" widget="monetary" options="{'currency_field': 'currency_id'}" />
 
-                    <field name="subtotal_mn" widget="monetary" options="{'currency_field': 'moneda_mn'}" optional="show" sum="Sutotal MN" />
-                    <field name="subtotal_me" widget="monetary" options="{'currency_field': 'moneda_me'}" optional="show" sum="Sutotal ME" />
-                    <field name="total_mn" widget="monetary" options="{'currency_field': 'moneda_mn'}" optional="show" sum="Total MN" />
-                    <field name="total_me" widget="monetary" options="{'currency_field': 'moneda_me'}" optional="show" sum="Total ME" />
+                    <field name="subtotal_mn" widget="monetary" options="{'currency_field': 'moneda_mn'}" optional="show" />
+                    <field name="subtotal_me" widget="monetary" options="{'currency_field': 'moneda_me'}" optional="show" />
+                    <field name="total_mn" widget="monetary" options="{'currency_field': 'moneda_mn'}" optional="show" />
+                    <field name="total_me" widget="monetary" options="{'currency_field': 'moneda_me'}" optional="show" />
 
                     <field name="iqbf_c" optional="show" />
                     <field name="sunat_status" optional="show" />
@@ -62,7 +62,6 @@
             <field name="model">report.products.invoice</field>
             <field name="arch" type="xml">
                 <search string="">
-                    <field name="venta" />
                     <field name="razon_social" />
                     <field name="codigo" />
                     <field name="product_name" />

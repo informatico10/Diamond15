@@ -60,8 +60,8 @@ class report_products_invoice(models.Model):
         ('cancel', 'Cancelado'),
     ], string='Estado')
 
-    venta = fields.Many2one('sale.order', string='# Pedido')
-    tipo_doc = fields.Many2one('l10n.latam.document.type', string='Tipo Documento')
+    tipo_doc = fields.Char('Tipo Documento')
+    venta = fields.Char('# Pedido')
 
     # subtotal_amount = fields.Monetary('Sub Total')
     # company_id = fields.Many2one('res.company', 'Company')
@@ -144,12 +144,11 @@ class report_products_invoice(models.Model):
                 account_move.currency_rate as tc,
                 account_move.payment_state as payment_state,
                 account_move.state as state,
-                account_move.sale_id as venta,
+                account_move.invoice_origin as venta,
                 l10n_latam_document_type.name as tipo_doc
-
+                
                 from account_move_line
                 LEFT join account_move on account_move.id = account_move_line.move_id
-                LEFT join sale_order on account_move.sale_id = sale_order.id
                 LEFT join account_payment_term on account_move.invoice_payment_term_id = account_payment_term.id
                 LEFT join product_product on account_move_line.product_id = product_product.id
                 LEFT join product_template on product_product.product_tmpl_id = product_template.id
