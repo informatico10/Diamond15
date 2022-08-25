@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="sale_partner_product_report_pdf_diamond">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <style type="text/css">
+                        <![CDATA[
+                            * {
+                                line-height: 1.5em;
+                            }
+                            table {
+                                width: 100%;
+                                border-top: 1px solid black;
+                                vertical-align: middle;
+                                font-size: 15px;
+                            }
+                            th, td {
+                                border-bottom: 0.5px solid #35547E;
+                                vertical-align: middle;
+                                height: 20px;
+                                font-size: 14px;
+                                margin:0;
+                                padding:3px;
+                            }
+                            .page {
+                                font-family: Verdana;
+                                font-size: 15px;
+                                color:#201F23;
+                                background-image: url(/sale_order_report_by_warehouse_it/static/src/img/fondo.png);
+                                background-repeat: no-repeat;
+                                background-size:300px 200px;
+                                height: 1100px;
+                                background-position: bottom right;
+                            }
+                        ]]>
+                    </style>
+                    <div class="page" style="">
+                        <div class="container" style="width:90%; font-size:15px">
+                            <div class="row d-flex justify-content-center align-items-center text-center">
+                                <div class="col-12">
+                                    <center>
+                                        <h4>
+                                            <t t-if="doc.type_partner_product == 'partner'">
+                                                <b>Participación y Cumplimiento de Ventas por Cliente</b>
+                                            </t>
+                                            <t t-else="'">
+                                                <b>Participación y Cumplimiento de Ventas por Producto</b>
+                                            </t>
+                                        </h4>
+                                    </center>
+                                </div>
+                            </div>
+
+                            <br />
+
+                            <div class="row">
+                                <div class="col-6 d-flex justify-content-center align-items-center text-right">
+                                    <t t-if="doc.type_partner_product == 'partner'">
+                                        <b>Cliente: </b><t t-esc="doc.partner_id.name"/>
+                                    </t>
+                                    <t t-else="'">
+                                        <b>Producto: </b><t t-esc="doc.product_id.name"/>
+                                    </t>
+                                </div>
+                                <div class="col-1" />
+                                <div class="col-5 d-flex justify-content-center align-items-center text-right">
+                                    <b>De </b>
+                                    <t t-if="doc.fch_start" t-esc="doc.fch_start.strftime('%d/%m/%Y')" />
+                                    <b> a </b>
+                                    <t t-if="doc.fch_end" t-esc="doc.fch_end.strftime('%d/%m/%Y')" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 d-flex justify-content-center align-items-center text-right">
+                                    <b>Compañia: </b><t t-esc="doc.company_id.name"/>
+                                </div>
+                            </div>
+
+                            <br />
+
+                            <div class="row d-flex justify-content-center align-items-center">
+                                <table class="border-0" style="width:100%; font-size:16px;">
+                                    <tr class="center color-cell" style="text-align:center; background-color:#0094D3; color:white;">
+                                        <td style="width: 3%;"><b>#</b></td>
+                                        <td style="width: 7%;">
+                                            <t t-if="doc.type_partner_product == 'partner'">
+                                                <b>Código</b>
+                                            </t>
+                                            <t t-else="'">
+                                                <b>RUC</b>
+                                            </t>
+                                        </td>
+                                        <td style="width: 40%;">
+                                            <t t-if="doc.type_partner_product == 'partner'">
+                                                <b>Descripción</b>
+                                            </t>
+                                            <t t-else="'">
+                                                <b>Razón Social</b>
+                                            </t>
+                                        </td>
+                                        <td style="width: 10%;"><b>Valor Venta</b></td>
+                                        <td style="width: 10%;"><b>% Particip</b></td>
+                                        <td style="width: 10%;"><b>Costo</b></td>
+                                        <td style="width: 10%;"><b>Utilidad</b></td>
+                                        <td style="width: 10%;"><b>% Utilidad</b></td>
+                                    </tr>
+                                    <t t-set="item" t-value="1"/>
+                                    <t t-set="valor_venta" t-value="0"/>
+                                    <t t-set="participacion" t-value="0"/>
+                                    <t t-foreach="doc.sale_report_partner_product_ids" t-as="line">
+                                        <tr>
+                                            <td style="text-align:center; padding:3px;">
+                                                <t t-esc="item" />
+                                            </td>
+                                            <td style="text-align:center; padding:3px;">
+                                                <t t-if="doc.type_partner_product == 'partner'">
+                                                    <t t-esc="line.code" />
+                                                </t>
+                                                <t t-else="'">
+                                                    <t t-esc="line.ruc" />
+                                                </t>
+                                            </td>
+                                            <td style="text-align:center; padding:3px;">
+                                                <t t-if="doc.type_partner_product == 'partner'">
+                                                    <t t-esc="line.description_product" />
+                                                </t>
+                                                <t t-else="'">
+                                                    <t t-esc="line.partner" />
+                                                </t>
+                                            </td>
+
+                                            <td style="text-align:center; padding:3px;">
+                                                <t t-esc="'{:,.2f}'.format(round(line.valor_venta, 2))" />
+                                            </td>
+                                            <td style="text-align:center; padding:3px;">
+                                                % <t t-esc="'{:,.0f}'.format(round(line.participacion, 0))" />
+                                            </td>
+                                            <td style="text-align:right; padding:3px;">
+                                                <!-- <t t-if="len(line.taxes_id) > 0">
+                                                    <t t-esc="line.taxes_id[0].amount" />
+                                                </t> -->
+                                            </td>
+                                            <td style="text-align:right; padding:3px;">
+                                                <!-- <t t-esc="'{:,.4f}'.format(round(line.price_unit,4))" /> -->
+                                            </td>
+                                            <td style="text-align:right; padding:3px;">
+                                                <!-- <t t-esc="'{:,.4f}'.format(round(line.price_subtotal,4))" /> -->
+                                            </td>
+
+                                            <t t-set="item" t-value="item + 1"/>
+                                            <t t-set="valor_venta" t-value="valor_venta + line.valor_venta" />
+                                            <t t-set="participacion" t-value="participacion + line.participacion" />
+                                        </tr>
+                                    </t>
+                                    <tr class="border-0">
+                                        <td class="border-0" style="text-align:center; padding:3px;" colspan="8">
+                                        </td>
+                                    </tr>
+                                    <tr class="border-0">
+                                        <td class="border-0" style="text-align:center; padding:3px;" colspan="3">
+                                            <b>TOTAL <t t-esc="item - 1" /> </b>
+                                        </td>
+
+                                        <td class="border-0" style="text-align:center; padding:3px;">
+                                            <b><t t-esc="'{:,.2f}'.format(round(valor_venta, 2))" /></b>
+                                        </td>
+                                        <td class="border-0" style="text-align:center; padding:3px;">
+                                            <b>% <t t-esc="'{:,.0f}'.format(round(participacion, 0))" /></b>
+                                        </td>
+                                        <td class="border-0" style="text-align:right; padding:3px;">
+                                        </td>
+                                        <td class="border-0" style="text-align:right; padding:3px;">
+                                        </td>
+                                        <td class="border-0" style="text-align:right; padding:3px;">
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="paperformat_sale_report_partner_product_diamond_it" model="report.paperformat">
+        <field name="name">Personalizado</field>
+        <field name="default" eval="True"/>
+        <field name="format">custom</field>
+        <field name="page_height">297</field>
+        <field name="page_width">210</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">25</field>
+        <field name="margin_bottom">20</field>
+        <field name="margin_left">0</field>
+        <field name="margin_right">0</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">29</field>
+        <field name="dpi">98</field>
+    </record>
+
+    <report
+        id="action_sale_report_partner_product_diamond"
+        model="report.sale.select.wizard"
+        string="Reporte Cliente/Producto"
+        report_type="qweb-pdf"
+        name="sales_reports_invoice_it.sale_partner_product_report_pdf_diamond"
+        file="sales_reports_invoice_it.sale_partner_product_report_pdf_diamond"
+        paperformat="sales_reports_invoice_it.paperformat_sale_report_partner_product_diamond_it"
+    />
+
+</odoo>

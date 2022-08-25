@@ -14,11 +14,11 @@ class ReportSaleSelect(models.Model):
         ('partner', 'Cliente'),
         ('product', 'Product'),
     ], string='Type Partner Product')
-    type_currency = fields.Selection([
-        ('sol', 'Nuevo Sol'),
-        ('dol', 'Dolar'),
-        ('both', 'Ambas'),
-    ], string='Tipo Moneda')
+    # type_currency = fields.Selection([
+    #     ('sol', 'Nuevo Sol'),
+    #     ('dol', 'Dolar'),
+    #     ('both', 'Ambas'),
+    # ], string='Tipo Moneda')
     fch_start = fields.Date('Fch Inicio')
     fch_end = fields.Date('Fch Final')
 
@@ -27,13 +27,14 @@ class ReportSaleSelect(models.Model):
     sale_id = fields.Many2one('sale.order', string='Venta')
     code = fields.Char('Código')
     description_product = fields.Char('Descripción')
+    ruc = fields.Char('RUC')
     partner = fields.Char('Cliente')
     kilos = fields.Float('Kilos')
 
     valor_venta = fields.Float('Valor Venta')
     participacion = fields.Float('% Participación')
 
-    valor_compra = fields.Float('Costo')
+    # valor_compra = fields.Float('Costo')
 
-    utilidad = fields.Float('Utilidad')
-    utilidad_por = fields.Float('%Utilidad')
+    # utilidad = fields.Float('Utilidad')
+    # utilidad_por = fields.Float('%Utilidad')
