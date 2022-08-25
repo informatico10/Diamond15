@@ -8,6 +8,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='sale_order_template_id']" position="after">
                 <field name="sale_type" readonly="True" />
+                <field name="check_type" invisible="True" />
             </xpath>
         </field>
     </record>

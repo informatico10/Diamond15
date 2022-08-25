@@ -20,4 +20,13 @@ class SaleOrder(models.Model):
             else:
                 self.sale_type = 'export'
                 self._origin.sale_type = 'export'
+    check_type = fields.Boolean(compute='_compute_check_type', string='Check Type')
 
+    @api.depends('sale_type')
+    def _compute_check_type(self):
+        for rec in self:
+            if rec.partner_id and rec.partner_id.country_id:
+                if rec.partner_id.country_id.name == 'Perú':
+                    rec.sale_type = 'nacional'
+                else:
+                    rec.sale_type = 'export'
