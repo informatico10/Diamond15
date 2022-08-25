@@ -3,7 +3,7 @@
     <record id="model_lot_duplicate" model="ir.model.access">
         <field name="name">model.lot.duplicate</field>
         <field name="model_id" ref="stock_import_lote_rq_it.model_lot_duplicate" />
-        <field name="group_id" ref="base.group_system" />
+        <field name="group_id" ref="base.group_portal" />
         <field name="perm_read" eval="1" />
         <field name="perm_write" eval="1" />
         <field name="perm_create" eval="1" />
@@ -12,7 +12,7 @@
     <record id="model_lot_duplicate_picking" model="ir.model.access">
         <field name="name">model.lot.duplicate.picking</field>
         <field name="model_id" ref="stock_import_lote_rq_it.model_lot_duplicate_picking" />
-        <field name="group_id" ref="base.group_system" />
+        <field name="group_id" ref="base.group_portal" />
         <field name="perm_read" eval="1" />
         <field name="perm_write" eval="1" />
         <field name="perm_create" eval="1" />
