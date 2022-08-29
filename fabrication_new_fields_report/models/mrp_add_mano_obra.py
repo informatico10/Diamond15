@@ -48,8 +48,10 @@ class mrp_production(models.Model):
     _inherit = 'mrp.production'
     workforce_ids = fields.One2many('workforce.cost', 'production_id', string='Mano De Obra')
 
-    def button_mark_done(self):
-        t = super(mrp_production,self).button_mark_done()
+   	def calcular_costos(self):
+        self.precio_salida()
+
+    def precio_salida(self):
         for i in self:
             total = 0
             stock_moves = self.env['stock.move.line'].sudo().search([('move_id.production_id', '=', i.id)])
@@ -120,6 +122,10 @@ class mrp_production(models.Model):
                         update ir_property set value_float = """ + str(costo_actual / cantidad_actual if cantidad_actual!=0 else 0) + """
                         where name = 'standard_price' and company_id = """ + str(self.env.company.id)+ """ and res_id = 'product.product,"""+str(m.product_id.id)+"""' 
                         """) 
+                        
+    def button_mark_done(self):
+        t = super(mrp_production,self).button_mark_done()
+        self.precio_salida()
         return t
 
 
