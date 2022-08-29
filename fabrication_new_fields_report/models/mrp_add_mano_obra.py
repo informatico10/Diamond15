@@ -178,11 +178,10 @@ class MrpCostStructure(models.AbstractModel):
             query_str = """SELECT
                                 sm.product_id,
                                 mo.id,
-                                abs(SUM(svl.quantity)),
-                                abs(SUM(svl.value)),
+                                abs(SUM(sm.product_uom_qty)),
+                                abs(SUM(sm.product_uom_qty*sm.price_unit_it)),
                                 currency_table.rate
                              FROM stock_move AS sm
-                       INNER JOIN stock_valuation_layer AS svl ON svl.stock_move_id = sm.id
                        LEFT JOIN mrp_production AS mo on sm.raw_material_production_id = mo.id
                        LEFT JOIN {currency_table} ON currency_table.company_id = mo.company_id
                             WHERE sm.raw_material_production_id in %s AND sm.state != 'cancel' AND sm.product_qty != 0 AND scrapped != 't'
