@@ -48,7 +48,7 @@ class mrp_production(models.Model):
     _inherit = 'mrp.production'
     workforce_ids = fields.One2many('workforce.cost', 'production_id', string='Mano De Obra')
 
-   	def calcular_costos(self):
+    def calcular_costos(self):
         self.precio_salida()
 
     def precio_salida(self):
