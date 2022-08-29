@@ -16,8 +16,8 @@ class MrpProductionReportPdf(models.Model):
     workers = fields.Html('Trabajadores')
     merma = fields.Char('Merma')
     desmedro = fields.Char('Desmedro')
-    hr_start = fields.Date('H. Inicio')
-    hr_end = fields.Date('H. Fin')
+    hr_start = fields.Datetime('H. Inicio')
+    hr_end = fields.Datetime('H. Fin')
 
     suministros = fields.Selection([
         ('0', 'Cilindros'),

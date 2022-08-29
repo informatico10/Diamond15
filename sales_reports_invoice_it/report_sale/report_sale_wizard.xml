@@ -33,7 +33,7 @@
     </record>
 
     <record id="report_sale_select_wizard_action" model="ir.actions.act_window">
-        <field name="name">Report Venta</field>
+        <field name="name">Reporte Cliente/Producto</field>
         <field name="res_model">report.sale.select.wizard</field>
         <field name="target">new</field>
         <field name="view_mode">form</field>

@@ -6,3 +6,12 @@ __pycache__/
 stock_move_picking_hook/__pycache__/__init__.cpython-37.pyc
 *.pyc
 *.pyc
+.vs/diamond15/FileContentIndex/1bd554da-c8e0-4350-af0f-38a622114bfa.vsidx
+.vs/diamond15/FileContentIndex/5048c7dc-0263-4dd5-bc01-448639df727d.vsidx
+*.vsidx
+*.lock
+.vs/diamond15/v17/.suo
+.vs/diamond15/v17/fileList.bin
+stock_move_picking_hook/__pycache__/__init__.cpython-37.pyc
+*.pyc
+diamond15.pyproj
