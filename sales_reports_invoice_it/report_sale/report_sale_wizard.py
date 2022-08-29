@@ -23,13 +23,13 @@ class ReportSaleSelect(models.TransientModel):
     fch_end = fields.Date('Fch Final', required=True, default=datetime.today())
 
     partner_id = fields.Many2one('res.partner', string='Cliente')
-    product_id = fields.Many2one('product.product', string='Product')
+    product_id = fields.Many2one('product.product', string='Producto')
 
     visualizacion = fields.Selection([
         ('display', 'Pantalla'),
         ('excel', 'Excel'),
         ('pdf', 'PDF'),
-    ], string='visualizacion', default="display", required=True)
+    ], string='Visualizacion', default="display", required=True)
 
     # BY REPORT PDF
     sale_report_partner_product_ids = fields.Many2many('report.sale.select', string='Sale REport PArtner Product')
