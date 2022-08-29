@@ -188,7 +188,7 @@ class MrpCostStructure(models.AbstractModel):
                          GROUP BY sm.product_id, mo.id, currency_table.rate""".format(currency_table=currency_table,)
             self.env.cr.execute(query_str, (tuple(mos.ids), ))
             for product_id, mo_id, qty, cost, currency_rate in self.env.cr.fetchall():
-                cost *= currency_rate
+                cost *= (currency_rate if currency_rate else 1)
                 raw_material_moves.append({
                     'qty': qty,
                     'cost': cost,
