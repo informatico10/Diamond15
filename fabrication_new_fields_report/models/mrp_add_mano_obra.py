@@ -180,7 +180,7 @@ class MrpCostStructure(models.AbstractModel):
                                 mo.id,
                                 abs(SUM(sm.product_uom_qty)),
                                 abs(SUM(sm.product_uom_qty*sm.price_unit_it)),
-                                currency_table.rate
+                                coalesce(currency_table.rate,1)
                              FROM stock_move AS sm
                        LEFT JOIN mrp_production AS mo on sm.raw_material_production_id = mo.id
                        LEFT JOIN {currency_table} ON currency_table.company_id = mo.company_id
