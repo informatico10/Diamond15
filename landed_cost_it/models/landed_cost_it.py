@@ -1,7 +1,21 @@
 # -*- coding: utf-8 -*-
 
+from mimetypes import init
 from odoo import models, fields, api
 from odoo.exceptions import UserError, ValidationError
+import base64
+from io import BytesIO
+import subprocess
+import sys
+
+def install(package):
+	subprocess.check_call([sys.executable, "-m", "pip", "install", package])
+
+try:
+	import openpyxl
+except:
+	install('openpyxl==3.0.5')
+
 
 ##SE VUELVE A PONER EL CAMPO AQUI YA QUE SE NECESITA PARA CALCULO DE GV Y NO ES POSIBLE DEPENDER DEL CAMPO KARDEX_VALORADO_IT YA QUE ESTE DEPENDE DE GV
 class stock_move(models.Model):
@@ -38,7 +52,7 @@ class LandedCostIt(models.Model):
 				self.picking_ids = [(6, 0, [p.id])]
 		
 		self.agregar_lineas()
-		invoices = self.env['account.move'].search([('landed_cost_id','=',self.id)])
+		invoices = self.env['account.move'].search([('landed_cost_id','=',self.id),('state','=','posted')])
 		for move in invoices:
 			for line in move.line_ids:
 				if line.product_id.is_landed_cost:
@@ -131,33 +145,33 @@ class LandedCostIt(models.Model):
 
 	def borrador(self):
 		self.state = 'draft'
-		for i in self.detalle_ids:
-			costo_actual = 0
-			cantidad_actual = 0
-			for ij in self.env['stock.valuation.layer'].search([('product_id','=',i.stock_move_id.product_id.id)]):
-				costo_actual += ij.value
-				cantidad_actual += ij.quantity					
-			i.stock_move_id.product_id.standard_price = costo_actual/cantidad_actual if cantidad_actual != 0 else 0
+		#for i in self.detalle_ids:
+		#	costo_actual = 0
+		#	cantidad_actual = 0
+		#	for ij in self.env['stock.valuation.layer'].search([('product_id','=',i.stock_move_id.product_id.id)]):
+		#		costo_actual += ij.value
+		#		cantidad_actual += ij.quantity					
+		#	i.stock_move_id.product_id.standard_price = costo_actual/cantidad_actual if cantidad_actual != 0 else 0
 
-			costopromedio = (costo_actual - i.flete) / cantidad_actual if cantidad_actual else 0
+		#	costopromedio = (costo_actual - i.flete) / cantidad_actual if cantidad_actual else 0
 						
-			std_price_wiz = self.env['stock.change.standard.price'].with_context(active_id=i.stock_move_id.product_id.id, active_model='product.product').create({'new_price' : costopromedio, 'counterpart_account_id_required':False})
-			std_price_wiz.with_context(active_id=i.stock_move_id.product_id.id, active_model='product.product').change_price()
+		#	std_price_wiz = self.env['stock.change.standard.price'].with_context(active_id=i.stock_move_id.product_id.id, active_model='product.product').create({'new_price' : costopromedio, 'counterpart_account_id_required':False})
+		#	std_price_wiz.with_context(active_id=i.stock_move_id.product_id.id, active_model='product.product').change_price()
 
 	def procesar(self):
 		self.state = 'done'
-		for i in self.detalle_ids:
-			costo_actual = 0
-			cantidad_actual = 0
-			for ij in self.env['stock.valuation.layer'].search([('product_id','=',i.stock_move_id.product_id.id)]):
-				costo_actual += ij.value
-				cantidad_actual += ij.quantity					
-			i.stock_move_id.product_id.standard_price = costo_actual/cantidad_actual if cantidad_actual != 0 else 0
-
-			costopromedio = (costo_actual + i.flete) / cantidad_actual  if cantidad_actual else 0
-						
-			std_price_wiz = self.env['stock.change.standard.price'].with_context(active_id=i.stock_move_id.product_id.id, active_model='product.product').create({'new_price' : costopromedio, 'counterpart_account_id_required':False})
-			std_price_wiz.with_context(active_id=i.stock_move_id.product_id.id, active_model='product.product').change_price()
+		#for i in self.detalle_ids:
+		#	costo_actual = 0
+		#	cantidad_actual = 0
+		#	for ij in self.env['stock.valuation.layer'].search([('product_id','=',i.stock_move_id.product_id.id)]):
+		#		costo_actual += ij.value
+		#		cantidad_actual += ij.quantity					
+		#	i.stock_move_id.product_id.standard_price = costo_actual/cantidad_actual if cantidad_actual != 0 else 0
+		
+		#	costopromedio = (costo_actual + i.flete) / cantidad_actual  if cantidad_actual else 0
+				
+		#	std_price_wiz = self.env['stock.change.standard.price'].with_context(active_id=i.stock_move_id.product_id.id, active_model='product.product').create({'new_price' : costopromedio, 'counterpart_account_id_required':False})
+		#	std_price_wiz.with_context(active_id=i.stock_move_id.product_id.id, active_model='product.product').change_price()
 			
 
 	def calcular(self):
@@ -174,7 +188,9 @@ class LandedCostIt(models.Model):
 						total_prorrateo) if total_prorrateo != 0 else 0
 			i.refresh()
 			valor_mn = sum(line['valormn'] for line in self.advalorem_ids.filtered(lambda line: line.product_id.id == i.stock_move_id.product_id.id and line.picking_id.id == i.stock_move_id.picking_id.id))
-			i.flete = (i.factor * self.total_flete)+valor_mn
+			i.flete = (i.factor * self.total_flete)
+			i.advalorem = valor_mn or 0
+			i.total = i.flete + i.advalorem + i.valor_rel
 			total_fle_lines +=  i.flete
 			
 		#REDONDEO
@@ -202,6 +218,203 @@ class LandedCostIt(models.Model):
 					'gastos_id': self.id,
 				}
 				self.env['landed.cost.it.line'].create(data)
+	
+	def generate_excel(self):
+		import io
+		from xlsxwriter.workbook import Workbook
+		from xlsxwriter.utility import xl_rowcol_to_cell
+
+		ReportBase = self.env['report.base']
+		direccion = self.env['account.main.parameter'].search([('company_id','=',self.company_id.id)],limit=1).dir_create_file
+
+		if not direccion:
+			raise UserError(u'No existe un Directorio Exportadores configurado en Parametros Principales de Contabilidad para su Compañía')
+
+		workbook = Workbook(direccion +'Reporte_GV.xlsx')
+		workbook, formats = ReportBase.get_formats(workbook)
+
+		numbertotalocho = workbook.add_format({'num_format':'0.00000000','bold': True})
+		numbertotalocho.set_align('right')
+		numbertotalocho.set_align('vcenter')
+		numbertotalocho.set_border(style=1)
+		numbertotalocho.set_font_size(10.5)
+		numbertotalocho.set_font_name('Times New Roman')
+		numbertotalocho.set_underline()
+
+		import importlib
+		import sys
+		importlib.reload(sys)
+
+		worksheet = workbook.add_worksheet("GV")
+		worksheet.set_tab_color('blue')
+
+		HEADERS = ['REFERENCIA','DE','PARA','PRODUCTO','UNIDAD','CANTIDAD','P.UNIT','VALOR','FACTOR','GASTO V','ADVALOREM','VALOR TOTAL','C.UNIT']
+		worksheet = ReportBase.get_headers(worksheet,HEADERS,0,0,formats['boldbord'])
+
+		x=1
+		init = 1
+
+		for line in self.detalle_ids:
+			worksheet.write(x,0,line.picking_rel.display_name if line.picking_rel else '',formats['especial1'])
+			worksheet.write(x,1,line.origen_rel.display_name if line.origen_rel else '',formats['especial1'])
+			worksheet.write(x,2,line.destino_rel.display_name if line.destino_rel else '',formats['especial1'])
+			worksheet.write(x,3,line.producto_rel.display_name if line.producto_rel else '',formats['especial1'])
+			worksheet.write(x,4,line.unidad_rel.display_name if line.unidad_rel else '',formats['especial1'])
+			worksheet.write(x,5,line.cantidad_rel if line.cantidad_rel else 0,formats['numberdos'])
+			worksheet.write(x,6,line.precio_unitario_rel if line.precio_unitario_rel else 0,formats['numberocho'])
+			worksheet.write(x,7,line.valor_rel if line.valor_rel else 0,formats['numberdos'])
+			worksheet.write(x,8,line.factor if line.factor else '',formats['numberocho'])
+			worksheet.write(x,9,line.flete if line.flete else '',formats['numberocho'])
+			worksheet.write(x,10,line.advalorem if line.advalorem else '',formats['numberdos'])
+			worksheet.write(x,11,line.total if line.total else '',formats['numberdos'])
+			worksheet.write(x,12,line.total/line.cantidad_rel if line.cantidad_rel and line.cantidad_rel != 0 else 0,formats['numberocho'])
+			x += 1
+
+		worksheet.write_formula(x,5, '=SUM(' + xl_rowcol_to_cell(init,5) + ':' + xl_rowcol_to_cell(x-1,5) + ')', formats['numbertotal'])
+		worksheet.write_formula(x,7, '=SUM(' + xl_rowcol_to_cell(init,7) + ':' + xl_rowcol_to_cell(x-1,7) + ')', formats['numbertotal'])
+		worksheet.write_formula(x,9, '=SUM(' + xl_rowcol_to_cell(init,9) + ':' + xl_rowcol_to_cell(x-1,9) + ')', numbertotalocho)
+		worksheet.write_formula(x,10, '=SUM(' + xl_rowcol_to_cell(init,10) + ':' + xl_rowcol_to_cell(x-1,10) + ')', formats['numbertotal'])
+		worksheet.write_formula(x,11, '=SUM(' + xl_rowcol_to_cell(init,11) + ':' + xl_rowcol_to_cell(x-1,11) + ')', formats['numbertotal'])
+
+		widths = [15,25,20,30,15,15,20,20,20,20,20,20,17]
+		worksheet = ReportBase.resize_cells(worksheet,widths)
+		workbook.close()
+
+		f = open(direccion +'Reporte_GV.xlsx', 'rb')
+
+		return self.env['popup.it'].get_file('Reporte GV.xlsx',base64.encodestring(b''.join(f.readlines())))
+
+	def get_excel_saldos(self):
+		self.ensure_one()
+		sql = sql1 = sqlsum = ""
+		sql2 = """valor_p + valormn """
+		sql3 = """ valormn """
+		for elem in self.env['landed.cost.it.type'].search([]):
+			sql2 += "+"
+			sql3 += "+"
+			sql2 += """ coalesce("%s",0) """%(elem.code)
+			sql3 += """ coalesce("%s",0) """%(elem.code)
+			sql += ", \n"
+			sql1 += """ coalesce("%s",0) as "%s", """%(elem.code, elem.name)
+			sqlsum += """ sum(coalesce("%s",0)) as "%s", """%(elem.code, elem.name)
+			sql += """ a.factor*(select sum(debit) from landed_cost_invoice_line where landed_id=%d and type_landed_cost_id = %d) as "%s" """%(self.id,elem.id,elem.code)
+
+		self.env.cr.execute("""(select almacen,codigo,producto,cantidad,factor,valor_p, valormn as "Advalorem ", 
+		%s
+								%s as total_gv,
+								%s as costo_total,
+								(%s)/valor_p as factor_d,
+								(%s)/cantidad as costo_unitario
+
+								from 
+								(
+								select   
+								b.almacen, 
+								b.default_code as codigo, 
+								b.name_template as producto, 
+								b.ingreso as cantidad,
+								a.factor,
+								b.debit as valor_p,
+								coalesce(c.valormn,0) as valormn %s
+								from landed_cost_it_line a
+								LEFT JOIN 
+								(
+								select sl.complete_name as almacen,
+								line.stock_move_id as stock_moveid,
+								sm.product_id,
+								pp.default_code,
+								pt.name as name_template,
+								sum(sm.product_qty) as ingreso,
+								sum(line.valor_rel) as debit
+								from landed_cost_it_line line
+								left join stock_move sm on sm.id = line.stock_move_id
+								left join stock_location sl on sl.id = sm.location_dest_id
+								left join product_product pp on pp.id = sm.product_id
+								left join product_template pt on pt.id = pp.product_tmpl_id
+								where line.gastos_id = %d
+								group by sl.complete_name, line.stock_move_id, sm.product_id, pp.default_code, pt.name
+
+								) b ON b.stock_moveid = a.stock_move_id
+								LEFT JOIN stock_move SM on SM.id = b.stock_moveid
+								LEFT JOIN (select landed_id, picking_id , product_id, sum(coalesce(valormn,0)) as valormn from landed_cost_advalorem_line GROUP BY landed_id, picking_id, product_id) c ON c.product_id = b.product_id AND a.gastos_id = c.landed_id and SM.picking_id = c.picking_id
+								where a.gastos_id = %d
+								)tt)
+								UNION ALL
+								(select '' as almacen,'' as codigo,'' as producto,null as cantidad, null as factor,sum(tt2.valor_p) as valor_p, sum(tt2.valormn) as "Advalorem ", 
+		%s
+								sum(%s) as total_gv,
+								sum(%s) as costo_total,
+								null as factor_d,
+								null as costo_unitario
+
+								from 
+								(
+								select   
+								b.almacen, 
+								b.default_code as codigo, 
+								b.name_template as producto, 
+								b.ingreso as cantidad,
+								a.factor,
+								b.debit as valor_p,
+								coalesce(c.valormn,0) as valormn %s
+								from landed_cost_it_line a
+								LEFT JOIN 
+								(
+									
+								select sl.complete_name as almacen,
+								line.stock_move_id as stock_moveid,
+								sm.product_id,
+								pp.default_code,
+								pt.name as name_template,
+								sum(sm.product_qty) as ingreso,
+								sum(line.valor_rel) as debit
+								from landed_cost_it_line line
+								left join stock_move sm on sm.id = line.stock_move_id
+								left join stock_location sl on sl.id = sm.location_dest_id
+								left join product_product pp on pp.id = sm.product_id
+								left join product_template pt on pt.id = pp.product_tmpl_id
+								where line.gastos_id = %d
+								group by sl.complete_name, line.stock_move_id, sm.product_id, pp.default_code, pt.name
+
+								) b ON b.stock_moveid = a.stock_move_id
+								LEFT JOIN stock_move SM on SM.id = b.stock_moveid
+								LEFT JOIN (select landed_id , picking_id, product_id, sum(coalesce(valormn,0)) as valormn from landed_cost_advalorem_line GROUP BY landed_id, picking_id, product_id) c ON c.product_id = b.product_id AND a.gastos_id = c.landed_id and SM.picking_id = c.picking_id
+								where a.gastos_id = %d
+								)tt2)"""%(sql1,
+									sql3,
+									sql2,
+									sql2,
+									sql2,
+									sql,
+									self.id,
+									self.id,
+									sqlsum,
+									sql3,
+									sql2,
+									sql,
+									self.id,
+									self.id
+								))
+		res = self.env.cr.fetchall()
+		colnames = [
+			desc[0] for desc in self.env.cr.description
+		]
+		res.insert(0, colnames)
+
+		wb = openpyxl.Workbook()
+		ws = wb.active
+		row_position = 1
+		col_position = 1
+		for index, row in enumerate(res, row_position):
+			for col, val in enumerate(row, col_position):
+				ws.cell(row=index, column=col).value = val
+		output = BytesIO()
+		wb.save(output)
+		output.getvalue()
+		output_datas = base64.b64encode(output.getvalue())
+		output.close()
+
+		return self.env['popup.it'].get_file('%s.xlsx'%(self.name),output_datas)
 
 class LandedCostItLine(models.Model):
 	_name = 'landed.cost.it.line'
@@ -222,6 +435,8 @@ class LandedCostItLine(models.Model):
 
 	factor = fields.Float(string='Factor', digits=(12, 10))
 	flete = fields.Float(string='Total GV', digits=(12, 6))
+	advalorem = fields.Float(string='Advalorem', digits=(12, 6))
+	total = fields.Float(string='Valor Total', digits=(12, 6))
 
 	@api.depends('stock_move_id.product_qty','stock_move_id.price_unit_it')
 	def get_valor_rel(self):

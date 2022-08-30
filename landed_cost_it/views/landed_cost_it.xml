@@ -14,6 +14,8 @@
                         <button string="Calcular" type="object" name="calcular" states="draft" />
                         <button name="get_invoices" string="Selecciona Facturas" type="object" class="oe_highlight" attrs="{'invisible':[('state','not in','draft')]}"/>
                         <button name="get_purchases" string="Selecciona Compras" type="object" class="oe_highlight" attrs="{'invisible':[('state','not in','draft')]}"/>
+                        <button name="generate_excel" string="Reporte GV" type="object" class="oe_highlight" attrs="{'invisible':[('state','in','draft')]}"/>
+                        <button name="get_excel_saldos" string="Reporte GV Distribuido" type="object" class="oe_highlight" attrs="{'invisible':[('state','in','draft')]}"/>
                         <field name="state" widget="statusbar" readonly="1"/>
                     </header>
                     <sheet>
@@ -47,6 +49,8 @@
                                         <field name="valor_rel" readonly="1" sum="valor_rel"/>
                                         <field name="factor" required="1" sum="factor"/>
                                         <field name="flete" required="1" sum="flete"/>
+                                        <field name="advalorem" required="1" sum="advalorem"/>
+                                        <field name="total" required="1" sum="total"/>
                                     </tree>
                                 </field>
                             </page>
@@ -67,8 +71,8 @@
                                         <field name="partner_id"/>
                                         <field name="product_id"/>
                                         <field name="type_landed_cost_id" optional="hide"/>
-                                        <field name="debit"/>
-                                        <field name="amount_currency"/>
+                                        <field name="debit" sum="debit"/>
+                                        <field name="amount_currency" sum="amount_currency"/>
                                         <field name="tc"/>
                                     </tree>
                                 </field>
