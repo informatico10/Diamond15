@@ -5,17 +5,12 @@ from odoo import models, fields, api, tools
 class PurchaseOrderLine(models.Model):
 	_inherit = 'purchase.order.line'
 	
-	#purchase_id = fields.Many2one('purchase.order.line',string='Compra')
 	purchase_date_landed = fields.Datetime(related='order_id.date_order',string='Fecha Pedido')
 	name_po_landed = fields.Char(related='order_id.name',string='Pedido')
 	partner_id_landed = fields.Many2one(related='order_id.partner_id',string='Socio')
-	#product_id = fields.Many2one('product.product',string='Producto')
 	tc_landed = fields.Float(string='TC',compute='compute_tc_landed',digits=(12,4),store=True)
 	price_total_signed_landed = fields.Float(string='Total Soles',compute='compute_price_total_signed_landed',digits=(64,2),store=True)
-	
 	currency_id_landed = fields.Many2one(related='order_id.currency_id',string='Moneda')
-	#price_total = fields.Float(string='Total',digits=(64,2))
-	#company_id = fields.Many2one('res.company',string=u'Compañía')
 	is_landed = fields.Boolean(related='product_id.product_tmpl_id.is_landed_cost',string='Usa GV')
 
 	@api.depends('order_id.date_order')

@@ -15,7 +15,7 @@ class GetLandedInvoices(models.TransientModel):
 		for invoice in self.invoices_ids:
 			invoice_exist = self.env['landed.cost.invoice.line'].search([('invoice_id','=',invoice.id)],limit=1)
 			if invoice_exist:
-				raise UserError('Esta intentando ingresar una Factura que ya existe en otro Gasto Vinculado (%s)'%(invoice_exist.landed_id.name))
+				raise UserError('Esta intentando ingresar una Factura que ya existe en otro Gasto Vinculado (%s)'%str(invoice_exist.landed_id.id))
 			val = {
 				'landed_id': self.landed_id.id,
 				'invoice_id': invoice.id,

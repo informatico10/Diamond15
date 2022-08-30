@@ -10,6 +10,7 @@
                         <button string="Procesar" type="object" name="procesar" states="draft" class="oe_highlight"/>
                         <button string="Volver Borrador" type="object" name="borrador" states="done" class="oe_highlight"/>
                         <button string="Agregar Lineas" type="object" name="agregar_lineas" states="draft" />
+                        <button string="Traer información" type="object" name="get_info" states="draft" />
                         <button string="Calcular" type="object" name="calcular" states="draft" />
                         <button name="get_invoices" string="Selecciona Facturas" type="object" class="oe_highlight" attrs="{'invisible':[('state','not in','draft')]}"/>
                         <button name="get_purchases" string="Selecciona Compras" type="object" class="oe_highlight" attrs="{'invisible':[('state','not in','draft')]}"/>
@@ -32,7 +33,7 @@
                             </group>
                         </group>
                         <notebook>
-                            <page string="Detalle">
+                            <page string="Detalle" name="detail">
                                 <field name="detalle_ids" attrs="{'readonly':[('state','=','done')]}">
                                     <tree editable="bottom">
                                         <field name="stock_move_id" invisible="1"/>
@@ -56,7 +57,7 @@
                                     </tree>
                                 </field>
                             </page>
-                            <page string="Facturas">
+                            <page string="Facturas" name="invoices">
                                 <field name="invoice_ids" attrs="{'readonly':[('state','=','done')]}">
                                     <tree editable="bottom" create="false" edit="false">
                                         <field name="invoice_date"/>
@@ -65,13 +66,14 @@
                                         <field name="date"/>
                                         <field name="partner_id"/>
                                         <field name="product_id"/>
+                                        <field name="type_landed_cost_id" optional="hide"/>
                                         <field name="debit"/>
                                         <field name="amount_currency"/>
                                         <field name="tc"/>
                                     </tree>
                                 </field>
                             </page>
-                            <page string="Compras">
+                            <page string="Compras" name="ordersp">
                                 <field name="purchase_ids" attrs="{'readonly':[('state','=','done')]}">
                                     <tree editable="bottom" create="false" edit="false">
                                         <field name="purchase_date"/>
@@ -82,6 +84,18 @@
                                         <field name="tc"/>
                                         <field name="currency_id"/>
                                         <field name="price_total"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Advalorem" name="advalorem">
+                                <field name="advalorem_ids" attrs="{'readonly':[('state','=','done')]}" context="{'default_landed_id': id}">
+                                    <tree editable="bottom" decoration-danger="correct_product == False">
+                                        <field name="correct_product" invisible="1"/> 
+                                        <field name="picking_id" required="1"/>
+                                        <field name="product_id" required="1"/>
+                                        <field name="invoice_id"/>
+                                        <field name="valormn" required="1"/>
+                                        <field name="valorme"/>
                                     </tree>
                                 </field>
                             </page>

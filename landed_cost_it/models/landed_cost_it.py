@@ -22,12 +22,43 @@ class LandedCostIt(models.Model):
 	company_id = fields.Many2one('res.company',string=u'Compañia',required=True, default=lambda self: self.env.company,readonly=True)
 	invoice_ids = fields.One2many('landed.cost.invoice.line', 'landed_id',string='Facturas')
 	purchase_ids = fields.One2many('landed.cost.purchase.line', 'landed_id',string='Ordenes de Compra')
+	advalorem_ids = fields.One2many('landed.cost.advalorem.line', 'landed_id',string='Advalorem')
 
 	state = fields.Selection([('draft', 'Borrador'), ('done', 'Finalizado')],string='Estado', default='draft')
-	total_flete = fields.Float(string='Total Flete', digits=(12, 2), store=True)
+	total_flete = fields.Float(string='Total GV', digits=(12, 2), store=True)
 	total_factor = fields.Float(string='Total Factor', digits=(12, 2), store=True)
 	date_kardex = fields.Datetime(string='Fecha Kardex')
-	
+
+	def get_info(self):
+		
+		picks = self.env['stock.picking'].search([('landed_cost_id','=',self.id)])
+		
+		if picks:
+			for p in picks:
+				self.picking_ids = [(6, 0, [p.id])]
+		
+		self.agregar_lineas()
+		invoices = self.env['account.move'].search([('landed_cost_id','=',self.id)])
+		for move in invoices:
+			for line in move.line_ids:
+				if line.product_id.is_landed_cost:
+					vals = {
+						'invoice_id': line.id,
+						'invoice_date': line.move_id.invoice_date,
+						'type_document_id': line.type_document_id.id,
+						'nro_comp': line.nro_comp,
+						'date': line.move_id.date,
+						'partner_id': line.partner_id.id,
+						'product_id': line.product_id.id,
+						'debit': line.debit,
+						'amount_currency': line.amount_currency,
+						'tc': line.tc,
+						'company_id': line.company_id.id,
+					}
+					self.write({'invoice_ids' :([(0,0,vals)]) })
+					self._change_flete()
+		
+		
 	def get_invoices(self):
 		wizard = self.env['get.landed.invoices.wizard'].create({
 			'landed_id': self.id,
@@ -76,10 +107,10 @@ class LandedCostIt(models.Model):
 
 	@api.model
 	def create(self, vals):
-		id_seq = self.env['ir.sequence'].search([('name', '=', 'Gastos Vinculados IT')],limit=1)
+		id_seq = self.env['ir.sequence'].search([('name', '=', 'Gastos Vinculados IT'),('company_id','=',self.env.company.id)],limit=1)
 
 		if not id_seq:
-			id_seq = self.env['ir.sequence'].create({'name': 'Gastos Vinculados IT', 'implementation': 'no_gap','active': True, 'prefix': 'GV-', 'padding': 4, 'number_increment': 1, 'number_next_actual': 1})
+			id_seq = self.env['ir.sequence'].create({'name': 'Gastos Vinculados IT', 'company_id': self.env.company.id, 'implementation': 'no_gap','active': True, 'prefix': 'GV-', 'padding': 4, 'number_increment': 1, 'number_next_actual': 1})
 
 		vals['name'] = id_seq._next()
 		t = super(LandedCostIt, self).create(vals)
@@ -142,9 +173,10 @@ class LandedCostIt(models.Model):
 			i.factor = ((i.cantidad_rel if self.prorratear_en == 'cantidad' else i.valor_rel) /
 						total_prorrateo) if total_prorrateo != 0 else 0
 			i.refresh()
-			i.flete = i.factor * self.total_flete
+			valor_mn = sum(line['valormn'] for line in self.advalorem_ids.filtered(lambda line: line.product_id.id == i.stock_move_id.product_id.id and line.picking_id.id == i.stock_move_id.picking_id.id))
+			i.flete = (i.factor * self.total_flete)+valor_mn
 			total_fle_lines +=  i.flete
-
+			
 		#REDONDEO
 		if len(self.detalle_ids)>0:
 			diferencia_flete = 0
@@ -188,8 +220,8 @@ class LandedCostItLine(models.Model):
 
 	valuation_id = fields.Many2one('stock.valuation.layer','Valoracion')
 
-	factor = fields.Float('Factor', digits=(12, 10))
-	flete = fields.Float('Flete', digits=(12, 6))
+	factor = fields.Float(string='Factor', digits=(12, 10))
+	flete = fields.Float(string='Total GV', digits=(12, 6))
 
 	@api.depends('stock_move_id.product_qty','stock_move_id.price_unit_it')
 	def get_valor_rel(self):
@@ -202,7 +234,7 @@ class LandedCostInvoiceLine(models.Model):
 	landed_id = fields.Many2one('landed.cost.it', 'Gastos Vinculado')
 	invoice_id = fields.Many2one('account.move.line',string='Factura')
 	invoice_date = fields.Date(string='Fecha Factura')
-	type_document_id = fields.Many2one('einvoice.catalog.01',string='Tipo de Documento')
+	type_document_id = fields.Many2one('l10n_latam.document.type',string='Tipo de Documento')
 	nro_comp = fields.Char(string='Nro Comprobante')
 	date = fields.Date(string='Fecha Contable')
 	partner_id = fields.Many2one('res.partner',string='Socio')
@@ -210,6 +242,7 @@ class LandedCostInvoiceLine(models.Model):
 	debit = fields.Float(string='Debe',digits=(64,2))
 	amount_currency = fields.Float(string='Monto Me',digits=(64,2))
 	tc = fields.Float(string='TC',digits=(12,4))
+	type_landed_cost_id = fields.Many2one('landed.cost.it.type',string='Tipo G.V.')
 	company_id = fields.Many2one('res.company',string=u'Compañía')
 
 class LandedCostPurchaseLine(models.Model):
@@ -226,3 +259,27 @@ class LandedCostPurchaseLine(models.Model):
 	currency_id = fields.Many2one('res.currency',string='Moneda')
 	price_total = fields.Float(string='Total',digits=(64,2))
 	company_id = fields.Many2one('res.company',string=u'Compañía')
+
+class LandedCostAdvaloremLine(models.Model):
+	_name = 'landed.cost.advalorem.line'
+	_description = 'Landed Cost Advalorem Line'
+
+	@api.depends('product_id','landed_id','landed_id.detalle_ids')
+	def _check_products(self):
+		for object in self:
+			object.correct_product = False
+			product_list = []
+			if object.landed_id:
+				for x in object.landed_id.detalle_ids:
+					if x.stock_move_id.product_id:
+						product_list.append(x.stock_move_id.product_id.id)
+			if object.product_id.id in product_list:
+				object.correct_product = True
+			  
+	landed_id = fields.Many2one('landed.cost.it', 'Gastos Vinculado')
+	invoice_id = fields.Many2one('account.move.line',string='Factura')
+	picking_id = fields.Many2one('stock.picking',string='Referencia')
+	product_id = fields.Many2one('product.product',string='Producto')
+	valormn = fields.Float(string='Valor MN',digits=(12,2))
+	valorme = fields.Float(string='Valor ME',digits=(12,2))
+	correct_product = fields.Boolean(string='Producto Pertenece a GV',store=True,compute='_check_products')
