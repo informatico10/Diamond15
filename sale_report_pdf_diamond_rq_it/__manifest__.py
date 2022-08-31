@@ -8,12 +8,14 @@
     'auto_install': False,
     'depends': [
         'sale',
-        'company_report_logo_rq_it'
+        'company_report_logo_rq_it',
+        'web'
         # 'sale_order_report_by_warehouse_it',
     ],
     'data': [
         'security/security.xml',
 
+        'reports/foot_and_header.xml',
         'reports/sale.xml',
         'views/sale.xml',
     ],
