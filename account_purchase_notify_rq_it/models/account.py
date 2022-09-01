@@ -85,7 +85,7 @@ class AccountMoveNotifyRqIt(models.Model):
     ], string='Tipo Compra', related='purchase_order_id.type_purchase')
     check_fields = fields.Char(compute='_compute_check_fields', string='check_fields')
 
-    @api.model_create_multi
+    @api.model
     def create(self, vals):
         res = super(AccountMoveNotifyRqIt, self).create(vals)
         if res.invoice_origin:

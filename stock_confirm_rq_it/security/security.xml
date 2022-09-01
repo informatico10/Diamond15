@@ -1,0 +1,9 @@
+<odoo>
+
+    <record id="group_confirm_stock" model="res.groups">
+        <field name="name">Validar Stock</field>
+        <field name="category_id" ref="category_only_rq_it.category_stock_module_custom" />
+    </record>
+
+</odoo>
+
