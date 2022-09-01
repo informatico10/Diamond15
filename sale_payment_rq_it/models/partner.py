@@ -58,27 +58,12 @@ class ResPartnerPayment(models.Model):
                 rec.state_partner = '0'
 
     def temp_for_change_data(self):
-        tamaño = []
 
-        partners = self.env['res.partner'].search([('is_customer', '=', True)])
-        tamaño.append(len(partners))
+        partners = self.env['res.partner'].search([])
 
         for partner in partners:
-            partner.property_product_pricelist = 2
-            partner.property_payment_term_id = 2
-            partner.extra_credit = 'si'
+            partner.property_account_receivable_id = 1240
+            partner.property_account_payable_id = 1247
 
-        partners = self.env['res.partner'].search([('is_supplier', '=', True), ('l10n_latam_identification_type_id', '=', 14)])
-        tamaño.append(len(partners))
-        a = partners[0].l10n_latam_identification_type_id.name
-        for partner in partners:
-            partner.property_product_pricelist = 2
-            partner.l10n_latam_identification_type_id = 6
-
-        partners = self.env['res.partner'].search( [('is_supplier', '=', True)] )
-        tamaño.append(len(partners))
-
-        for partner in partners:
-            partner.lang = 'en_US'
-        i = 2
+        i = 1
 
