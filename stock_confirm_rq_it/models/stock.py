@@ -44,7 +44,7 @@ class StockPickingGroupRqIT(models.Model):
                     ch.message_post(attachment_ids=[], body=body, content_subtype='html', message_type='comment',partner_ids=[], email_from=self.env.user.partner_id.email, author_id=self.env.user.partner_id.id)
 
     def button_validate(self):
-        res = super(StockPickingGroupRqIT, self).button_confirm()
+        res = super(StockPickingGroupRqIT, self).button_validate()
 
         self.solicitar_aprobacion = True
 
@@ -63,7 +63,7 @@ class StockPickingGroupRqIT(models.Model):
         return res
 
     def action_cancel(self):
-        res = super(StockPickingGroupRqIT, self).button_cancel()
+        res = super(StockPickingGroupRqIT, self).action_cancel()
         self.solicitar_aprobacion = False
         self.solicitante_aprobacion_id = False
         return res

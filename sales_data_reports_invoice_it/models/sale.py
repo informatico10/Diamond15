@@ -7,7 +7,7 @@ class SaleOrderFieldNew(models.Model):
     _inherit = 'sale.order'
 
     gr = fields.Char('GR')
-    oc_partner = fields.Char('Orden de Compra Cliente', required=True)
+    oc_partner = fields.Char('Orden de Compra Cliente', required=False)
     set_new_field = fields.Boolean(compute='_compute_set_new_field', string='Set NEw Field')
 
     def _compute_set_new_field(self):
