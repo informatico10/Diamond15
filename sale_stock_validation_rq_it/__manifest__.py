@@ -30,10 +30,11 @@
     'auto_install': False,
     'depends': [
         'sale',
+        'product',
         'category_only_rq_it'
     ],
     'data': [
-        'security/security.xml',
+        # 'security/security.xml',
         'views/views.xml',
     ],
     'installable': True

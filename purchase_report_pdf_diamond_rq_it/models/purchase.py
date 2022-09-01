@@ -3,6 +3,7 @@ from odoo.exceptions import ValidationError
 from datetime import datetime, date
 from . import read_num, read_num_english
 
+
 class PaymentTermDiamond(models.Model):
     _name = 'payment.term.diamond'
     _description = 'Payment Term Diamond'
@@ -136,6 +137,5 @@ class PurchaseOrderReportPdf(models.Model):
 
             if res.marks == '' or res.marks == False:
                 res.marks = res.name + '<br /> DIAMOND CORPORACION S.A'
-
 
         return res

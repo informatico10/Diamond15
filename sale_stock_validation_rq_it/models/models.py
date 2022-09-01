@@ -5,18 +5,17 @@ from odoo.exceptions import ValidationError
 class SaleOrderStockValidationRqIt(models.Model):
     _inherit = 'sale.order'
 
-    def action_confirm(self):
-        mensaje = 'No tiene permisos para confirmar venta sin stock suficiente \n\n Productos sin Stock:\n'
-        no_stock = False
-        for line in self.order_line:
-            if line.product_id and line.quantity_available and line.product_uom_qty and line.quantity_available < line.product_uom_qty:
-                no_stock = True
-                mensaje += '<' + line.product_id.name + '>'
+    # def action_confirm(self):
+    #     mensaje = 'No tiene permisos para confirmar venta sin stock suficiente \n\n Productos sin Stock:\n'
+    #     no_stock = False
+    #     for line in self.order_line:
+    #         if line.product_id and line.quantity_available and line.product_uom_qty and line.quantity_available < line.product_uom_qty:
+    #             no_stock = True
+    #             mensaje += '<' + line.product_id.name + '>'
 
-        if not self.env.user.has_group('sale_stock_validation_rq_it.group_confirm_sale_without_stock') and no_stock:
-            raise ValidationError(mensaje)
-
-        return super(SaleOrderStockValidationRqIt, self).action_confirm()
+    #     if not self.env.user.has_group('sale_stock_validation_rq_it.group_confirm_sale_without_stock') and no_stock:
+    #         raise ValidationError(mensaje)
+    #     return super(SaleOrderStockValidationRqIt, self).action_confirm()
 
 
 class SaleOrderLineStockValidation(models.Model):
