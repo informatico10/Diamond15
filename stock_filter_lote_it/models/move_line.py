@@ -159,7 +159,7 @@ class StockMoveLineChangeTest(models.Model):
     # aqui se hace la validación en el compute no ya que el onchange 
     # es al instante el cpumte validaria todos siempre
     @api.onchange('product_id', 'lot_id')
-    def _onchange_product_id(self):
+    def _onchange_product_id_stock_picking(self):
         for rec in self:
             # lot_in_this_albaran = []    # verifica si hay lotes lotes iguales dentro del albaran
             # for otras_lineas in rec.picking_id.move_line_ids_without_package:

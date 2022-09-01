@@ -57,13 +57,24 @@ class ResPartnerPayment(models.Model):
             else:
                 rec.state_partner = '0'
 
-    def temp_for_change_data(self):
+    @api.model
+    def create(self, values):
+        # Add code here
+        res = super(ResPartnerPayment, self).create(values)
+        identification = res.l10n_latam_identification_type_id
+        if identification and identification.id == 6 and res.is_supplier == True and res.country_id and res.country_id.name != 'Perú':
+            id_seq = self.env['ir.sequence'].search([('name', '=', 'Contacto, por Importación')], limit=1)
+            if not id_seq:
+                id_seq = self.env['ir.sequence'].create({
+                    'name': 'Contacto, por Importación',
+                    'implementation': 'no_gap',
+                    'active': True,
+                    'prefix': '',
+                    'padding': 8,
+                    'number_increment': 1,
+                    'number_next_actual': 90000000260
+                })
+            self.vat = id_seq._next()
+            res.vat = id_seq._next()
 
-        partners = self.env['res.partner'].search([])
-
-        for partner in partners:
-            partner.property_account_receivable_id = 1240
-            partner.property_account_payable_id = 1247
-
-        i = 1
-
+        return res

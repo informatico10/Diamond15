@@ -30,7 +30,7 @@ class StockMoveStockFilterLote(models.Model):
 
 
     @api.onchange('product_id')
-    def _onchange_product_id(self):
+    def _onchange_product_id_stock_picking(self):
         for rec in self:
             if rec.product_id:
                 ids_lotes_quant = 0
