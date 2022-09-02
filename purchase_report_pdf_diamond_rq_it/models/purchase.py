@@ -112,10 +112,10 @@ class PurchaseOrderReportPdf(models.Model):
     def create(self, vals):
         res = super(PurchaseOrderReportPdf, self).create(vals)
         if res.partner_id and res.partner_id.country_id and res.partner_id.country_id.name != 'Perú':
-            id_seq = self.env['ir.sequence'].search([('name','=','Compra Importacion Secuencia Diamond')], limit=1)
+            id_seq = self.env['ir.sequence'].sudo().search([('name','=','Compra Importacion Secuencia Diamond')], limit=1)
 
             if not id_seq:
-                id_seq = self.env['ir.sequence'].create({
+                id_seq = self.env['ir.sequence'].sudo().create({
                     'name': 'Compra Importacion Secuencia Diamond',
                     'implementation': 'no_gap',
                     'active': True,
