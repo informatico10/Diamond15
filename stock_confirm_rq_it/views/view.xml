@@ -8,7 +8,8 @@
         <field name="arch" type="xml">
             <xpath expr="//header" position="inside">
                 <field name="solicitar_aprobacion" invisible="1" />
-                <button string="Solicitar Validación" name="button_solicitar_publicacion" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('solicitar_aprobacion','=',True), ('state', 'in', ['done', 'cancel'])]}" groups="!stock_confirm_rq_it.group_confirm_stock" />
+                <!--<button string="Solicitar Validación" name="button_solicitar_publicacion" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('solicitar_aprobacion','=',True), ('state', 'in', ['done', 'cancel'])]}" groups="!stock_confirm_rq_it.group_confirm_stock" />-->
+                <button string="Solicitar Validación" name="button_solicitar_publicacion" type="object" class="oe_highlight" invisible="True" />
             </xpath>
             <xpath expr="//header/button[3]" position="attributes">
                 <attribute name="groups">stock_confirm_rq_it.group_confirm_stock</attribute>

@@ -4,6 +4,7 @@
         <div class="row d-flex justify-content-center align-items-center text-center" style="background-color: #0175CA;" >
             <div class="col-6 d-flex justify-content-center align-items-center text-center">
                 <br />
+                <br />
                 <img t-if="company.img_report" t-att-src="image_data_uri(company.img_report)" alt="Logo" style="max-width:300px; max-height:100px; position:absolute; left:4;" />
                 <img t-if="company.img_report" t-att-src="image_data_uri(company.img_report)" alt="Logo" style="max-width:300px; max-height:100px; position:absolute; left:4;" />
             </div>
