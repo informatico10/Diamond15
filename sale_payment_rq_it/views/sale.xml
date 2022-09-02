@@ -17,7 +17,9 @@
                 <page name="payment" string="Pagos">
                     <group>
                         <group>
-                            <field name="pay_detail" />
+                            <field name="pay_detail" filename="field_pay_name" />
+                            <field name="field_pay_name" invisible="1" />
+
                             <field name="way_pay" attrs="{'invisible': [('pay_detail', '!=', '0')]}" />
                             <field name="pay_file" attrs="{'invisible': [('pay_detail', '!=', '0')]}" />
                             <field name="pays_state" attrs="{'invisible': [('pay_detail', '!=', '0')]}" readonly="True" />
