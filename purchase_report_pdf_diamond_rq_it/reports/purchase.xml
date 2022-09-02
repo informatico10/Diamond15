@@ -42,7 +42,7 @@
                                 <div class="row d-flex justify-content-center align-items-center text-center">
                                     <div class="col-12">
                                         <h5>
-                                            <b><center>ORDEN DE COMPRA</center></b>
+                                            <b><center style="color:#0175CA;">ORDEN DE COMPRA</center></b>
                                         </h5>
                                     </div>
                                 </div>

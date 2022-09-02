@@ -4,18 +4,19 @@
         <div class="row d-flex justify-content-center align-items-center text-center" style="background-color: #0175CA;" >
             <t t-if="doc and doc.company_id">
                 <div class="col-6 d-flex justify-content-center align-items-center text-center">
+                    <br />
                     <img t-if="doc.company_id.img_report" t-att-src="image_data_uri(doc.company_id.img_report)" alt="Logo" style="max-width:300px; max-height:100px; position:absolute; left:4;" />
                     <img t-if="doc.company_id.img_report" t-att-src="image_data_uri(doc.company_id.img_report)" alt="Logo" style="max-width:300px; max-height:100px; position:absolute; left:4;" />
                 </div>
                 <div class="col-6" style="text-align:center;">
-                    <p style="font-size:18px; margin:0px; padding:0px; color:white;">
+                    <p style="font-size:20px; margin:0px; padding:0px; color:white;">
                         <br />
                         <br />
                         <t t-if="doc.name and doc.name.find('DG')">
-                            DIAMOND - <t t-esc="doc.name"/>
+                            <b>DIAMOND - <t t-esc="doc.name"/></b>
                         </t>
                         <t t-else="">
-                            <t t-esc="doc.name"/>
+                            <b><t t-esc="doc.name"/></b>
                         </t>
                         <br />
                         <br />
@@ -36,9 +37,9 @@
                     <t t-if="o.company_id.state_id" t-esc="o.company_id.state_id.name" />,
                     <t t-if="o.company_id.country_id" t-esc="o.company_id.country_id.name" />
                     | <b>T: </b>
-                    <t t-esc="o.company_id.phone" />,
+                    <t t-if="o.create_uid" t-esc="o.create_uid.phone" />,
                     | <b>E: </b>
-                    <t t-esc="o.company_id.email" />,
+                    <t t-if="o.create_uid" t-esc="o.create_uid.email" />,
                     <br />
                     <br />
                     <br />
