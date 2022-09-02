@@ -19,7 +19,9 @@ class ResPartnerPayment(models.Model):
 
     @api.onchange('extra_credit')
     def _onchange_extra_credit(self):
-        if not self.env.user.has_group('sale_payment_rq_it.group_payment_sale_extracredit'):
+        if self.extra_credit == 'no' and self._origin.extra_credit == False:
+            return
+        elif not self.env.user.has_group('sale_payment_rq_it.group_payment_sale_extracredit'):
             raise ValidationError('Necesita el permiso <Aprobación de Extra-créditos - Ventas> para cambiar el campo')
 
     @api.onchange('credit_limit_payment')
