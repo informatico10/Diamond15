@@ -17,6 +17,7 @@
 
         'reports/purchase.xml',
         'views/partner.xml',
+        'views/payment.xml',
         'views/purchase_by.xml',
         'views/purchase_insurance.xml',
         'views/purchase_loading.xml',

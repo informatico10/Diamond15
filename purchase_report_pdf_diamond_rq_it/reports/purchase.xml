@@ -299,7 +299,7 @@
                                     <div class="col-6 border">
                                         <b>Payment terms / Condiciones de pago</b>
                                         <br />
-                                        <t t-if="doc.payment_diamond_id" t-esc="doc.payment_diamond_id.name" />
+                                        <t t-if="doc.payment_term_id" t-esc="doc.payment_term_id.name_english" />
                                     </div>
                                     <div class="col-6 border">
                                         <b>Marks / Marcas</b>

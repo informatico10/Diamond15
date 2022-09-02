@@ -1,1 +1,1 @@
-from . import purchase, partner
+from . import purchase, partner, payment
