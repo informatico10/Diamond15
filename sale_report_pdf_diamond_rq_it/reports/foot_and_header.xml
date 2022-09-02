@@ -2,28 +2,26 @@
 
     <template id="header_custom_rq">
         <div class="row d-flex justify-content-center align-items-center text-center" style="background-color: #0175CA;" >
-            <t t-if="doc and doc.company_id">
-                <div class="col-6 d-flex justify-content-center align-items-center text-center">
+            <div class="col-6 d-flex justify-content-center align-items-center text-center">
+                <br />
+                <img t-if="company.img_report" t-att-src="image_data_uri(company.img_report)" alt="Logo" style="max-width:300px; max-height:100px; position:absolute; left:4;" />
+                <img t-if="company.img_report" t-att-src="image_data_uri(company.img_report)" alt="Logo" style="max-width:300px; max-height:100px; position:absolute; left:4;" />
+            </div>
+            <div class="col-6" style="text-align:center;">
+                <p style="font-size:20px; margin:0px; padding:0px; color:white;">
                     <br />
-                    <img t-if="doc.company_id.img_report" t-att-src="image_data_uri(doc.company_id.img_report)" alt="Logo" style="max-width:300px; max-height:100px; position:absolute; left:4;" />
-                    <img t-if="doc.company_id.img_report" t-att-src="image_data_uri(doc.company_id.img_report)" alt="Logo" style="max-width:300px; max-height:100px; position:absolute; left:4;" />
-                </div>
-                <div class="col-6" style="text-align:center;">
-                    <p style="font-size:20px; margin:0px; padding:0px; color:white;">
-                        <br />
-                        <br />
-                        <t t-if="doc.name and doc.name.find('DG')">
-                            <b>DIAMOND - <t t-esc="doc.name"/></b>
-                        </t>
-                        <t t-else="">
-                            <b><t t-esc="doc.name"/></b>
-                        </t>
-                        <br />
-                        <br />
-                    </p>
-                    <hr color="#35547E" />
-                </div>
-            </t>
+                    <br />
+                    <t t-if="o.name and o.name.find('DG')">
+                        <b>DIAMOND - <t t-esc="o.name"/></b>
+                    </t>
+                    <t t-else="">
+                        <b><t t-esc="o.name"/></b>
+                    </t>
+                    <br />
+                    <br />
+                </p>
+                <hr color="#35547E" />
+            </div>
         </div>
     </template>
 
@@ -49,7 +47,7 @@
 
     <template id="header_reports_diamond" inherit_id="web.external_layout_standard">
         <xpath expr="//div[@t-attf-class='header o_company_#{company.id}_layout']" position="replace">
-            <div class="header o_company_#{company.id}_layout">
+            <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style">
                 <t t-call="sale_report_pdf_diamond_rq_it.header_custom_rq"/>
             </div>
         </xpath>
