@@ -8,7 +8,9 @@
     'auto_install': False,
     'depends': [
         'purchase',
-        'account_fields_it'
+        'account_fields_it',
+        'purchase_stock',
+        'account'
     ],
     'data': [
         'security/security.xml',
@@ -18,7 +20,6 @@
         'views/purchase_by.xml',
         'views/purchase_insurance.xml',
         'views/purchase_loading.xml',
-        'views/purchase_payment.xml',
         'views/purchase_shipment.xml',
         'views/purchase_menu.xml',
         'views/purchase.xml',

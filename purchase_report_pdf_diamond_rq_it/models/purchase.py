@@ -4,13 +4,6 @@ from datetime import datetime, date
 from . import read_num, read_num_english
 
 
-class PaymentTermDiamond(models.Model):
-    _name = 'payment.term.diamond'
-    _description = 'Payment Term Diamond'
-
-    name = fields.Char('Nombre')
-
-
 class ByDiamond(models.Model):
     _name = 'by.diamond'
     _description = 'By Diamond'
@@ -42,7 +35,6 @@ class InsuranceDiamond(models.Model):
 class PurchaseOrderReportPdf(models.Model):
     _inherit = 'purchase.order'
 
-    payment_diamond_id = fields.Many2one('payment.term.diamond', string='Payment Term / Condiciones de Pago')
     by_diamond_id = fields.Many2one('by.diamond', string='By / Via')
     delivery_diaomnd = fields.Html('Delivery terms / Condiciones de entrega', default="""
         CIF - CALLAO ALL IN 2020 <br />

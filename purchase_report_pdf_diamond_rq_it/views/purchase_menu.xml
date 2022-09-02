@@ -34,7 +34,7 @@
         name="Modelo Payment"
         sequence="40"
         parent="purchase_report_pdf_diamond_rq_it.purchase_table_menu"
-        action="purchase_report_pdf_diamond_rq_it.payment_term_diamond_action"
+        action="account.action_payment_term_form"
     />
     <menuitem
         id="table_shipment_menu"

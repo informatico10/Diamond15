@@ -13,3 +13,9 @@ class ResPartnerReportPdf(models.Model):
         ('3', 'EXwork'),
     ], string='Incoterm')
     incoterm_country_diamond_id = fields.Many2one('res.country', string='Incoterm País')
+
+    @api.onchange('district_id')
+    def _onchange_district_id_zip(self):
+        if self.district_id:
+            self.zip = self.district_id.code
+            self._origin.zip = self.district_id.code

@@ -6,6 +6,9 @@
         <field name="model">purchase.order</field>
         <field name="inherit_id" ref="purchase.purchase_order_form"/>
         <field name="arch" type="xml">
+            <xpath expr="//field[@name='picking_type_id']" position="after">
+                <field name="payment_term_id"  />
+            </xpath>
             <xpath expr="//notebook" position="inside">
                 <page name="report_pdf" string="Reporte PDF">
                     <group>
@@ -34,7 +37,6 @@
                 <page name="report_importacion" string="Reporte Importación" attrs="{'invisible': [('type_purchase', '!=', '1')]}">
                     <group>
                         <group>
-                            <field name="payment_diamond_id" />
                             <field name="by_diamond_id" />
                             <field name="delivery_diaomnd" />
                             <field name="marks" />

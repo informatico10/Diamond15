@@ -1,0 +1,12 @@
+<odoo>
+
+    <!--<record id="view_payment_term_form_inherit_purchase_report_" model="ir.ui.view">
+        <field name="name">.view.form.inherit</field>
+        <field name="model"></field>
+        <field name="inherit_id" ref=".view_payment_term_form" />
+        <field name="arch" type="xml">
+            
+        </field>
+    </record>-->
+
+</odoo>
