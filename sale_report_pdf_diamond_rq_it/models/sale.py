@@ -85,10 +85,10 @@ class SaleOrderReportPdf(models.Model):
 
     @api.model_create_multi
     def create(self, vals):
-        id_seq = self.env['ir.sequence'].search([('name','=','Venta Secuencia Diamond')], limit=1)
+        id_seq = self.env['ir.sequence'].sudo().search([('name','=','Venta Secuencia Diamond')], limit=1)
 
         if not id_seq:
-            id_seq = self.env['ir.sequence'].create({
+            id_seq = self.env['ir.sequence'].sudo().create({
                 'name': 'Venta Secuencia Diamond',
                 'implementation': 'no_gap',
                 'active': True,
