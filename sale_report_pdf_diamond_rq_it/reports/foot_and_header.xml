@@ -31,14 +31,14 @@
                 <center>
                     <br />
                     <b>A: </b>
-                    <t t-esc="o.company_id.street_name" />,
-                    <t t-esc="o.company_id.city" />,
-                    <t t-if="o.company_id.state_id" t-esc="o.company_id.state_id.name" />,
+                    <t t-esc="o.company_id.street_name" />
+                    <t t-esc="o.company_id.city" />
+                    <t t-if="o.company_id.state_id" t-esc="o.company_id.state_id.name" />
                     <t t-if="o.company_id.country_id" t-esc="o.company_id.country_id.name" />
                     | <b>T: </b>
-                    <t t-if="o.create_uid" t-esc="o.create_uid.phone" />,
+                    <t t-if="o.create_uid" t-esc="o.create_uid.phone" />
                     | <b>E: </b>
-                    <t t-if="o.create_uid" t-esc="o.create_uid.email" />,
+                    <t t-if="o.create_uid" t-esc="o.create_uid.email" />
                     <br />
                     <br />
                     <br />

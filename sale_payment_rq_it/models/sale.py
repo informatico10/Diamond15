@@ -30,6 +30,7 @@ class SaleOrderPayment(models.Model):
         ('4', 'Cheque'),
     ], string='Forma de Pago')
     pay_file = fields.Binary('Archivo de Pago')
+    field_pay_name = fields.Char(string='Field Pay File', required=False)
     change_pay_file = fields.Boolean('Change PAy File', default=False)
     pays_state = fields.Selection([
         ('0', 'Sin Pago'),
@@ -42,6 +43,14 @@ class SaleOrderPayment(models.Model):
         if self.pay_file:
             self.change_pay_file = True
             self._origin.change_pay_file = True
+
+            self._origin.attachment_ids += self.env['ir.attachment'].sudo().create({
+                'name': self.field_pay_name,
+                'res_model': 'sale.order',
+                'datas': self.pay_file,
+                'res_id': self.id,
+                'mimetype': 'application/pdf',
+            })
         else:
             self._origin.change_pay_file = False
             self.change_pay_file = False
