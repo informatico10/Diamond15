@@ -24,6 +24,9 @@ class ReportSaleSelect(models.TransientModel):
 
     partner_id = fields.Many2one('res.partner', string='Cliente')
     product_id = fields.Many2one('product.product', string='Producto')
+    name = fields.Char(
+        string='Name', 
+        required=False)
 
     visualizacion = fields.Selection([
         ('display', 'Pantalla'),

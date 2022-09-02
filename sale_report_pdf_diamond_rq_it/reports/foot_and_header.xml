@@ -11,7 +11,7 @@
                     <p style="font-size:18px; margin:0px; padding:0px; color:white;">
                         <br />
                         <br />
-                        <t t-if="doc.name.find('DG')">
+                        <t t-if="doc.name and doc.name.find('DG')">
                             DIAMOND - <t t-esc="doc.name"/>
                         </t>
                         <t t-else="">
