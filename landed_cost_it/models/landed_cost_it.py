@@ -65,8 +65,9 @@ class LandedCostIt(models.Model):
 						'partner_id': line.partner_id.id,
 						'product_id': line.product_id.id,
 						'debit': line.debit,
-						'amount_currency': line.amount_currency,
+						'amount_currency': line.debit/line.tc if line.move_id.currency_id.id == line.company_id.currency_id.id else line.amount_currency,
 						'tc': line.tc,
+						'type_landed_cost_id': line.product_id.type_landed_cost_id.id,
 						'company_id': line.company_id.id,
 					}
 					self.write({'invoice_ids' :([(0,0,vals)]) })

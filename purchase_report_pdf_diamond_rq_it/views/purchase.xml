@@ -41,6 +41,8 @@
                             <field name="delivery_diaomnd" />
                             <field name="marks" />
                             <field name="quotation" />
+                            <field name="type_of_transport" />
+                            <field name="origin_gv" />
                         </group>
                         <group>
                             <field name="loading_port_id" />

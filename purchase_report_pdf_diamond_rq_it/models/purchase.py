@@ -36,6 +36,8 @@ class PurchaseOrderReportPdf(models.Model):
     _inherit = 'purchase.order'
 
     by_diamond_id = fields.Many2one('by.diamond', string='By / Via')
+    type_of_transport = fields.Char('Tipo de Transporte')
+    origin_gv = fields.Char('Origen')
     delivery_diaomnd = fields.Html('Delivery terms / Condiciones de entrega', default="""
         CIF - CALLAO ALL IN 2020 <br />
         14 Days free at destination. <br />

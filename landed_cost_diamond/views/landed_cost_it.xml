@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_landed_cost_it_form_inherit" model="ir.ui.view">
+        <field name="name">view.landed.cost.it.form.inherit</field>
+        <field name="model">landed.cost.it</field>
+        <field name="inherit_id" ref="landed_cost_it.view_landed_cost_it_form"/>
+        <field name="arch" type="xml">
+            <field name="prorratear_en" position="after">
+				<field name="adua_agent"/>
+			</field>
+        </field>
+    </record>
+
+</odoo>

@@ -10,6 +10,7 @@
                     <div attrs="{'invisible':[('type', '!=', 'service')]}">
                         <group string="Gastos de Envío" name="landedcostsit">
                             <field name="is_landed_cost"/>
+                            <field name="type_landed_cost_id" attrs="{'invisible':[('is_landed_cost', '!=', True)]}"/>
                         </group>
                     </div>
                 </group>
