@@ -5,7 +5,7 @@ from odoo.exceptions import UserError
 class PurchaseOrder(models.Model):
 	_inherit = 'purchase.order'
 
-	landed_cost_id = fields.Many2one('landed.cost.it',string='Gasto Vinculado')
+	landed_cost_id = fields.Many2one('landed.cost.it',string='Gasto Vinculado',copy=False)
 
 	def create_landed_cost(self):
 		if self.state not in ('purchase','done'):

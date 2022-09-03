@@ -28,6 +28,7 @@ class GetLandedInvoices(models.TransientModel):
 				'debit': invoice.debit,
 				'amount_currency': invoice.amount_currency,
 				'tc': invoice.tc,
+				'type_landed_cost_id': invoice.product_id.type_landed_cost_id.id,
 				'company_id': invoice.company_id.id,
 			}
 			vals.append(val)
