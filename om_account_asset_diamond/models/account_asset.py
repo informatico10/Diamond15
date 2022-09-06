@@ -24,6 +24,6 @@ class AccountAssetAsset(models.Model):
 			'number_next_actual': 1})
 
 		code = id_seq._next()
-		vals['code'] = '1' + vals['code'].strftime('%y%m') + code
+		vals['code'] = '1' + vals['date'].strftime('%y%m') + code
 		t = super(AccountAssetAsset, self).create(vals)
 		return t
