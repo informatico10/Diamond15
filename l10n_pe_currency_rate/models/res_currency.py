@@ -17,48 +17,6 @@ class ResCurrency(models.Model):
 	
 	@api.model
 	def _action_sunat_exchange_rate(self):
-		rate_obj = self.env['res.currency.rate']
-		currency = self.env.ref('base.USD')
-		rate_date = fields.Datetime.now().replace(tzinfo=pytz.UTC).astimezone(pytz.timezone(self.env.user.tz or 'UTC'))
-		print(rate_date)
-		url = 'https://itgrupo.net/api/webservice/currencyratetoday'
-		params = {'UserName' : 'APIUserGOLDtc',
-				  'Password': 'Api$pass&241G13nd4TC',
-				  'Date': rate_date.strftime('%Y/%m/%d')}
-
-		try:
-			r = requests.post(url, params=params)
-			arre = r.text.replace("'",'"')
-			arr2 = json.loads(arre)
-
-			if currency:
-				rate_search = rate_obj.search([
-							('name', '=', self.date),
-							('currency_id', '=', currency.id),
-							('company_id','=',self.env.company.id)
-						],limit=1)
-
-				if rate_search:
-					rate_search.write({
-						'rate': arr2['rate'],
-						'sale_type': arr2['sale_type'],
-						'purchase_type': arr2['purchase_type'],
-					})
-				else:
-					rate_obj.create({
-						'currency_id': currency.id,
-						'rate': arr2['rate'],
-						'name': self.date,
-						'sale_type': arr2['sale_type'],
-						'purchase_type': arr2['purchase_type'],
-						'company_id': self.env.company.id
-					})
-
-				return self.env['popup.it'].get_message(u'SE ACTUALIZÓ CORRECTAMENTE EL TC PARA EL DIA %s'%(self.date.strftime('%Y/%m/%d')))
-		
-		except Exception as err:
-			raise UserError(err)
-
 		#####################################33
 		url = 'https://api.apis.net.pe/v1/tipo-cambio-sunat'
 		try:
