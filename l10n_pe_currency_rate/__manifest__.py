@@ -14,5 +14,6 @@
         'wizard/currency_rate_update_now.xml',
         'views/menu_views.xml'
     ],
-    'installable': True
+    'installable': True,
+	'license': 'LGPL-3'
 }
