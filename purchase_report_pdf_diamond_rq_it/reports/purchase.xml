@@ -141,7 +141,7 @@
                                                     <t t-esc="line.product_id.default_code" />
                                                 </td>
                                                 <td style="text-align:center; padding:3px;">
-                                                    <t t-esc="line.product_id.name" />
+                                                    <t t-esc="line.name" />
                                                 </td>
 
                                                 <td style="text-align:center; padding:3px;">
