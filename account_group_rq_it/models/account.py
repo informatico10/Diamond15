@@ -22,14 +22,14 @@ class AccountMoveGroupRqIT(models.Model):
 
     def button_solicitar_publicacion(self):
         self.solicitar_aprobacion = True
-        users = self.env['res.groups'].search( [('name','=','Publicar Facturas')], limit=1).users
+        users = self.env['res.groups'].search( [('name','=','Publicar Facturas de Compras Nacionales')], limit=1).users
         if users:
             body = 'Solitar Publicar Factura'
             self.message(users, body)
             self.message_post(body=body)
             self.solicitante_aprobacion_id = self.env.user
         else:
-            raise ValidationError('No hay Usuarios con la notificación Publicar Facturas')
+            raise ValidationError('No hay Usuarios con la notificación Publicar Facturas de Compras Nacionales')
 
     def message(self, users, body_message):
         if users:

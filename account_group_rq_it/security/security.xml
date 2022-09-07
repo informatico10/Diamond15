@@ -1,7 +1,7 @@
 <odoo>
 
     <record id="group_public_invoice" model="res.groups">
-        <field name="name">Publicar Facturas</field>
+        <field name="name">Publicar Facturas de Compras Nacionales</field>
         <field name="category_id" ref="category_only_rq_it.category_account_module_custom" />
     </record>
 
