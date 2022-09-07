@@ -9,6 +9,8 @@
             <field name="type_purchase" invisible="True" />
                 <xpath expr="//header/button[2]" position="after">
                     <field name="solicitar_aprobacion" invisible="1" />
+                    <field name="type_purchase" invisible="1" />
+
 <!--                    <button string="Solicitar Publicación" name="button_solicitar_publicacion" type="object" class="oe_highlight" attrs="{'invisible': [('type_purchase', '!=', '0'), '|', ('solicitar_aprobacion','=',True), ('state', '!=', 'draft')]}" groups="!account_group_rq_it.group_public_invoice, !account.group_account_manager" />-->
                     <button name="action_post" string="Confirmar" class="oe_highlight" type="object" data-hotkey="v" attrs="{'invisible': [('type_purchase', '!=', '0')]}" groups="account_group_rq_it.group_public_invoice" />
                 </xpath>
