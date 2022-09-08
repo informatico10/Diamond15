@@ -207,7 +207,7 @@
                                     <div class="col-2" />
                                     <div class="col-4 text-center">
                                         <center>
-                                            <img t-if="doc.user_aprobacion_id and doc.user_aprobacion_id.firma" t-att-src="image_data_uri(doc.user_aprobacion_id.firma)" alt="Logo" style="max-width:300px; max-height:100px; position:absolute; left:4;" />
+                                            <img t-if="doc.user_approve_firma and doc.user_approve_firma.firma" t-att-src="image_data_uri(doc.user_approve_firma.firma)" alt="Logo" style="max-width:300px; max-height:100px; position:absolute; left:4;" />
                                         </center>
                                     </div>
                                     <div class="col-1" />

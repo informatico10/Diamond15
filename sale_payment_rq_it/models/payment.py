@@ -9,7 +9,7 @@ class AccountPaymentTermRqIt(models.Model):
     payment_condition = fields.Selection([
         ('contado', 'Al Contado'),
         ('credito', 'Crédito'),
-    ], string='Condición de Pago')
+    ], string='Condición de Pago', readonly=True)
 
     check_payment = fields.Boolean(compute='_compute_check_payment', string='Check Payment')
 
