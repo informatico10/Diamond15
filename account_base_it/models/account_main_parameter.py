@@ -35,6 +35,7 @@ class AccountMainParameter(models.Model):
 	lost_sheet_account = fields.Many2one('account.account',string='Cuenta Perdida Cierre')
 	lost_result_account = fields.Many2one('account.account',string='Cuenta Resultados Acumulados Perdida')
 	profit_result_account = fields.Many2one('account.account',string='Cuenta Resultados Acumulados Utilidad')
+	retention_account_id = fields.Many2one('account.account',string='Cuenta de Retenciones')
 
 	####DIARIOS####
 	
@@ -61,6 +62,7 @@ class AccountMainParameter(models.Model):
 	bank_account_prefix = fields.Char(string=u'Prefijo Cuentas Banco',help=u'LOS PREFIJOS DEBEN SER DE TRES DÍGITOS Y DEBEN IR SEPARADOS POR COMA, ADEMÁS ENTRE COMILLA')
 	tax_account = fields.Many2one('account.account.tag',string=u'Etiqueta para Percepciones')
 	dt_perception = fields.Many2one('l10n_latam.document.type',string=u'Tipo de Documento Percepciones')
+	retention_precentage = fields.Float(string='Porcentaje de Retenciones',default=0)
 
 	####REPORTES####
 

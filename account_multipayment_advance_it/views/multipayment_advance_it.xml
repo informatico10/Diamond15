@@ -22,7 +22,7 @@
 					</group>
 					<group name="main">
 						<group name="main_1"> 
-							<field name="journal_id" required="1" attrs="{'readonly':[('state','in',['done'])]}" domain="['|',('type','=','cash'),('type','=','bank')]"/>
+							<field name="journal_id" required="1" attrs="{'readonly':[('state','in',['done'])]}" domain="['|',('type','in',['cash','bank']),('check_retention','=',True)]"/>
 							<field name="payment_date" required="1" attrs="{'readonly':[('state','in',['done'])]}"/>
 							<field name="catalog_payment_id" attrs="{'readonly':[('state','in',['done'])]}"/>
 							<field name="glosa" required="1" attrs="{'readonly':[('state','in',['done'])]}"/>

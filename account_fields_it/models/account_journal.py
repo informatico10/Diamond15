@@ -15,3 +15,4 @@ class AccountJournal(models.Model):
 	sequence_id_it = fields.Many2one('ir.sequence', string='Secuencia del Asiento', copy=False)
 	voucher_edit = fields.Boolean(string=u'Editar Número Asiento', default=False)
 	check_surrender = fields.Boolean(string=u'Se usa para Rendiciones',default=False)
+	check_retention = fields.Boolean(string=u'Se usa para Retenciones',default=False)
