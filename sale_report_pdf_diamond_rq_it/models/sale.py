@@ -38,13 +38,15 @@ class SaleOrderReportPdf(models.Model):
     def _compute_check_domain(self):
         for rec in self:
             # TO DOMAIN FIRST CONTACT
+            rec.check_domain = True
             if rec.partner_id:
                 ar_child = []
                 for child in rec.partner_id.child_ids:
                     if child.type == 'contact':
                         ar_child.append(child.id)
                 rec.ids_first_contact = ar_child
-
+                if rec.first_contacto_partner and not rec.first_contacto_partner.parent_id:
+                    rec.first_contacto_partner.parent_id = rec.partner_id.id
 
     @api.onchange('partner_id')
     def _onchange_partner_id_order_report(self):
