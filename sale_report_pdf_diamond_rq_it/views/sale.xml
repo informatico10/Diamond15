@@ -24,6 +24,7 @@
                     'default_type': 'contact',
                 }" />
                 <field name="referencia_pdf" />
+                <field name="check_domain" invisible="1" />
             </xpath>
             <xpath expr="//field[@name='order_line']/tree/field[@name='product_uom']" position="after">
                 <field name="presentation_id" />

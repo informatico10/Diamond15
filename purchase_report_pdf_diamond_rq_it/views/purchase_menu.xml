@@ -10,35 +10,35 @@
 
     <menuitem
         id="table_by_menu"
-        name="Modelo By"
+        name="Modelo By / Via"
         sequence="10"
         parent="purchase_report_pdf_diamond_rq_it.purchase_table_menu"
         action="purchase_report_pdf_diamond_rq_it.by_diamond_action"
     />
     <menuitem
         id="table_insurance_menu"
-        name="Modelo Insurance"
+        name="Modelo Insurance / Seguro"
         sequence="20"
         parent="purchase_report_pdf_diamond_rq_it.purchase_table_menu"
         action="purchase_report_pdf_diamond_rq_it.insurance_diamond_action"
     />
     <menuitem
         id="table_loading_menu"
-        name="Modelo Loading"
+        name="Modelo Loading Port / Puerto de embarque"
         sequence="30"
         parent="purchase_report_pdf_diamond_rq_it.purchase_table_menu"
         action="purchase_report_pdf_diamond_rq_it.loading_port_diamond_action"
     />
     <menuitem
         id="table_payment_menu"
-        name="Modelo Payment"
+        name="Modelo Payment / Plazo de Pago"
         sequence="40"
         parent="purchase_report_pdf_diamond_rq_it.purchase_table_menu"
         action="account.action_payment_term_form"
     />
     <menuitem
         id="table_shipment_menu"
-        name="Modelo Shipment"
+        name="Modelo Shipment / Embarque"
         sequence="50"
         parent="purchase_report_pdf_diamond_rq_it.purchase_table_menu"
         action="purchase_report_pdf_diamond_rq_it.shipment_diamond_action"

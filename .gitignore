@@ -15,3 +15,8 @@ stock_move_picking_hook/__pycache__/__init__.cpython-37.pyc
 stock_move_picking_hook/__pycache__/__init__.cpython-37.pyc
 *.pyc
 diamond15.pyproj
+stock_move_picking_hook/__pycache__/__init__.cpython-37.pyc
+stock_move_picking_hook/models/__pycache__/__init__.cpython-37.pyc
+stock_move_picking_hook/models/__pycache__/sale_advance_payment_inv.cpython-37.pyc
+stock_move_picking_hook/models/__pycache__/__init__.cpython-37.pyc
+*.pyc

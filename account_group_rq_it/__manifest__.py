@@ -9,6 +9,7 @@
     'depends': [
         'account',
         'account_debit_note',
+        'account_purchase_notify_rq_it'
     ],
     'data': [
         'security/security.xml',
