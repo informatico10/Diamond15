@@ -1,1 +1,2 @@
 from . import get_invoices_multipayment_wizard
+from . import get_template_multipayment_wizard

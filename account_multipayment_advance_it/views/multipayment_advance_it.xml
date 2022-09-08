@@ -10,6 +10,7 @@
 						<button string="Publicar" type="object" name="crear_asiento" states="draft" class="oe_highlight"/>
 						<button string="Cancelar" type="object" name="cancelar" states="done" class="oe_highlight"/>
 						<button name="get_invoices_multipayment" string="Selecciona Facturas" states="draft" type="object" class="oe_highlight"/>
+						<button name="get_templates_multipayment" string="Selecciona Plantillas" states="draft" type="object" class="oe_highlight"/>
 						<button name="calculate_line" string="Calcular" states="draft" type="object" class="oe_highlight"/>
 						<button name="autocomplete_amount" string="Autocompletar Importe" states="draft" type="object" class="oe_highlight"/>
 						<field name="state" widget="statusbar" readonly="1"/>
@@ -29,6 +30,7 @@
 						</group>
 						<group name="main_2">
 							<field name="asiento_id" readonly="1"/>
+							<field name="amount" readonly="1"/>
 							<field name="company_id" readonly="1" required="1" groups="base.group_multi_company"/> 
 						</group>
 					</group>
@@ -72,12 +74,12 @@
 						<page string="Otra Informacion" name="other_info">
 							<group name="other_1">
 								<group name="other_2"> 
-									<field name="nro_operation" attrs="{'readonly':[('state','in',['done'])]}"/>
-									<field name="partner_cash_id" attrs="{'readonly':[('state','in',['done'])]}"/>
+									<field name="nro_operation"/>
+									<field name="partner_cash_id"/>
 								</group>
 								<group  name="other_3"> 
-									<field name="type_document_cash_id" attrs="{'readonly':[('state','in',['done'])]}"/>
-									<field name="cash_flow_id" attrs="{'readonly':[('state','in',['done'])]}"/>
+									<field name="type_document_cash_id"/>
+									<field name="cash_flow_id"/>
 								</group>
 							</group>
 						</page>
@@ -94,8 +96,11 @@
 					<field name="name"/>
 					<field name="journal_id"/>
 					<field name="payment_date"/>
-					<field name="nro_operation"/>
+					<field name="partner_cash_id" optional="hide"/>
+					<field name="nro_operation" optional="hide"/>
 					<field name="glosa" optional="hide"/>
+					<field name="asiento_id" optional="hide"/>
+					<field name="amount" optional="show" sum="amount"/>
 					<field name="state" />
 					<field name="company_id" groups="base.group_multi_company"/> 
 				</tree>

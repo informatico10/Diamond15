@@ -27,6 +27,17 @@ class MultipaymentAdvanceIt(models.Model):
 	move_name = fields.Char(string='Voucher Asiento')
 	journal_move = fields.Many2one('account.journal',string='Diario Asiento')
 	date_move = fields.Date(string='Fecha Asiento')
+	amount = fields.Float(string='Monto',compute='compute_amount_cash',store=True)
+
+	@api.depends('company_id','asiento_id')
+	def compute_amount_cash(self):
+		for m in self:
+			amount = 0
+			if m.asiento_id:
+				for i in m.asiento_id.line_ids:
+					amount += (i.debit - i.credit) if i.account_id.id in (m.company_id.account_journal_payment_debit_account_id.id,m.company_id.account_journal_payment_credit_account_id.id) else 0
+			
+			m.amount = amount
 
 	@api.model
 	def create(self, vals):
@@ -38,6 +49,19 @@ class MultipaymentAdvanceIt(models.Model):
 		vals['name'] = id_seq._next()
 		t = super(MultipaymentAdvanceIt, self).create(vals)
 		return t
+	
+	def write(self, vals):
+		res = super(MultipaymentAdvanceIt, self).write(vals)
+		for multi in self:
+			if multi.asiento_id and ('partner_cash_id' in vals or 'type_document_cash_id' in vals or 'nro_operation' in vals or 'cash_flow_id' in vals):
+				line_move = multi.asiento_id.line_ids.filtered(lambda l: l.account_id.id in [self.company_id.account_journal_payment_debit_account_id.id,self.company_id.account_journal_payment_credit_account_id.id])
+				line_move.write({
+					'partner_id': multi.partner_cash_id.id,
+					'type_document_id': multi.type_document_cash_id.id,
+					'nro_comp': multi.nro_operation,
+					'cash_flow_id': multi.cash_flow_id.id,
+				})
+		return res
 
 	def calculate_line(self):
 		amount = debe = haber = 0
@@ -56,6 +80,8 @@ class MultipaymentAdvanceIt(models.Model):
 		if amount >= 0:
 			haber = abs(amount)
 		
+		line = self.lines_ids.filtered(lambda l: l.account_id.id == (self.company_id.account_journal_payment_debit_account_id.id if amount <= 0 else self.company_id.account_journal_payment_credit_account_id.id))
+		line.unlink()
 		val = {
 			'main_id': self.id,
 			'account_id': self.company_id.account_journal_payment_debit_account_id.id if amount <= 0 else self.company_id.account_journal_payment_credit_account_id.id,
@@ -83,6 +109,24 @@ class MultipaymentAdvanceIt(models.Model):
 			'res_id':wizard.id,
 			'view_mode': 'form',
 			'res_model': 'get.invoices.multipayment.wizard',
+			'view_id': view.id,
+			'context': self.env.context,
+			'target': 'new',
+			'type': 'ir.actions.act_window',
+		}
+	
+	def get_templates_multipayment(self):
+		wizard = self.env['get.template.multipayment.wizard'].create({
+			'multipayment_id': self.id,
+			'company_id':self.company_id.id
+		})
+		module = __name__.split('addons.')[1].split('.')[0]
+		view = self.env.ref('%s.view_get_template_multipayment_wizard' % module)
+		return {
+			'name':u'Seleccionar Plantillas',
+			'res_id':wizard.id,
+			'view_mode': 'form',
+			'res_model': 'get.template.multipayment.wizard',
 			'view_id': view.id,
 			'context': self.env.context,
 			'target': 'new',
@@ -148,6 +192,8 @@ class MultipaymentAdvanceIt(models.Model):
 
 		data = {
 			'company_id': self.company_id.id,
+			'partner_id': self.partner_cash_id.id if self.partner_cash_id else None,
+			'l10n_latam_document_type_id': self.type_document_cash_id.id if self.type_document_cash_id else None,
 			'journal_id': self.journal_id.id,
 			'date': self.payment_date,
 			'invoice_date': self.payment_date,
@@ -174,12 +220,11 @@ class MultipaymentAdvanceIt(models.Model):
 
 		if flag:
 			self.move_name = move_id.name
-
+		self.asiento_id._compute_amount()
 		for c,elemnt in enumerate(self.invoice_ids):
 			self.env['account.move.line'].browse([move_id.line_ids[c].id,self.invoice_ids[c].invoice_id.id]).reconcile()
 
 		self.asiento_id = move_id.id
-		self.asiento_id._compute_amount()
 		self.state = 'done'
 
 	def cancelar(self):
@@ -285,3 +330,5 @@ class MultipaymentAdvanceItLine2(models.Model):
 			else:
 				self.debe = self.importe_divisa if self.importe_divisa > 0 else 0
 				self.haber = 0 if self.importe_divisa > 0 else abs(self.importe_divisa)
+	
+	
