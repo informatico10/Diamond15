@@ -17,6 +17,7 @@
 									<field name="customer_advance_account_fc"/>
 									<field name="supplier_advance_account_nc"/>
 									<field name="supplier_advance_account_fc"/>
+									<field name="retention_account_id"/>
 								</group>
 								<group>
 									<field name="detractions_account"/>
@@ -82,6 +83,7 @@
 								<group>
 									<field name="tax_account"/>
 									<field name="dt_perception"/>
+									<field name="retention_precentage" widget="percentage"/>
 								</group>
 							</group>
 						</page>

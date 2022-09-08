@@ -79,12 +79,17 @@ class MultipaymentAdvanceIt(models.Model):
 			debe = abs(amount)
 		if amount >= 0:
 			haber = abs(amount)
-		
-		line = self.lines_ids.filtered(lambda l: l.account_id.id == (self.company_id.account_journal_payment_debit_account_id.id if amount <= 0 else self.company_id.account_journal_payment_credit_account_id.id))
+		retention_account_id = self.env['account.main.parameter'].search([('company_id','=',self.company_id.id)],limit=1).retention_account_id
+		if self.journal_id.check_retention and not retention_account_id:
+			raise UserError(u'Debe configurar la Cuenta de Retención en Parametros Principales de Contabilidad de su Compañía')
+		account_id = retention_account_id.id if self.journal_id.check_retention else (self.company_id.account_journal_payment_debit_account_id.id if amount <= 0 else self.company_id.account_journal_payment_credit_account_id.id)
+		line = self.lines_ids.filtered(lambda l: l.account_id.id == account_id)
 		line.unlink()
+		
+		
 		val = {
 			'main_id': self.id,
-			'account_id': self.company_id.account_journal_payment_debit_account_id.id if amount <= 0 else self.company_id.account_journal_payment_credit_account_id.id,
+			'account_id': account_id,
 			'currency_id': self.journal_id.currency_id.id,
 			'importe_divisa': (amount/self.tc)*-1 if self.journal_id.currency_id else 0,
 			'debe': debe,
@@ -93,8 +98,14 @@ class MultipaymentAdvanceIt(models.Model):
 		self.env['multipayment.advance.it.line2'].create(val)
 	
 	def autocomplete_amount(self):
+		retention_precentage = self.env['account.main.parameter'].search([('company_id','=',self.company_id.id)],limit=1).retention_precentage
 		for line_i in self.invoice_ids:
-			line_i.importe_divisa = line_i.saldo * -1
+			if self.journal_id.check_retention:
+				if retention_precentage == 0:
+					raise UserError(u'Debe configurar el procentaje de Retención en Parametros Principales de Contabilidad de su Compañía')
+				line_i.importe_divisa = line_i.saldo*retention_precentage* -1
+			else:
+				line_i.importe_divisa = line_i.saldo * -1
 			line_i._update_debit_credit()
 
 	def get_invoices_multipayment(self):

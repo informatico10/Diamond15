@@ -37,5 +37,6 @@
 			'views/it_invoice_serie.xml',
 			'views/menu_items.xml',
 			],
-	'installable': True
+	'installable': True,
+	'license': 'LGPL-3'
 }

@@ -39,5 +39,6 @@
 			'views/res_partner_bank.xml',
 			'views/res_partner.xml',
 			],
-	'installable': True
+	'installable': True,
+	'license': 'LGPL-3'
 }

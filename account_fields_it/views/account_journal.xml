@@ -17,6 +17,7 @@
 								<group>
 									<field name="voucher_edit"/>
 									<field name="check_surrender"/>
+									<field name="check_retention"/>
 								</group>
 							</group>
 						</page>
