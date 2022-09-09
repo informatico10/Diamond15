@@ -36,7 +36,7 @@
                     <t t-if="o.company_id.state_id" t-esc="o.company_id.state_id.name" />
                     <t t-if="o.company_id.country_id" t-esc="o.company_id.country_id.name" />
                     | <b>T: </b>
-                    <t t-if="o.create_uid" t-esc="o.create_uid.phone" />
+                    <t t-if="o.company_id" t-esc="o.company_id.phone" />
                     | <b>E: </b>
                     <t t-if="o.create_uid" t-esc="o.create_uid.email" />
                     <br />
