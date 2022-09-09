@@ -240,7 +240,7 @@
                                 <div class="row d-flex justify-content-center align-items-center text-center">
                                     <div class="col-12">
                                         <h5>
-                                            <b><center>PURCHASE ORDER / ORDEN DE COMPRA</center></b>
+                                            <b style="color: #0175CA;"><center>PURCHASE ORDER / ORDEN DE COMPRA</center></b>
                                         </h5>
                                     </div>
                                 </div>
@@ -251,10 +251,10 @@
                                     <div class="col-6 border">
                                         <div class="row">
                                             <div class="col-6 border">
-                                                <b>Date / Fecha</b>
+                                                <b style="color: #0175CA;">Date / Fecha</b>
                                             </div>
                                             <div class="col-6 border">
-                                                <b>Number / Número</b>
+                                                <b style="color: #0175CA;">Number / Número</b>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -272,14 +272,14 @@
 
                                 <div class="row d-flex justify-content-center align-items-center text-left border">
                                     <div class="col-6 border">
-                                        <b>Supplier / Proveedor</b>
+                                        <b style="color: #0175CA;">Supplier / Proveedor</b>
                                         <br />
                                         <t t-esc="doc.partner_id.name"/>
                                         <br />
                                         <t t-esc="doc.partner_id.street"/>
                                     </div>
                                     <div class="col-6 border">
-                                        <b>Ship to / Embarcar a</b>
+                                        <b style="color: #0175CA;">Ship to / Embarcar a</b>
                                         <br />
                                         <t t-if="doc.company_id">
                                             <t t-esc="doc.company_id.name"/> - 
@@ -288,11 +288,13 @@
                                             <t t-if="doc.company_id.state_id" t-esc="doc.company_id.state_id.name" />
                                             <t t-if="doc.company_id.country_id" t-esc="doc.company_id.country_id.name" />
                                             <t t-esc="doc.company_id.zip" />
+                                            <br />
+                                            T: <t t-esc="doc.company_id.phone" />
                                         </t>
 
                                         <br /><br />
 
-                                        <b>Contact / Contacto</b>
+                                        <b style="color: #0175CA;">Contact / Contacto</b>
                                         <br />
                                         <t t-if="doc.user_id">
                                             <t t-esc="doc.user_id.name"/>
@@ -306,47 +308,47 @@
                                 </div>
                                 <div class="row d-flex justify-content-center align-items-center text-left border">
                                     <div class="col-6 border">
-                                        <b>Payment terms / Condiciones de pago</b>
+                                        <b style="color: #0175CA;">Payment terms / Condiciones de pago</b>
                                         <br />
                                         <t t-if="doc.payment_term_id" t-esc="doc.payment_term_id.name_english" />
                                     </div>
                                     <div class="col-6 border">
-                                        <b>Marks / Marcas</b>
+                                        <b style="color: #0175CA;">Marks / Marcas</b>
                                         <br />
                                         <t t-raw="doc.marks" />
 
                                         <br />
 
-                                        <b>Quotation N° / N° de cotización</b>
+                                        <b style="color: #0175CA;">Quotation N° / N° de cotización</b>
                                         <br />
                                         <t t-raw="doc.quotation" />
                                     </div>
                                 </div>
                                 <div class="row d-flex justify-content-center align-items-center text-left border">
                                     <div class="col-6 border">
-                                        <b>By / Vía</b>
+                                        <b style="color: #0175CA;">By / Vía</b>
                                         <br />
                                         <t t-if="doc.by_diamond_id" t-esc="doc.by_diamond_id.name" />
                                         <br />
 
-                                        <b>Delivery terms / Condiciones de entrega</b>
+                                        <b style="color: #0175CA;">Delivery terms / Condiciones de entrega</b>
                                         <br />
                                         <t t-raw="doc.delivery_diaomnd" />
                                     </div>
                                     <div class="col-6 border">
-                                        <b>Loading port / Puerto de embarque</b>
+                                        <b style="color: #0175CA;">Loading port / Puerto de embarque</b>
                                         <br />
                                         <t t-if="doc.loading_port_id" t-esc="doc.loading_port_id.name" />
 
                                         <br />
 
-                                        <b>Shipment / Embarque</b>
+                                        <b style="color: #0175CA;">Shipment / Embarque</b>
                                         <br />
                                         <t t-if="doc.shipment_id" t-esc="doc.shipment_id.name"/>
 
                                         <br />
 
-                                        <b>Currency / Moneda</b>
+                                        <b style="color: #0175CA;">Currency / Moneda</b>
                                         <br />
                                         USD (AMERICAN DOLLARS)
                                     </div>
@@ -393,7 +395,7 @@
 
                                 <div class="row d-flex justify-content-center align-items-center text-left">
                                     <div class="col-3">
-                                        <b>Insurance / Seguro</b>
+                                        <b style="color: #0175CA;">Insurance / Seguro</b>
                                     </div>
                                     <div class="col-9">
                                         <t t-if="doc.insurance_id" t-esc="doc.insurance_id.name"/>
@@ -404,7 +406,7 @@
 
                                 <div class="row d-flex justify-content-center align-items-center text-left">
                                     <div class="col-3">
-                                        <b>Total amount / Valor total</b>
+                                        <b style="color: #0175CA;">Total amount / Valor total</b>
                                     </div>
                                     <div class="col-9">
                                         USD <t t-esc="'{:,.4f}'.format(round(doc.amount_total,4))" />
