@@ -35,7 +35,7 @@ class ReportSaleSelect(models.TransientModel):
     ], string='Visualizacion', default="display", required=True)
 
     # BY REPORT PDF
-    sale_report_partner_product_ids = fields.Many2many('report.sale.select', string='Sale REport PArtner Product')
+    # sale_report_partner_product_ids = fields.Many2many('report.sale.select', string='Sale REport PArtner Product')
     company_id = fields.Many2one('res.company', string='company', default=lambda self: self.env.company.id)
 
     def get_report(self):
