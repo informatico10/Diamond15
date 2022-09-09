@@ -8,6 +8,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='picking_type_id']" position="after">
                 <field name="payment_term_id"  />
+                <field name="plazo_pago_english" readony="True" attrs="{'invisible': [('type_purchase', '=', '0')]}" />
             </xpath>
             <xpath expr="//notebook" position="inside">
                 <page name="report_pdf" string="Reporte PDF">
