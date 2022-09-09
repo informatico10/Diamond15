@@ -369,7 +369,7 @@
                                         <t t-foreach="doc.order_line" t-as="line">
                                             <tr>
                                                 <td style="text-align:center; padding:3px;">
-                                                    <t t-esc="line.product_id.name" />
+                                                    <t t-esc="line.name" />
                                                 </td>
 
                                                 <td style="text-align:center; padding:3px;">
