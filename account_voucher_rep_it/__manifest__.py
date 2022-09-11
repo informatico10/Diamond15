@@ -2,7 +2,7 @@
 {
 	'name': 'Reporte Asientos Contables',
 	'category': 'account',
-	'author': 'ITGRUPO',
+	'author': 'ITGRUPO,Glenda Julia Merma Mayhua',
 	'depends': ['account_fields_it','report_tools','popup_it'],
 	'version': '1.0',
 	'description':"""

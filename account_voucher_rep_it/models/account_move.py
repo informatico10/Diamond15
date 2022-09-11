@@ -28,7 +28,7 @@ class AccountMove(models.Model):
 		from xlsxwriter.workbook import Workbook
 
 		ReportBase = self.env['report.base']
-		direccion = self.env['main.parameter'].search([('company_id','=',self.company_id.id)],limit=1).dir_create_file
+		direccion = self.env['account.main.parameter'].search([('company_id','=',self.company_id.id)],limit=1).dir_create_file
 
 		if not direccion:
 			raise UserError(u'No existe un Directorio Exportadores configurado en Parametros Principales de Contabilidad para su Compañía')
@@ -177,7 +177,7 @@ class AccountMove(models.Model):
 		wReal = width- 15
 		hReal = height - 40
 
-		direccion = self.env['main.parameter'].search([('company_id','=',self.company_id.id)],limit=1).dir_create_file
+		direccion = self.env['account.main.parameter'].search([('company_id','=',self.company_id.id)],limit=1).dir_create_file
 		name_file = "voucher.pdf"
 		c = canvas.Canvas( direccion + name_file, pagesize= (842,595) )
 		pos_inicial = hReal-40
