@@ -49,7 +49,7 @@ class PurchaseOrderReportPdf(models.Model):
     """)
     loading_port_id = fields.Many2one('loading.port.diamond', string='Loading Port / Puerto de embarque')
     shipment_id = fields.Many2one('shipment.diamond', string='Shipment / Embarque')
-    insurance_id = fields.Many2one('shipment.diamond', string='Insurance / Seguro')
+    insurance_id = fields.Many2one('insurance.diamond', string='Insurance / Seguro')
     user_approve_firma = fields.Many2one('res.users', string='Usuario Reporte Aprueba', default=lambda self: self.env['res.users'].search( [('name', '=', 'PIERO GIOVANNI LANZA MAURTUA')], limit=1 ).id)
 
     observaciones = fields.Html('Observaciones', default="""
@@ -73,6 +73,7 @@ class PurchaseOrderReportPdf(models.Model):
     ], string='Incoterm', readonly=True)
     incoterm_country_diamond_id = fields.Many2one('res.country', string='Incoterm País', readonly=True)
     check_incoterm = fields.Boolean(compute='_compute_check_incoterm', string='Check Incoterm')
+    plazo_pago_english = fields.Char(string='Plazo de Pago para Reporte', related='payment_term_id.name_english')
 
     @api.depends('incoterm_diamond', 'incoterm_country_diamond_id')
     def _compute_check_incoterm(self):
