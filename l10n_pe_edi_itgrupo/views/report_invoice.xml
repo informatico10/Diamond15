@@ -33,14 +33,14 @@
                 <dd class="col-6 col-sm-7 mb-0"><t t-esc="o.detraction_amount"/> (<span t-field="o.detraction_type_id"/>)</dd>
             </dl>
         </xpath>
-        <xpath expr="//dl[@name='credit_note_type']" position="replace">
+        <!-- <xpath expr="//dl[@name='credit_note_type']" position="replace">
             <dl class="row mb-0" name="credit_note_type" t-if="o.credit_note_type_id">
                 <dt class="col-auto col-6 col-sm-5 mb-0">
                     TIPO DE NOTA DE CRÉDITO:
                 </dt>
                 <dd class="col-auto col-6 col-sm-7 mb-0"><t t-esc="o.credit_note_type_id.name"/></dd>
             </dl>
-        </xpath>
+        </xpath> -->
         <xpath expr="//dl[@name='debit_note_type']" position="replace">
             <dl class="row mb-0" name="debit_note_type" t-if="o.debit_note_type_id">
                 <dt class="col-auto col-6 col-sm-5 mb-0">
