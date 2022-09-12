@@ -12,19 +12,18 @@ AS $BODY$
 BEGIN
 	RETURN QUERY 
 
-select a4.id as rubro_id,sum(a1.balance) as balance
+select a3.account_type_it_id as rubro_id,sum(a1.balance) as balance
 from account_move_line a1
 left join account_move a2 on a2.id=a1.move_id
 left join account_account a3 on a3.id=a1.account_id
-left join account_type_it a4 on a4.id=a3.account_type_it_id
 where 
 (a2.date between $1 and $2) 
 and a1.display_type is null 
 and a1.account_id is not null
 and a2.state='posted'
 and a2.company_id=$3
-group by a4.id
-order by a4.id;
+group by a3.account_type_it_id
+order by a3.account_type_it_id;
   END;
 $BODY$;
 

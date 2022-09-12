@@ -1,4 +1,23 @@
 
+CREATE OR REPLACE FUNCTION public.periodo_de_fecha(
+date,boolean)
+    RETURNS integer
+    LANGUAGE 'sql'
+    COST 100
+    VOLATILE 
+AS $BODY$
+ 
+select 
+case 
+         when $2=true and lpad(extract(month from $1) :: VARCHAR,2,'0')='01' and lpad(extract(day from $1) :: VARCHAR,2,'0')='01' then 
+         concat(extract(year from $1),'00')::integer 
+         when $2=true and lpad(extract(month from $1) :: VARCHAR,2,'0')='12' and lpad(extract(day from $1) :: VARCHAR,2,'0')='31' then 
+         concat(extract(year from $1),'13')::integer
+else
+         concat(extract(year from $1),lpad(extract(month from $1) :: VARCHAR,2,'0')):: integer  end as periodo
+ 
+$BODY$;
+------------------------------------------------------------------------------------------------
 DROP FUNCTION IF EXISTS public.get_diariog(date, date, integer) CASCADE;
 
 CREATE OR REPLACE FUNCTION public.get_diariog(
@@ -25,12 +44,12 @@ CREATE OR REPLACE FUNCTION public.get_diariog(
 	a2.debit AS debe,
 	a2.credit AS haber,
 	a2.balance,
-		CASE
-			WHEN a2.currency_id IS NULL THEN 'PEN'::character varying
-			ELSE a5.name
-		END AS moneda,
+	CASE
+		WHEN a2.currency_id IS NULL THEN 'PEN'::character varying
+		ELSE a5.name
+	END AS moneda,
 	coalesce(case when a2.tc = 0 then  1 else a2.tc end,1) as tc,
-	a2.amount_currency AS importe_me,
+	case when a2.currency_id IS NULL OR a5.name = 'PEN' THEN 0 ELSE a2.amount_currency END AS importe_me,
 	a11.code AS cta_analitica,
 	a1.glosa,
 	a7.code_sunat AS td_partner,

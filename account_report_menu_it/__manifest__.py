@@ -16,5 +16,6 @@
 		'estados_financieros.sql',
 		'views/account_report_menu_it.xml'
 	],
-	'installable': True
+	'installable': True,
+	'license': 'LGPL-3'
 }

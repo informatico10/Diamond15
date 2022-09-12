@@ -314,7 +314,7 @@ CREATE OR REPLACE FUNCTION public.get_saldos_me_documento(
 	periodo_apertura character varying,
 	periodo character varying,
 	company_id integer)
-    RETURNS TABLE(partner_id integer, account_id integer, td_sunat character varying, nro_comprobante character varying, debe numeric, haber numeric, saldomn numeric, saldome numeric) 
+    RETURNS TABLE(partner_id integer, account_id integer, td_sunat character varying, nro_comprobante character varying, debe numeric, haber numeric, saldomn numeric, saldome numeric, type_document_id integer) 
     LANGUAGE 'plpgsql'
 
     COST 100
@@ -330,16 +330,18 @@ BEGIN
 	sum(a1.debe) debe,
 	sum(a1.haber) haber,
 	sum(coalesce(a1.balance,0))as saldomn,
-	sum(coalesce(a1.importe_me,0)) as saldome 
+	sum(coalesce(a1.importe_me,0)) as saldome,
+	aml.type_document_id
 	from get_diariog((select date_start from account_period where code = $1::character varying limit 1),(select date_end from account_period where code = $2::character varying  limit 1),$3) a1
 	left join account_account a2 on a2.id=a1.account_id
 	left join account_type_it a3 on a3.id=a2.account_type_it_id
 	left join res_currency a4 on a4.id = a2.currency_id
+	left join account_move_line aml on aml.id = a1.move_line_id
 	where 
 	a2.dif_cambio_type = 'doc' and
 	a4.name = 'USD' and
 	(a1.periodo::int between $1::int and $2::int)
-	group by a1.partner_id,a1.account_id,a1.td_sunat,a1.nro_comprobante
+	group by a1.partner_id,a1.account_id,a1.td_sunat,a1.nro_comprobante, aml.type_document_id
 	having (sum(a1.balance)+sum(a1.importe_me)) <> 0;
 END;
 $BODY$;
@@ -351,7 +353,7 @@ CREATE OR REPLACE FUNCTION public.get_saldos_me_documento_2(
 	periodo_apertura character varying,
 	periodo character varying,
 	company_id integer)
-    RETURNS TABLE(partner_id integer, account_id integer, td_sunat character varying, nro_comprobante character varying, debe numeric, haber numeric, saldomn numeric, saldome numeric, group_balance character varying, tc numeric) 
+    RETURNS TABLE(partner_id integer, account_id integer, td_sunat character varying, nro_comprobante character varying, debe numeric, haber numeric, saldomn numeric, saldome numeric, type_document_id integer, group_balance character varying, tc numeric) 
     LANGUAGE 'plpgsql'
 
     COST 100
@@ -368,6 +370,7 @@ b1.debe,
 b1.haber,
 b1.saldomn,
 b1.saldome,
+b1.type_document_id,
 b3.group_balance,
 CASE
 		WHEN b3.group_balance::text = ANY (ARRAY['B1'::character varying, 'B2'::character varying]::text[]) THEN ( SELECT edcl.compra
@@ -394,7 +397,7 @@ CREATE OR REPLACE FUNCTION public.get_saldos_me_documento_final(
 	fiscal_year character varying,
 	periodo character varying,
 	company_id integer)
-    RETURNS TABLE(partner_id integer, account_id integer, td_sunat character varying, nro_comprobante character varying, debe numeric, haber numeric, saldomn numeric, saldome numeric, group_balance character varying, tc numeric, saldo_act numeric, diferencia numeric, difference_account_id integer) 
+    RETURNS TABLE(partner_id integer, account_id integer, td_sunat character varying, nro_comprobante character varying, debe numeric, haber numeric, saldomn numeric, saldome numeric, type_document_id integer, group_balance character varying, tc numeric, saldo_act numeric, diferencia numeric, difference_account_id integer) 
     LANGUAGE 'plpgsql'
 
     COST 100
