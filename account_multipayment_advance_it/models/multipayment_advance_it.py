@@ -158,6 +158,9 @@ class MultipaymentAdvanceIt(models.Model):
 				i._update_debit_credit()
 
 	def crear_asiento(self):
+		prob, problemas = self.validate_lines()
+		if prob:
+			raise UserError(problemas)
 		lineas = []
 
 		for elemnt in self.invoice_ids:
@@ -266,6 +269,50 @@ class MultipaymentAdvanceIt(models.Model):
 				raise UserError("No puede alterar la secuencia si no se encuentra en estado Borrador")
 
 		return self.env['popup.it'].get_message('Se borro correctamente la secuencia.')
+	
+	def import_invoice_lines(self):
+		wizard = self.env['import.multipayment.invoice.line.wizard'].create({
+			'multipayment_id':self.id
+			})
+		module = __name__.split('addons.')[1].split('.')[0]
+		view = self.env.ref('%s.view_import_multipayment_invoice_line_wizard_form' % module)
+		return {
+			'name':u'Importar Facturas',
+			'res_id':wizard.id,
+			'view_mode': 'form',
+			'res_model': 'import.multipayment.invoice.line.wizard',
+			'view_id': view.id,
+			'target': 'new',
+			'type': 'ir.actions.act_window',
+		}
+	
+	def validate_lines(self):
+		self.env.cr.execute("""SELECT nro_comp FROM account_move_line WHERE id in (
+								SELECT invoice_id FROM multipayment_advance_it_line WHERE main_id = %d
+								GROUP BY invoice_id
+								HAVING count(invoice_id)>1)"""%(self.id))
+
+		res = self.env.cr.dictfetchall()
+		prob = False
+		problemas = ""
+		if len(res)>0:
+			prob = True
+			problemas += "LOS SIGUIENTES COMPROBANTES ESTAN DUPLICADOS EN LAS LINEAS DE PAGOS MULTIPLES: \n"
+			for line in res:
+				problemas += "• " + line['nro_comp'] + '\n'
+
+		self.env.cr.execute("""select aml.nro_comp from multipayment_advance_it_line l
+								left join account_move_line aml on aml.id = l.invoice_id
+								where ((l.saldo<0 and (l.saldo)*-1 < l.importe_divisa ) or (l.saldo>0 and l.saldo < (l.importe_divisa)*-1))
+								and l.main_id = %d"""%(self.id))
+
+		res2 = self.env.cr.dictfetchall()
+		if len(res2)>0:
+			prob = True
+			problemas += "LOS SIGUIENTES COMPROBANTES EXCEDEN EN MONTO DIVISA AL SALDO: \n"
+			for line in res2:
+				problemas += "• " + line['nro_comp'] + '\n'
+		return prob, problemas
 
 class MultipaymentAdvanceItLine(models.Model):
 	_name = 'multipayment.advance.it.line'

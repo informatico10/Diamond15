@@ -10,6 +10,7 @@
 						<button string="Publicar" type="object" name="crear_asiento" states="draft" class="oe_highlight"/>
 						<button string="Cancelar" type="object" name="cancelar" states="done" class="oe_highlight"/>
 						<button name="get_invoices_multipayment" string="Selecciona Facturas" states="draft" type="object" class="oe_highlight"/>
+						<button string="Importar Facturas" type="object" name="import_invoice_lines" states="draft" icon="fa-plus" widget="statinfo"/>
 						<button name="get_templates_multipayment" string="Selecciona Plantillas" states="draft" type="object" class="oe_highlight"/>
 						<button name="calculate_line" string="Calcular" states="draft" type="object" class="oe_highlight"/>
 						<button name="autocomplete_amount" string="Autocompletar Importe" states="draft" type="object" class="oe_highlight"/>
