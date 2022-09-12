@@ -85,12 +85,19 @@ class ImportMultipaymentInvoiceLineWizard(models.TransientModel):
 		invoice_id = self.env['account.move.line'].search([('partner_id','=',partner_id.id),('type_document_id','=',type_document_id.id),
 		('account_id','=',account_id.id),('nro_comp','=',values.get("nro_comp")),('company_id','=',self.multipayment_id.company_id.id)],limit=1)
 
+		residual_amount = 0
+		if invoice_id.currency_id:
+			residual_amount = invoice_id.amount_residual_currency
+		else:
+			residual_amount = invoice_id.amount_residual
+
 		line = self.env['multipayment.advance.it.line'].create({
 			'partner_id': partner_id.id if partner_id else None,
 			'tipo_documento':type_document_id.id if type_document_id else None,
 			'invoice_id': invoice_id.id if invoice_id else None,
 			'importe_divisa': values.get("amount_currency"),
-			'main_id':self.multipayment_id.id
+			'main_id':self.multipayment_id.id,
+			'saldo':residual_amount
 		})
 		line._update_debit_credit()
 		return line
