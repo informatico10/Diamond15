@@ -16,7 +16,7 @@
             </dl>
         </xpath>
         <xpath expr="//dl[@name='related_document']" position="replace">
-            <dl class="row mb-0" name="related_document" t-if="o.type_document_id.code in ['07','08']">
+            <!--<dl class="row mb-0" name="related_document" t-if="o.type_document_id.code in ['07','08']">
                 <dt class="col-auto col-6 col-sm-5 mb-0">
                     DOCUMENTOS RELACIONADOS:
                 </dt>
@@ -25,7 +25,7 @@
                         <t t-esc="doc_rel.type_document_id.name"/> <t t-esc="doc_rel.nro_comprobante"/>
                     </t>
                 </dd>
-            </dl>
+            </dl>-->
             <dl class="row mb-0" name="detraction" t-if="o.op_type_sunat_id.code == '1001'">
                 <dt class="col-6 col-sm-5 mb-0">
                     OPERACIÓN SUJETA A DETRACCIÓN (Tasa <t t-esc="o.detraction_type_id.percentage"/>%):
