@@ -24,11 +24,15 @@ class PurchaseOrderStockNotification(models.Model):
     def _compute_check_type_purchase(self):
         for rec in self:
             rec.check_type_purchase = True
-            if rec.partner_id and rec.partner_id.country_id:
-                if rec.partner_id.country_id.name == 'Perú':
-                    rec.type_purchase = '0'
+
+            if rec.partner_id:
+                if rec.partner_id.country_id:
+                    if rec.partner_id.country_id.name == 'Perú':
+                        rec.type_purchase = '0'
+                    else:
+                        rec.type_purchase = '1'
                 else:
-                    rec.type_purchase = '1'
+                    rec.type_purchase = '0'
             users = self.env.ref('account.group_account_manager').users
             body = '<Admins Facturacion> Factura Creada '
             model = 'account.move'
