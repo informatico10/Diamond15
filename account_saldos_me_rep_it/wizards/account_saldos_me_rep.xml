@@ -36,7 +36,7 @@
 
 		<menuitem action="account_saldos_me_rep_action" 
 				id="menu_action_account_saldos_me_rep" 
-				parent="account_bc_report.menu_account_worksheet" 
+				parent="account_report_menu_it.menu_account_worksheet" 
 				sequence="75" 
 				groups="account_base_it.group_account_tables_user"/>
 	</data>

@@ -3,7 +3,7 @@
 	'name': 'Reporte Saldos Moneda Extranjera',
 	'category': 'account',
 	'author': 'ITGRUPO',
-	'depends': ['account_bc_report','account_report_menu_it'],
+	'depends': ['account_report_menu_it'],
 	'version': '1.0',
 	'description':"""
 		Generar Reportes para Saldos Moneda Extranjera
