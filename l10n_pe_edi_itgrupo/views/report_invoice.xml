@@ -41,13 +41,13 @@
                 <dd class="col-auto col-6 col-sm-7 mb-0"><t t-esc="o.credit_note_type_id.name"/></dd>
             </dl>
         </xpath> -->
-        <xpath expr="//dl[@name='debit_note_type']" position="replace">
+        <!-- <xpath expr="//dl[@name='debit_note_type']" position="replace">
             <dl class="row mb-0" name="debit_note_type" t-if="o.debit_note_type_id">
                 <dt class="col-auto col-6 col-sm-5 mb-0">
                     TIPO DE NOTA DE DÉBITO:
                 </dt>
                 <dd class="col-auto col-6 col-sm-7 mb-0"><t t-esc="o.debit_note_type_id.name"/></dd>
             </dl>
-        </xpath>
+        </xpath> -->
     </template>
 </odoo>
