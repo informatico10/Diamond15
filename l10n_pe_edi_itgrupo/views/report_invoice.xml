@@ -15,7 +15,7 @@
                 <dd class="col-auto col-6 col-sm-7 mb-0"><t t-esc="o.currency_rate"/></dd>
             </dl>
         </xpath>
-        <xpath expr="//dl[@name='related_document']" position="replace">
+        <!--<xpath expr="//dl[@name='related_document']" position="replace">
             <dl class="row mb-0" name="related_document" t-if="o.type_document_id.code in ['07','08']">
                 <dt class="col-auto col-6 col-sm-5 mb-0">
                     DOCUMENTOS RELACIONADOS:
@@ -48,6 +48,6 @@
                 </dt>
                 <dd class="col-auto col-6 col-sm-7 mb-0"><t t-esc="o.debit_note_type_id.name"/></dd>
             </dl>
-        </xpath>
+        </xpath> -->
     </template>
 </odoo>
