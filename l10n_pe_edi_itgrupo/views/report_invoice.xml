@@ -15,8 +15,8 @@
                 <dd class="col-auto col-6 col-sm-7 mb-0"><t t-esc="o.currency_rate"/></dd>
             </dl>
         </xpath>
-        <xpath expr="//dl[@name='related_document']" position="replace">
-            <!--<dl class="row mb-0" name="related_document" t-if="o.type_document_id.code in ['07','08']">
+        <!--<xpath expr="//dl[@name='related_document']" position="replace">
+            <dl class="row mb-0" name="related_document" t-if="o.type_document_id.code in ['07','08']">
                 <dt class="col-auto col-6 col-sm-5 mb-0">
                     DOCUMENTOS RELACIONADOS:
                 </dt>
@@ -25,7 +25,7 @@
                         <t t-esc="doc_rel.type_document_id.name"/> <t t-esc="doc_rel.nro_comprobante"/>
                     </t>
                 </dd>
-            </dl>-->
+            </dl>
             <dl class="row mb-0" name="detraction" t-if="o.op_type_sunat_id.code == '1001'">
                 <dt class="col-6 col-sm-5 mb-0">
                     OPERACIÓN SUJETA A DETRACCIÓN (Tasa <t t-esc="o.detraction_type_id.percentage"/>%):
@@ -33,15 +33,15 @@
                 <dd class="col-6 col-sm-7 mb-0"><t t-esc="o.detraction_amount"/> (<span t-field="o.detraction_type_id"/>)</dd>
             </dl>
         </xpath>
-        <!-- <xpath expr="//dl[@name='credit_note_type']" position="replace">
+        <xpath expr="//dl[@name='credit_note_type']" position="replace">
             <dl class="row mb-0" name="credit_note_type" t-if="o.credit_note_type_id">
                 <dt class="col-auto col-6 col-sm-5 mb-0">
                     TIPO DE NOTA DE CRÉDITO:
                 </dt>
                 <dd class="col-auto col-6 col-sm-7 mb-0"><t t-esc="o.credit_note_type_id.name"/></dd>
             </dl>
-        </xpath> -->
-        <!-- <xpath expr="//dl[@name='debit_note_type']" position="replace">
+        </xpath>
+        <xpath expr="//dl[@name='debit_note_type']" position="replace">
             <dl class="row mb-0" name="debit_note_type" t-if="o.debit_note_type_id">
                 <dt class="col-auto col-6 col-sm-5 mb-0">
                     TIPO DE NOTA DE DÉBITO:
