@@ -1,0 +1,8 @@
+<odoo>
+
+    <record id="group_view_product_section_account" model="res.groups">
+        <field name="name">Ver Sección Contable en Productos</field>
+        <field name="category_id" ref="category_only_rq_it.category_account_module_custom" />
+    </record>
+
+</odoo>
