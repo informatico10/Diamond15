@@ -196,13 +196,13 @@
                                     <div class="col-1" />
                                     <div class="col-4 text-center h-100 d-flex justify-content-center align-items-center w-100">
                                         <center>
-                                            <img t-if="doc.user_id and doc.user_id.firma" t-att-src="image_data_uri(doc.user_id.firma)" alt="Logo" style="min-width:200px; max-width:300px; max-height:100px;" />
+                                            <img t-if="doc.user_id and doc.user_id.firma" t-att-src="image_data_uri(doc.user_id.firma)" alt="Logo" style="min-width:200px; max-width:300px; max-height:100px; margin-left:5px;" />
                                         </center>
                                     </div>
                                     <div class="col-2" />
                                     <div class="col-4 text-center h-100 d-flex justify-content-center align-items-center w-100">
                                         <center>
-                                            <img t-if="doc.user_approve_firma and doc.user_approve_firma.firma" t-att-src="image_data_uri(doc.user_approve_firma.firma)" alt="Logo" style="min-width:200px; max-width:300px; max-height:100px;" />
+                                            <img t-if="doc.user_approve_firma and doc.user_approve_firma.firma" t-att-src="image_data_uri(doc.user_approve_firma.firma)" alt="Logo" style="min-width:200px; max-width:300px; max-height:100px; margin-left:5px;" />
                                         </center>
                                     </div>
                                     <div class="col-1" />
