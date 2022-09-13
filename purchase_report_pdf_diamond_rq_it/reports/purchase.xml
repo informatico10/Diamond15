@@ -194,9 +194,9 @@
                                 <br />
                                 <div class="row d-flex justify-content-center align-items-center text-center">
                                     <div class="col-1" />
-                                    <div class="col-4 text-center h-100 d-flex justify-content-center align-items-center w-100">
+                                    <div class="col-4 text-center h-100 d-flex justify-content-center align-items-center w-100 pl-3">
                                         <center>
-                                            <img t-if="doc.user_id and doc.user_id.firma" t-att-src="image_data_uri(doc.user_id.firma)" alt="Logo" style="min-width:200px; max-width:300px; max-height:100px; margin-left:15px;" />
+                                            <img t-if="doc.user_id and doc.user_id.firma" t-att-src="image_data_uri(doc.user_id.firma)" alt="Logo" style="min-width:200px; max-width:300px; max-height:100px;" />
                                         </center>
                                     </div>
                                     <div class="col-2" />
