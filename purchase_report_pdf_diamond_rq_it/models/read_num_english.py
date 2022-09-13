@@ -127,7 +127,7 @@ def leer_decenas(numero):
     else:
         resultado = DIEZ_DIEZ[decena]
         if unidad > 0:
-            resultado = '%s y %s' % (resultado, UNIDADES[unidad])
+            resultado = '%s and %s' % (resultado, UNIDADES[unidad])
     return resultado
 
 def leer_centenas(numero):

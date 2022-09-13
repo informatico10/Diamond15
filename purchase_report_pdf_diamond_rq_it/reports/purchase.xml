@@ -279,27 +279,52 @@
                                         <t t-esc="doc.partner_id.name"/>
                                         <br />
                                         <t t-esc="doc.partner_id.street"/>
+                                        <t t-if="doc.partner_id.city">
+                                            <br />
+                                            <t t-esc="doc.partner_id.city"/>
+                                        </t>
+                                        <t t-if="doc.partner_id.district_id">
+                                            <br />
+                                            <t t-esc="doc.partner_id.district_id.name"/>
+                                        </t>
+                                        <t t-if="doc.partner_id.province_id">
+                                            <br />
+                                            <t t-esc="doc.partner_id.province_id.name"/>
+                                        </t>
+                                        <t t-if="doc.partner_id.state_id">
+                                            <br />
+                                            <t t-esc="doc.partner_id.state_id.name"/>
+                                        </t>
+                                        <t t-if="doc.partner_id.country_id">
+                                            <br />
+                                            <t t-esc="doc.partner_id.country_id.name"/>
+                                        </t>
+                                        <t t-if="doc.partner_id.zip">
+                                            <br />
+                                            <t t-esc="doc.partner_id.zip"/>
+                                        </t>
                                     </div>
                                     <div class="col-6 border">
                                         <b style="color: #0175CA;">Ship to / Embarcar a</b>
                                         <br />
                                         <t t-if="doc.company_id">
-                                            <t t-esc="doc.company_id.name"/> - 
+                                            <t t-esc="doc.company_id.name"/>
+                                            <br />
                                             <t t-esc="doc.company_id.street_name" />
                                             <t t-esc="doc.company_id.city" />
                                             <t t-if="doc.company_id.state_id" t-esc="doc.company_id.state_id.name" />
-                                            <t t-if="doc.company_id.country_id" t-esc="doc.company_id.country_id.name" />
-                                            <t t-esc="doc.company_id.zip" />
+                                            <t t-if="doc.company_id.country_id" t-esc="doc.company_id.country_id.name" /> <br />
+                                            RUC: <t t-esc="doc.company_id.vat" />
                                             <br />
                                             T: <t t-esc="doc.company_id.phone" />
                                         </t>
 
-                                        <br /><br />
+                                        <br />
 
                                         <b style="color: #0175CA;">Contact / Contacto</b>
                                         <br />
                                         <t t-if="doc.user_id">
-                                            <t t-esc="doc.user_id.name"/>
+                                            <t t-esc="doc.user_id.short_name"/>
                                             <br />
                                             T: <t t-esc="doc.user_id.phone"/>
                                             <br />
@@ -361,12 +386,12 @@
                                 <div class="row d-flex justify-content-center align-items-center">
                                     <table class="border-0" style="width:100%; font-size:16px;">
                                         <tr class="center color-cell" style="text-align:center; background-color:#0094D3; color:white;">
-                                            <td style="width: 20%;"><b>
+                                            <td style="width: 41%;"><b>
                                             DESCRIPTION / DESCRIPCIÓN</b></td>
-                                            <td style="width: 16%;"><b>QUANTITY /<br/>CANTIDAD</b></td>
-                                            <td style="width: 10%;"><b>UNIT /<br />UNIDAD</b></td>
-                                            <td style="width: 16%;"><b>UNIT PRICE (USD) /<br />PRECIO UNITARIO (USD)</b></td>
-                                            <td style="width: 16%;"><b>AMOUNT (USD) /<br /> IMPORTE(USD)</b></td>
+                                            <td style="width: 13%;"><b>QUANTITY /<br/>CANTIDAD</b></td>
+                                            <td style="width: 8%;"><b>UNIT /<br />UNIDAD</b></td>
+                                            <td style="width: 20%;"><b>UNIT PRICE (USD) /<br />PRECIO UNITARIO (USD)</b></td>
+                                            <td style="width: 18%;"><b>AMOUNT (USD) /<br /> IMPORTE(USD)</b></td>
                                         </tr>
                                         <t t-foreach="doc.order_line" t-as="line">
                                             <tr>
@@ -381,10 +406,10 @@
                                                 <td style="text-align:center; padding:3px;">
                                                     <t t-if="line.product_uom" t-esc="line.product_uom.name" />
                                                 </td>
-                                                <td style="text-align:right; padding:3px;">
+                                                <td style="text-align:center; padding:3px;">
                                                     <t t-esc="'{:,.4f}'.format(round(line.price_unit,4))" />
                                                 </td>
-                                                <td style="text-align:right; padding:3px;">
+                                                <td style="text-align:center; padding:3px;">
                                                     <!-- <t t-esc="line.price_subtotal" /> -->
                                                     <t t-esc="'{:,.4f}'.format(round(line.price_subtotal,4))" />
                                                 </td>

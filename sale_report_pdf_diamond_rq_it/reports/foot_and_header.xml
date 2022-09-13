@@ -12,12 +12,12 @@
                 <p style="font-size:20px; margin:0px; padding:0px; color:white;">
                     <br />
                     <br />
-                    <t t-if="o.name and o.name.find('DG')">
+                    <!--<t t-if="o.name and o.name.find('DG')">
                         <b>DIAMOND - <t t-esc="o.name"/></b>
                     </t>
                     <t t-else="">
                         <b><t t-esc="o.name"/></b>
-                    </t>
+                    </t>-->
                     <br />
                     <br />
                 </p>
