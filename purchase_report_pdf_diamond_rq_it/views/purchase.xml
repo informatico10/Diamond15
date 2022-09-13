@@ -80,4 +80,47 @@
         </field>
     </record>
 
+
+    <!-- PURCHASE Firma-->
+    <record id="purchase_firma_view_tree_sale_report" model="ir.ui.view">
+        <field name="name">purchase.firma.view.tree</field>
+        <field name="model">purchase.firma</field>
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="purchase_firma_view_form_sale_report" model="ir.ui.view">
+        <field name="name">purchase.firma.view.form</field>
+        <field name="model">purchase.firma</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="user_compra_nacional" />
+                        <field name="user_compra_importacion" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="purchase_firma_action" model="ir.actions.act_window">
+        <field name="name">Firma Compra Formato PDF</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">purchase.firma</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+        id="firma_purchase_menu"
+        name="Firma Compra Formato PDF"
+        sequence="200"
+        action="purchase_firma_action"
+        parent="purchase.menu_purchase_config"
+    />
+
 </odoo>

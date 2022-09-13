@@ -24,9 +24,9 @@ class StockPickingChangeTest(models.Model):
             products = {}
             for move in rec.move_ids_without_package:
                 if move.product_id in products.keys():
-                    products[move.product_id][0] += move.quantity_done
+                    products[move.product_id][0] += move.product_uom_qty
                 else:
-                    products[move.product_id] = [move.quantity_done, 0]
+                    products[move.product_id] = [move.product_uom_qty, 0]
                 # products[move.product_id] = [move.quantity_done, 0]
 
             # add all operaciones detalladas
@@ -38,7 +38,10 @@ class StockPickingChangeTest(models.Model):
             if not self.desde_transferencia_id:
                 for product_key in products.keys():
                     if products[product_key][0] < products[product_key][1]:
-                        raise UserError('La cantidad "Realizada" para el Producto %s sobrepasa la Cantidad requerida'%(product_key.display_name))
+                        raise UserError(
+                            'La cantidad "Realizada" para el Producto %s sobrepasa la Cantidad requerida' % (
+                                product_key.display_name) + ' [' + str(products[product_key][0]) + ' and ' + str(
+                                products[product_key][1]) + ']')
         return super(StockPickingChangeTest, self).button_validate()
 
 

@@ -152,12 +152,14 @@
                                 <b>CONDICIONES DE PAGO</b>: Factura <t t-if="doc.payment_term_id" t-esc="doc.payment_term_id.name"/> -->
                                 <t t-raw="doc.note_report"/>
                             </div>
-                            <br /><br /><br /><br /><br /><br /><br /><br />
+                            <br /><br /><br /><br /><br /><br />
                             <div>
                                 <div class="row">
                                     <div class="col-3" style="border-top: black;">
                                         <b>
-                                            <t t-esc="doc.user_id.name"/>
+                                            <t t-if="doc.user_approve_firma">
+                                                <t t-esc="doc.user_approve_firma.short_name" />
+                                            </t>
                                             <br />
                                             Ejecutivo Comercial
                                         </b>

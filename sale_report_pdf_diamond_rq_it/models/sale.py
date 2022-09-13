@@ -3,6 +3,25 @@ from odoo.exceptions import ValidationError
 from datetime import datetime
 
 
+class SaleFirma(models.Model):
+    _name = 'sale.firma'
+    _description = 'Sale Firma'
+
+    name = fields.Many2one(
+        comodel_name='res.users',
+        string="Usuario que Firma",
+        required=False, tracking=True)
+
+    @api.model
+    def create(self, values):
+        # Add code here
+        number = self.env['sale.firma'].search([])
+        if len(number) < 1:
+            return super(SaleFirma, self).create(values)
+        else:
+            raise ValidationError("Error solo puede crear una configuración")
+
+
 class SaleLinePresentation(models.Model):
     _name = 'sale.line.presentation'
     _description = 'Sale Line Presentation'
@@ -18,6 +37,8 @@ class SaleOrderLineSaleReport(models.Model):
 
 class SaleOrderReportPdf(models.Model):
     _inherit = 'sale.order'
+
+    user_approve_firma = fields.Many2one('res.users', string='Usuario Reporte Aprueba', default=lambda self: self.env['sale.firma'].search([], limit=1).name.id)
 
     #to contact
     id_partner_to_create = fields.Integer(string='', related='partner_id.id')

@@ -4,6 +4,32 @@ from datetime import datetime, date
 from . import read_num, read_num_english
 
 
+class PurchaseFirma(models.Model):
+    _name = 'purchase.firma'
+    _description = 'Purchase Firma'
+
+    name = fields.Char(string='Setting')
+
+    user_compra_nacional = fields.Many2one(
+        comodel_name='res.users',
+        string="Firma Compra Nacional",
+        required=False, tracking=True)
+
+    user_compra_importacion = fields.Many2one(
+        comodel_name='res.users',
+        string="Firma Compra por Importación",
+        required=False, tracking=True)
+
+    @api.model
+    def create(self, values):
+        # Add code here
+        number = self.env['purchase.firma'].search([])
+        if len(number) < 1:
+            return super(PurchaseFirma, self).create(values)
+        else:
+            raise ValidationError("Error solo puede crear una configuración")
+
+
 class ByDiamond(models.Model):
     _name = 'by.diamond'
     _description = 'By Diamond'
@@ -35,6 +61,8 @@ class InsuranceDiamond(models.Model):
 class PurchaseOrderReportPdf(models.Model):
     _inherit = 'purchase.order'
 
+    purchase_firma_id = fields.Many2one('purchase.firma', string='Usuario Reporte Aprueba', default=lambda self: self.env['purchase.firma'].search([], limit=1).id)
+
     by_diamond_id = fields.Many2one('by.diamond', string='By / Via')
     type_of_transport = fields.Char('Tipo de Transporte')
     origin_gv = fields.Char('Origen')
@@ -50,7 +78,6 @@ class PurchaseOrderReportPdf(models.Model):
     loading_port_id = fields.Many2one('loading.port.diamond', string='Loading Port / Puerto de embarque')
     shipment_id = fields.Many2one('shipment.diamond', string='Shipment / Embarque')
     insurance_id = fields.Many2one('insurance.diamond', string='Insurance / Seguro')
-    user_approve_firma = fields.Many2one('res.users', string='Usuario Reporte Aprueba', default=lambda self: self.env['res.users'].search( [('name', '=', 'PIERO GIOVANNI LANZA MAURTUA')], limit=1 ).id)
 
     observaciones = fields.Html('Observaciones', default="""
         <b>Observaciones</b>

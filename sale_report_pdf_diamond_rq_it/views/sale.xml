@@ -29,6 +29,9 @@
             <xpath expr="//field[@name='order_line']/tree/field[@name='product_uom']" position="after">
                 <field name="presentation_id" />
             </xpath>
+            <xpath expr="//field[@name='note']" position="replace">
+                <field name="note_report" />
+            </xpath>
         </field>
     </record>
 
@@ -71,6 +74,48 @@
         parent="sale.menu_sale_config"
         action="sale_line_presentation_action"
         sequence="100"
+    />
+
+<!-- Sale Firma-->
+    <record id="sale_firma_view_tree_sale_report" model="ir.ui.view">
+        <field name="name">sale.firma.view.tree</field>
+        <field name="model">sale.firma</field>
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="sale_firma_view_form_sale_report" model="ir.ui.view">
+        <field name="name">sale.firma.view.form</field>
+        <field name="model">sale.firma</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="sale_firma_action" model="ir.actions.act_window">
+        <field name="name">Firma Venta Formato PDF</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sale.firma</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- This Menu Item will appear in the Upper bar, That's why It needs NO parent or action -->
+    <menuitem
+        id="firma_venta_menu"
+        name="Firma Venta Formato PDF"
+        sequence="100"
+        action="sale_firma_action"
+        parent="sale.menu_sale_config"
     />
 
 </odoo>
